@@ -20,6 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'accounts',
+        'total_balance',
+        'image',
         'password',
     ];
 
@@ -41,4 +44,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+       /**
+     * Set the Accounts
+     *
+     */
+    public function setCatAttribute($value)
+    {
+        $this->attributes['accounts'] = json_encode($value);
+    }
+  
+    /**
+     * Get the Accounts
+     *
+     */
+    public function getCatAttribute($value)
+    {
+        return $this->attributes['accounts'] = json_decode($value);
+    }
 }
