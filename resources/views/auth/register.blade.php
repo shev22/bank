@@ -88,9 +88,27 @@
             </div>
             <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
               <div class="card card-plain">
-                <div class="card-header">
-                  <h4 class="font-weight-bolder">Sign Up</h4>
-                  <p class="mb-0">Enter your email and password to register</p>
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign up</h4>
+                    <div class="row mt-3">
+                      <div class="col-2 text-center ms-auto">
+                        <a class="btn btn-link px-3" href="{{ route('facebookRedirect') }}">
+                          <i class="fa fa-facebook text-white text-lg"></i>
+                        </a>
+                      </div>
+                      <div class="col-2 text-center px-1">
+                        <a class="btn btn-link px-3" href="{{ route('githubRedirect') }}">
+                          <i class="fa fa-github text-white text-lg"></i>
+                        </a>
+                      </div>
+                      <div class="col-2 text-center me-auto">
+                        <a class="btn btn-link px-3" href="{{ route('googleRedirect') }}">
+                          <i class="fa fa-google text-white text-lg"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body">
                   <form role="form" method="POST" action="{{ route('register') }}">
@@ -104,7 +122,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                    </div>
+                    </div> 
                     <div class="input-group input-group-outline mb-3">
                       <label class="form-label">Email</label>
                       <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">

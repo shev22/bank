@@ -26,7 +26,12 @@
         <p class="tagline">
           This is a powerful theme with some great features that you can use in your future projects.
         </p>
-        <a class="btn btn-full scrollto" href="login">Get Started Now</a>
+
+        @guest
+           <a class="btn btn-full scrollto" href="login">Get Started Now</a>
+        @endguest
+       
+
       </div>
     </div>
   </section>

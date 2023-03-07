@@ -23,6 +23,8 @@ class User extends Authenticatable
         'accounts',
         'total_balance',
         'image',
+        'provider',
+        'provider_id',
         'password',
     ];
 
