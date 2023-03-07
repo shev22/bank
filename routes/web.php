@@ -21,10 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 
 //Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index'])->name('index');
-Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
+
 
 Route::middleware(['auth'])->group(function () {
-   
+    Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
 
 });
 

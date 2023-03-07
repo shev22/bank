@@ -28,9 +28,10 @@
 
     <!-- Styles -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.4') }}" rel="stylesheet">
+    @livewireStyles
 </head>
 <body class="g-sidenav-show  bg-gray-200">
-    <div id="app">
+
         {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -100,10 +101,8 @@
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.4') }}"></script> 
-     
 
 
-
-    </div>
+        @livewireScripts
 </body>
 </html>
