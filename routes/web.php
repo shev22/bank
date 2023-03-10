@@ -30,12 +30,12 @@ Route::get('login/facebook/redirect', [App\Http\Controllers\Auth\SocialControlle
 Route::get('login/facebook/callback', [App\Http\Controllers\Auth\SocialController::class, 'facebookCallback'])->name('facebookCallback');
 
 
-
-
+Route::post('/create-account', [App\Http\Controllers\AccountController::class, 'createAccount'])->name('createAccount');
 
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
+    Route::get('/operations', [App\Http\Controllers\OperationsController::class, 'index'])->name('operations');
 });
 
