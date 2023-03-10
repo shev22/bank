@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Services\AccountService;
 
 class AccountController extends Controller
@@ -18,7 +20,11 @@ class AccountController extends Controller
 
     public function createAccount(Request $request)
     {
-    
+        $validatedData = $request->validate([
+            'account_name' => 'required|max:255',
+            'account_currency' => 'required',
+        ]);
+       
         $createdAccountNumbers = [$this->accountService->getCreatedAccounts()];
         $createdAccountCurrencies = $this->accountService->getCreatedAccountCurrenciesForSpecificUser();
         $account_number = substr(str_shuffle('0123456789'), 0, 7);
@@ -27,22 +33,26 @@ class AccountController extends Controller
         if (!in_array($account_number, $createdAccountNumbers)) { 
                 if ( in_array($request->account_currency, $createdAccountCurrencies)) 
                     {
-                        //alertify.notify('Account Currency Already Exists');
-                        dd('Account Currency Already Exists');
+                        Session::flash('message', 'Account Currency Already Exists!'); 
+                        Session::flash('alert-class', 'alert-danger');  
+                        return redirect()->route('dashboard');
                     }else{
-                        $account = Account::create([
+                        Account::create([
                             'user_id' => Auth::id(),
                             'account_name' => $request->account_name,
                             'account_number' => $account_number,
                             'account_currency' => $request->account_currency,
-                        ]);
-                            return redirect()->route('dashboard');
-                            dd('Account Created Successfully');
-                             //alertify.notify('Account Created Successfully');
+                        ]);    
+                                        
+                             Session::flash('message', 'Account Created Successfully!'); 
+                             Session::flash('alert-class', 'alert-success'); 
+                             return redirect()->route('dashboard');
                     }
         }else{
-              //alertify.notify('Account number DB full');
-          dd('Account number DB full');
+          Session::flash('message', 'Account number DB full'); 
+          Session::flash('alert-class', 'alert-danger'); 
+          return redirect()->route('dashboard');
         }
+
     }
 }

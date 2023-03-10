@@ -12,6 +12,7 @@ class Account extends Model
 
     protected $fillable = [
         'user_id',
+        'account_currency_id',
         'account_name',
         'account_number',
         'account_currency',
@@ -19,7 +20,10 @@ class Account extends Model
       
     ];
 
-   
+    // public  function accounType()
+    // {
+    //    return $this -> belongsTo(AccountType::class, 'account_currency_id', 'id');
+    // }
 }
 
 

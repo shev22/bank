@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string("accounts")->nullable();
             $table->text("total_balance")->nullable();
             $table->string("image")->nullable();
             $table->string('provider')->nullable();

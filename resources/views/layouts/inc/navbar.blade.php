@@ -7,6 +7,13 @@
         </ol>
         <h6 class="font-weight-bolder mb-0">Dashboard</h6>
       </nav>
+
+      
+          @if(Session::has('message'))
+      <p class="alert {{ Session::get('alert-class', 'alert-info') }}"><span class="text-white fw-bold">{{ Session::get('message') }}</span></p>
+      @endif
+   
+    
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
           <div class="input-group input-group-outline">

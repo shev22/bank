@@ -26,12 +26,16 @@
           </select> --}}
 
                     <label for="currency">Currency</label>
-                    <select class="form-select @error('currency') is-invalid @enderror" size="3" name="account_currency"
+                    <select class="form-select @error('currency') is-invalid @enderror" size="5" name="account_currency"
                         aria-label="size 3 select example">
                         @foreach ($accounts_types as $accounts_type)
+                        {{-- <input type="hidden" name="account_currency_id" value="{{ $accounts_type['id'] }}"> --}}
                             <option value="{{ $accounts_type['account_currency'] }}">{{ $accounts_type['account_description'] }}</option>
+                         
                         @endforeach
                     </select>
+
+                  
                   
             </div>
             <div class="modal-footer">

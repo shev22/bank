@@ -45,23 +45,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'accounts' => 'array',
     ];
 
-       /**
-     * Set the Accounts
-     *
-     */
-    public function setCatAttribute($value)
-    {
-        $this->attributes['accounts'] = json_encode($value);
-    }
   
-    /**
-     * Get the Accounts
-     *
-     */
-    public function getCatAttribute($value)
-    {
-        return $this->attributes['accounts'] = json_decode($value);
-    }
 }
