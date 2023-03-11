@@ -13,8 +13,12 @@
       <p class="alert {{ Session::get('alert-class', 'alert-info') }}"><span class="text-white fw-bold">{{ Session::get('message') }}</span></p>
       @endif
    
-    
+      @error('account_name')
+      <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
+      @enderror
 
+
+    
 
 
 

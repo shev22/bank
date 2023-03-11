@@ -21,7 +21,7 @@ class AccountController extends Controller
     public function createAccount(Request $request)
     {
         $validatedData = $request->validate([
-            'account_name' => 'required|max:255',
+           'account_name' => 'required|max:255',
             'account_currency' => 'required',
         ]);
        
