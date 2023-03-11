@@ -24,6 +24,9 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
   
 
     <!-- Styles -->
@@ -97,9 +100,12 @@
         {{-- <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
 
         <script>
-        alertify.set('notifier', 'position', 'bottom-right');
+              window.addEventListener('message', event => {
+            alertify.notify(event.detail.text);
+          }); 
         </script>
-         
+     
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
 
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
