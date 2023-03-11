@@ -10,11 +10,19 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/dashboard.html">
+          <a class="nav-link text-white " href="dashboard">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
             <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="operations">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+            </div>
+            <span class="nav-link-text ms-1">Operations</span>
           </a>
         </li>
         <li class="nav-item">
@@ -88,7 +96,8 @@
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
-        <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">Create an Account</a>
+   
+        <a class="btn bg-gradient-primary mt-4 w-100" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create an Account</a>
       </div>
     </div>
   </aside>
