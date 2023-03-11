@@ -39,10 +39,7 @@
             bg-gradient-secondary shadow-secondary 
    @endif
               
-              
-              
-              
-              
+    
               text-center border-radius-xl mt-n4 position-absolute">
                <h4 class="mt-3 text-white">{{ $account->accounType->account_symbol }}</h4> 
                 
