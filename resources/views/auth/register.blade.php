@@ -93,17 +93,17 @@
                     <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign up</h4>
                     <div class="row mt-3">
                       <div class="col-2 text-center ms-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
+                        <a class="btn btn-link px-3" href="{{ route('facebookRedirect') }}">
                           <i class="fa fa-facebook text-white text-lg"></i>
                         </a>
                       </div>
                       <div class="col-2 text-center px-1">
-                        <a class="btn btn-link px-3" href="javascript:;">
+                        <a class="btn btn-link px-3" href="{{ route('githubRedirect') }}">
                           <i class="fa fa-github text-white text-lg"></i>
                         </a>
                       </div>
                       <div class="col-2 text-center me-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
+                        <a class="btn btn-link px-3" href="{{ route('googleRedirect') }}">
                           <i class="fa fa-google text-white text-lg"></i>
                         </a>
                       </div>
@@ -122,7 +122,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                    </div>
+                    </div> 
                     <div class="input-group input-group-outline mb-3">
                       <label class="form-label">Email</label>
                       <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">

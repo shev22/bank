@@ -13,18 +13,29 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
 Route::get('/', function () {
     return view('frontend.index');
 });
 
-Auth::routes();
 
-//Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index'])->name('index');
+
+Route::get('login/google/redirect', [App\Http\Controllers\Auth\SocialController::class, 'googleRedirect'])->name('googleRedirect');
+Route::get('login/google/callback', [App\Http\Controllers\Auth\SocialController::class, 'googleCallback'])->name('googleCallback');
+
+Route::get('login/github/redirect', [App\Http\Controllers\Auth\SocialController::class, 'githubRedirect'])->name('githubRedirect');
+Route::get('login/github/callback', [App\Http\Controllers\Auth\SocialController::class, 'githubCallback'])->name('githubCallback');
+
+Route::get('login/facebook/redirect', [App\Http\Controllers\Auth\SocialController::class, 'facebookRedirect'])->name('facebookRedirect');
+Route::get('login/facebook/callback', [App\Http\Controllers\Auth\SocialController::class, 'facebookCallback'])->name('facebookCallback');
+
+
+
+
+
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
-
 });
 
