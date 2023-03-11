@@ -16,12 +16,6 @@
       @error('account_name')
       <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
       @enderror
-
-
-    
-
-
-
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
           <div class="input-group input-group-outline">

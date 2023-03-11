@@ -76,14 +76,14 @@
                                                     class="icon icon-shape icon-lg 
                                                             
                                                     @if ($this->currency == 'BYN') bg-gradient-dark shadow-dark 
-                                                    @elseif($this->currency == '$')
+                                                    @elseif($this->currency == 'USD')
                                                     bg-gradient-success shadow-success @endif
-                                                    @if ($this->currency == '€') bg-gradient-primary shadow-primary 
-                                                    @elseif($this->currency == '₽')
+                                                    @if ($this->currency == 'EUR') bg-gradient-primary shadow-primary 
+                                                    @elseif($this->currency == 'RUB')
                                                     bg-gradient-info shadow-info 
-                                                    @elseif($this->currency == '₦')
+                                                    @elseif($this->currency == 'NGN')
                                                     bg-gradient-warning shadow-warning 
-                                                    @elseif($this->currency == '£')
+                                                    @elseif($this->currency == 'GBP')
                                                     bg-gradient-secondary shadow-secondary @endif
                                                             shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
@@ -103,7 +103,7 @@
                                                 @if ($this->balance == 0)
                                                     <h5 class="mb-0">0.00</h5>
                                                 @else
-                                                    <h5 class="mb-0">{{ $this->currency }}{{ $this->balance }}</h5>
+                                                    <h5 class="mb-0">{{ $this->symbol }} {{ $this->balance }}</h5>
                                                 @endif
 
                                             </div>
@@ -158,7 +158,7 @@
                                         <div class="card-body p-3">
                                             <div class="col-md-12 mb-md-0 mb-4">
                                                 <input type="text" class="form-control fw-bold px-3"
-                                                    placeholder="Deposit Amount" wire:model.defer="amount">
+                                                    placeholder=" {{ $this->currency }} Deposit Amount" wire:model.defer="amount">
                                                 @error('amount')
                                                     <span class="error text-danger">{{ $message }}</span>
                                                 @enderror
@@ -216,15 +216,15 @@
                                                 <div
                                                     class="icon icon-shape icon-lg 
                                                             
-                                                    @if ($this->currency == 'BYN') bg-gradient-dark shadow-dark 
-                                                    @elseif($this->currency == '$')
+                                                    @if ($this->symbol == 'BYN') bg-gradient-dark shadow-dark 
+                                                    @elseif($this->symbol == '$')
                                                     bg-gradient-success shadow-success @endif
-                                                    @if ($this->currency == '€') bg-gradient-primary shadow-primary 
-                                                    @elseif($this->currency == '₽')
+                                                    @if ($this->symbol == '€') bg-gradient-primary shadow-primary 
+                                                    @elseif($this->symbol == '₽')
                                                     bg-gradient-info shadow-info 
-                                                    @elseif($this->currency == '₦')
+                                                    @elseif($this->symbol == '₦')
                                                     bg-gradient-warning shadow-warning 
-                                                    @elseif($this->currency == '£')
+                                                    @elseif($this->symbol == '£')
                                                     bg-gradient-secondary shadow-secondary @endif
                                                             shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
@@ -244,7 +244,7 @@
                                                 @if ($this->balance == 0)
                                                     <h5 class="mb-0">0.00</h5>
                                                 @else
-                                                    <h5 class="mb-0">{{ $this->currency }}{{ $this->balance }}</h5>
+                                                    <h5 class="mb-0">{{ $this->symbol }} {{ $this->balance }}</h5>
                                                 @endif
 
                                             </div>
@@ -298,7 +298,7 @@
                                         <div class="card-body p-3">
                                             <div class="col-md-12 mb-md-0 mb-4">
                                                 <input type="text" class="form-control fw-bold px-3"
-                                                    placeholder="Withdrawal Amount" wire:model.defer="amount">
+                                                    placeholder="  {{ $this->currency }} Withdrawal Amount" wire:model.defer="amount">
                                                 @error('amount')
                                                     <span class="error text-danger">{{ $message }}</span>
                                                 @enderror

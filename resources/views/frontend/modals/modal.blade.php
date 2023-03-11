@@ -15,12 +15,11 @@
                         <input type="text" name="account_name" class="form-control" placeholder="Account Name">
                     </div>
                     <label for="currency">Currency</label>
-                    <select class="form-select" size="5" name="account_currency"
+                    <select class="form-select" size="5" name="account_currency_id"
                         aria-label="size 3 select example">
-                        @foreach ($accounts_types as $accounts_type)
-                            {{-- <input type="hidden" name="account_currency_id" value="{{ $accounts_type['id'] }}"> --}}
-                            <option value="{{ $accounts_type['account_currency'] }}">
-                                {{ $accounts_type['account_description'] }}</option>
+                        @foreach ($accounts_types as $accounts_type)       
+                            <option value="{{ $accounts_type['id'] }}">
+                                &nbsp;&nbsp;{{ $accounts_type['account_symbol'] }} &nbsp;&nbsp; {{ $accounts_type['account_description'] }}</option>
                         @endforeach
                     </select>
             </div>

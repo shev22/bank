@@ -13,6 +13,7 @@ class Operations extends Component
     public $currency;
     public $balance;
     public $amount;
+    public $symbol;
 
     public function rules()
     {
@@ -64,7 +65,7 @@ class Operations extends Component
                 $this->dispatchBrowserEvent('message', [
                     'text' =>
                         'Deposit of ' .
-                        $this->currency .
+                        $this->symbol .
                         $this->amount .
                         ' Successfull',
                 ]);
@@ -100,7 +101,7 @@ class Operations extends Component
                         $this->dispatchBrowserEvent('message', [
                             'text' =>
                                 'Withdrawal of ' .
-                                $this->currency .
+                                $this->symbol .
                                 $this->amount .
                                 ' Successfull',
                         ]);
@@ -122,9 +123,10 @@ class Operations extends Component
     private function loadData($activeAccounts): void
     {
         foreach ($activeAccounts as $activeAccount) {
-            $this->currency = $activeAccount->account_currency;
+            $this->currency = $activeAccount->accounType->account_symbol;
             $this->balance = $activeAccount->account_balance;
             $this->accountName = $activeAccount->account_name;
+            $this->symbol = $activeAccount->accounType->account_currency;
         }
     }
 

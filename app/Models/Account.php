@@ -20,10 +20,10 @@ class Account extends Model
       
     ];
 
-    // public  function accounType()
-    // {
-    //    return $this -> belongsTo(AccountType::class, 'account_currency_id', 'id');
-    // }
+    public  function accounType()
+    {
+       return $this -> belongsTo(AccountType::class, 'account_currency_id', 'id');
+    }
 }
 
 

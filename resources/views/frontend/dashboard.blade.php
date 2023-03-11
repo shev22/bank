@@ -24,18 +24,18 @@
               <div class="icon icon-lg icon-shape 
               
               
-          @if ($account['account_currency'] == 'BYN')
+          @if ($account->accounType->account_currency == 'BYN')
                  bg-gradient-dark shadow-dark 
-          @elseif($account['account_currency'] == '$')
+          @elseif($account->accounType->account_currency == '$')
             bg-gradient-success shadow-success 
           @endif
-          @if ($account['account_currency'] == '€')
+          @if ($account->accounType->account_currency == '€')
           bg-gradient-primary shadow-primary 
-        @elseif($account['account_currency'] == '₽')
+        @elseif($account->accounType->account_currency == '₽')
             bg-gradient-info shadow-info 
-            @elseif($account['account_currency'] == '₦')
+            @elseif($account->accounType->account_currency == '₦')
             bg-gradient-warning shadow-warning 
-            @elseif($account['account_currency'] == '£')
+            @elseif($account->accounType->account_currency == '£')
             bg-gradient-secondary shadow-secondary 
    @endif
               
@@ -44,12 +44,12 @@
               
               
               text-center border-radius-xl mt-n4 position-absolute">
-               <h4 class="mt-3 text-white">{{ $account['account_currency'] }}</h4> 
+               <h4 class="mt-3 text-white">{{ $account->accounType->account_symbol }}</h4> 
                 
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">balance</p>
-                <h4 class="mb-0">{{ $account['account_currency'] }} {{ $account['account_balance'] }}</h4>
+                <h4 class="mb-0">{{ $account->accounType->account_currency }} {{ $account['account_balance'] }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">

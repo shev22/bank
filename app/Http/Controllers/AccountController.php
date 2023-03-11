@@ -20,9 +20,11 @@ class AccountController extends Controller
 
     public function createAccount(Request $request)
     {
+
+        
         $validatedData = $request->validate([
            'account_name' => 'required|max:255',
-            'account_currency' => 'required',
+            
         ]);
        
         $createdAccountNumbers = [$this->accountService->getCreatedAccounts()];
@@ -31,7 +33,7 @@ class AccountController extends Controller
         $account_number .= substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0,2 );
 
         if (!in_array($account_number, $createdAccountNumbers)) { 
-                if ( in_array($request->account_currency, $createdAccountCurrencies)) 
+                if ( in_array($request->account_currency_id, $createdAccountCurrencies)) 
                     {
                         Session::flash('message', 'Account Currency Already Exists!'); 
                         Session::flash('alert-class', 'alert-danger');  
@@ -39,9 +41,10 @@ class AccountController extends Controller
                     }else{
                         Account::create([
                             'user_id' => Auth::id(),
+                            'account_currency_id' => $request->account_currency_id,
                             'account_name' => $request->account_name,
                             'account_number' => $account_number,
-                            'account_currency' => $request->account_currency,
+                            // 'account_currency' => $request->account_currency,
                         ]);    
                                         
                              Session::flash('message', 'Account Created Successfully!'); 

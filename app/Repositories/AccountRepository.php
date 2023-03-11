@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class AccountRepository
  {
 
-    public function getAccountTypes(): array
+    public function getAccountTypes()
     {
         $account_types = AccountType::all()->toArray();
         return $account_types;
@@ -27,15 +27,16 @@ class AccountRepository
         return $accounts;
     }
     
-    public function getCreatedAccounts(): array
+    public function getCreatedAccounts()
     {
-        $accounts = Account::all()->pluck('account_number')->toArray();
+        $accounts = Account::all()->pluck('account_number');
+       
         return $accounts;
     }
 
-    public function getCreatedAccountCurrenciesForSpecificUser(): array
+    public function getCreatedAccountCurrenciesForSpecificUser()
     {
-        $accounts = Account::where('user_id', Auth::id())->pluck('account_currency')->toArray();
+        $accounts = Account::where('user_id', Auth::id())->pluck('account_currency_id');
         return $accounts;
     }
 

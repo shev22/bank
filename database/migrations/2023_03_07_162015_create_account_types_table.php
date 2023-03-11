@@ -16,6 +16,7 @@ class CreateAccountTypesTable extends Migration
         Schema::create('account_types', function (Blueprint $table) {
             $table->id();
             $table->string("account_currency");
+            $table->string("account_symbol");
             $table->string("account_description");
             $table->timestamps();
         });
