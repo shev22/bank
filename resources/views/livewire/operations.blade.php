@@ -5,13 +5,13 @@
 
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item" role="presentation" wire:ignore>
                         <button class="nav-link active " id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                             aria-selected="true"><span class="fw-bold">Deposit</span> </button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    <li class="nav-item" role="presentation" wire:ignore >
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"  
                             data-bs-target="#profile-tab-pane" type="button" role="tab"
                             aria-controls="profile-tab-pane" aria-selected="false"><span
                                 class="fw-bold">Withdraw</span></button>
@@ -32,7 +32,7 @@
                 <div class="tab-content" id="myTabContent">
 
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-                        tabindex="0">
+                        tabindex="0" wire:ignore.self>
                         <div class="row mt-2">
                             <div class="col-xl-6 mb-xl-0 mb-4 ">
                                 <div class="card bg-transparent shadow-xl">
@@ -122,13 +122,13 @@
                                             <div class="card-body pt-0 p-3 text-center">
 
 
-                                                <select class="form-select" size="4"
+                                                <select class="form-select" size="4" style="font-size: 13px; color:rgb(5, 5, 24);"
                                                     aria-label="size 4 select example" wire:model.defer="account_id"
-                                                    wire:click="getSelectedAccount()">
+                                                    wire:click="getSelectedDepositAccount()">
 
                                                     @foreach ($accounts as $account)
                                                         <option value="{{ $account->id }}">
-                                                            {{ $account->account_number }}
+                                                     {{ $account->account_number }}
                                                             {{ $account->account_currency }}</option>
                                                     @endforeach
                                                 </select>
@@ -158,8 +158,8 @@
                                         <div class="card-body p-3">
                                             <div class="col-md-12 mb-md-0 mb-4">
                                                 <input type="text" class="form-control fw-bold px-3"
-                                                    placeholder="Deposit Amount" wire:model.defer="depositAmount">
-                                                @error('depositAmount')
+                                                    placeholder="Deposit Amount" wire:model.defer="amount">
+                                                @error('amount')
                                                     <span class="error text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -172,10 +172,10 @@
 
 
 
-                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                        tabindex="0">
-                        <div class="row mt-2">
-                            <div class="col-xl-6 mb-xl-0 mb-4">
+                    <div  class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                        tabindex="0" wire:ignore.self>
+                        <div class="row mt-2" >
+                            <div class="col-xl-6 mb-xl-0 mb-4 ">
                                 <div class="card bg-transparent shadow-xl">
                                     <div class="overflow-hidden position-relative border-radius-xl">
                                         <img src="../assets/img/illustrations/pattern-tree.svg"
@@ -191,7 +191,7 @@
                                                 <div class="d-flex">
                                                     <div class="me-4">
                                                         <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-                                                        <h6 class="text-white mb-0">Jack Peterson</h6>
+                                                        <h6 class="text-white mb-0">{{ $this->accountName }}</h6>
                                                     </div>
                                                     <div>
                                                         <p class="text-white text-sm opacity-8 mb-0">Expires</p>
@@ -212,16 +212,41 @@
                                     <div class="col-md-6 col-6">
                                         <div class="card">
                                             <div class="card-header mx-4 p-3 text-center">
+
                                                 <div
-                                                    class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                                    class="icon icon-shape icon-lg 
+                                                            
+                                                    @if ($this->currency == 'BYN') bg-gradient-dark shadow-dark 
+                                                    @elseif($this->currency == '$')
+                                                    bg-gradient-success shadow-success @endif
+                                                    @if ($this->currency == '€') bg-gradient-primary shadow-primary 
+                                                    @elseif($this->currency == '₽')
+                                                    bg-gradient-info shadow-info 
+                                                    @elseif($this->currency == '₦')
+                                                    bg-gradient-warning shadow-warning 
+                                                    @elseif($this->currency == '£')
+                                                    bg-gradient-secondary shadow-secondary @endif
+                                                            shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
                                                 </div>
+
                                             </div>
                                             <div class="card-body pt-0 p-3 text-center">
-                                                <h6 class="text-center mb-0">Salary</h6>
-                                                <span class="text-xs">Belong Interactive</span>
+                                                @if ($this->currency)
+                                                    <h6 class="text-center mb-0"> {{ $this->currency }}</h6>
+                                                @else
+                                                    <h6 class="text-center mb-0">Withdraw</h6>
+                                                @endif
+
+                                                <span class="text-xs">Available Balance</span>
                                                 <hr class="horizontal dark my-3">
-                                                <h5 class="mb-0">+$2000</h5>
+
+                                                @if ($this->balance == 0)
+                                                    <h5 class="mb-0">0.00</h5>
+                                                @else
+                                                    <h5 class="mb-0">{{ $this->currency }}{{ $this->balance }}</h5>
+                                                @endif
+
                                             </div>
                                         </div>
                                     </div>
@@ -230,14 +255,27 @@
                                             <div class="card-header mx-4 p-3 text-center">
                                                 <div
                                                     class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+
                                                     <i class="material-icons opacity-10">account_balance_wallet</i>
                                                 </div>
                                             </div>
+
                                             <div class="card-body pt-0 p-3 text-center">
-                                                <h6 class="text-center mb-0">Paypal</h6>
-                                                <span class="text-xs">Freelance Payment</span>
-                                                <hr class="horizontal dark my-3">
-                                                <h5 class="mb-0">$455.00</h5>
+
+
+                                                <select class="form-select" size="4" style="font-size: 13px; color:rgb(5, 5, 24);"
+                                                    aria-label="size 4 select example" wire:model.defer="account_id"
+                                                    wire:click="getSelectedWithdrawalAccount()">
+
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->id }}">
+                                                     {{ $account->account_number }}
+                                                            {{ $account->account_currency }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="text-xs">Secure Payment</span>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -245,55 +283,35 @@
                             </div>
                             <div class="col-md-12 mb-lg-0 mb-4">
                                 <div class="card mt-4">
-                                    <div class="card-header pb-0 p-3">
-                                        <div class="row">
-                                            <div class="col-6 d-flex align-items-center">
-                                                <h6 class="mb-0">Payment Method</h6>
-                                            </div>
-                                            <div class="col-6 text-end">
-                                                <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                                    Card</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-md-0 mb-4">
-                                                <div
-                                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                    <img class="w-10 me-3 mb-0"
-                                                        src="../assets/img/logos/mastercard.png" alt="logo">
-                                                    <h6 class="mb-0">
-                                                        ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852
-                                                    </h6>
-                                                    <i class="material-icons ms-auto text-dark cursor-pointer"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Edit Card">edit</i>
+                                    <form wire:submit.prevent="withdraw">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="row">
+                                                <div class="col-6 d-flex align-items-center">
+                                                    <h6 class="mb-0">Enter Withdrawal Amount</h6>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div
-                                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                    <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png"
-                                                        alt="logo">
-                                                    <h6 class="mb-0">
-                                                        ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
-                                                    </h6>
-                                                    <i class="material-icons ms-auto text-dark cursor-pointer"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Edit Card">edit</i>
+
+                                                <div class="col-6 text-end">
+                                                    <button type="submit" class="btn bg-gradient-dark mb-0">Withdraw</a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="card-body p-3">
+                                            <div class="col-md-12 mb-md-0 mb-4">
+                                                <input type="text" class="form-control fw-bold px-3"
+                                                    placeholder="Withdrawal Amount" wire:model.defer="amount">
+                                                @error('amount')
+                                                    <span class="error text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
-                        tabindex="0">
 
+                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                        tabindex="0" >
                         <div class="row mt-2">
                             <div class="col-xl-6 mb-xl-0 mb-4">
                                 <div class="card bg-transparent shadow-xl">
