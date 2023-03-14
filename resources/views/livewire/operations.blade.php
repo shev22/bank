@@ -2,16 +2,14 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-lg-8">
-
-
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation" wire:ignore>
                         <button class="nav-link active " id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                             aria-selected="true"><span class="fw-bold">Deposit</span> </button>
                     </li>
-                    <li class="nav-item" role="presentation" wire:ignore >
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"  
+                    <li class="nav-item" role="presentation" wire:ignore>
+                        <button wire:click="resetInput()" class="nav-link" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-tab-pane" type="button" role="tab"
                             aria-controls="profile-tab-pane" aria-selected="false"><span
                                 class="fw-bold">Withdraw</span></button>
@@ -31,6 +29,9 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
 
+
+
+                    {{-- =========== DEPOSIT SECTION ========= --}}
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                         tabindex="0" wire:ignore.self>
                         <div class="row mt-3">
@@ -122,13 +123,14 @@
                                             <div class="card-body pt-0 p-3 text-center">
 
 
-                                                <select class="form-select" size="4" style="font-size: 13px; color:rgb(5, 5, 24);"
+                                                <select class="form-select" size="4"
+                                                    style="font-size: 13px; color:rgb(5, 5, 24);"
                                                     aria-label="size 4 select example" wire:model.defer="account_id"
                                                     wire:click="getSelectedAccount()">
 
                                                     @foreach ($accounts as $account)
                                                         <option value="{{ $account->id }}">
-                                                     {{ $account->account_number }}
+                                                            {{ $account->account_number }}
                                                             {{ $account->account_currency }}</option>
                                                     @endforeach
                                                 </select>
@@ -158,7 +160,8 @@
                                         <div class="card-body p-3">
                                             <div class="col-md-12 mb-md-0 mb-4">
                                                 <input type="text" class="form-control fw-bold px-3"
-                                                    placeholder=" {{ $this->currency }} Deposit Amount" wire:model.defer="amount">
+                                                    placeholder=" {{ $this->currency }} Deposit Amount"
+                                                    wire:model.defer="amount">
                                                 @error('amount')
                                                     <span class="error text-danger">{{ $message }}</span>
                                                 @enderror
@@ -171,10 +174,16 @@
                     </div>
 
 
+                    ` {{-- =========== DEPOSIT SECTION  END ========= --}}
 
-                    <div  class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+
+
+                    {{-- =========== WITHDRAWAL SECTION ========= --}}
+
+
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                         tabindex="0" wire:ignore.self>
-                        <div class="row mt-3" >
+                        <div class="row mt-3">
                             <div class="col-xl-6 mb-xl-0 mb-4 ">
                                 <div class="card bg-transparent shadow-xl">
                                     <div class="overflow-hidden position-relative border-radius-xl">
@@ -263,13 +272,14 @@
                                             <div class="card-body pt-0 p-3 text-center">
 
 
-                                                <select class="form-select" size="4" style="font-size: 13px; color:rgb(5, 5, 24);"
+                                                <select class="form-select" size="4"
+                                                    style="font-size: 13px; color:rgb(5, 5, 24);"
                                                     aria-label="size 4 select example" wire:model.defer="account_id"
                                                     wire:click="getSelectedAccount()">
 
                                                     @foreach ($accounts as $account)
                                                         <option value="{{ $account->id }}">
-                                                     {{ $account->account_number }}
+                                                            {{ $account->account_number }}
                                                             {{ $account->account_currency }}</option>
                                                     @endforeach
                                                 </select>
@@ -291,14 +301,16 @@
                                                 </div>
 
                                                 <div class="col-6 text-end">
-                                                    <button type="submit" class="btn bg-gradient-dark mb-0">  <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Withdraw</a></a>
+                                                    <button type="submit" class="btn bg-gradient-dark mb-0"> <i
+                                                            class="material-icons text-sm">add</i>&nbsp;&nbsp;Withdraw</a></a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body p-3">
                                             <div class="col-md-12 mb-md-0 mb-4">
                                                 <input type="text" class="form-control fw-bold px-3"
-                                                    placeholder="  {{ $this->currency }} Withdrawal Amount" wire:model.defer="amount">
+                                                    placeholder="  {{ $this->currency }} Withdrawal Amount"
+                                                    wire:model.defer="amount">
                                                 @error('amount')
                                                     <span class="error text-danger">{{ $message }}</span>
                                                 @enderror
@@ -310,13 +322,85 @@
                         </div>
                     </div>
 
+                    {{-- =========== WITHDRAWAL SECTION  END========= --}}
 
+
+
+
+                    {{-- =========== TRANSFER SECTION ========= --}}
 
                     <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
                         tabindex="0" wire:ignore.self>
                         <div class="row mt-4">
-                        
-                            <div class="col-xl-6 mx-auto">
+                            <div class="col-xl-3 mb-xl-0 mb-4 ">
+                                <div class="card bg-transparent shadow-xl">
+                                    <div class="overflow-hidden position-relative border-radius-xl">
+                                        <img src="../assets/img/illustrations/pattern-tree.svg"
+                                            class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100"
+                                            alt="pattern-tree">
+
+                                        @switch($this->fromCurrency)
+                                            @case('EUR')
+                                                <span class="mask bg-gradient-primary opacity-10"></span>
+                                            @break
+
+                                            @case('NGN')
+                                                <span class="mask bg-gradient-warning opacity-10"></span>
+                                            @break
+
+                                            @case('RUB')
+                                                <span class="mask bg-gradient-info opacity-10"></span>
+                                            @break
+
+                                            @case('BYN')
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                            @break
+
+                                            @case('GBP')
+                                                <span class="mask bg-gradient-secondary opacity-10"></span>
+                                            @break
+
+                                            @case('USD')
+                                                <span class="mask bg-gradient-success opacity-10"></span>
+                                            @break
+
+                                            @default
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                        @endswitch
+
+                                        <div class="card-body position-relative z-index-1 p-3">
+                                            <i class="material-icons text-white p-1 fs-6">wifi</i>
+                                            <h6 class="material-icons text-white p-1 float-end fw-bold"
+                                                style="font-size: 13px">{{ $this->fromCurrency }}</h6>
+                                            <h6 class="text-white mt-2 mb-0 pb-2 " style="font-size: 13px">
+                                                4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852
+                                            </h6>
+                                            <div class="d-flex">
+                                                <div class="d-flex">
+                                                    <div class="me-4">
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Card Holder</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">
+                                                            {{ $this->fromName }}</h6>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Expires</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">11/22</h6>
+                                                    </div>
+
+                                                </div>
+                                                <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                                                    <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png"
+                                                        alt="logo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6">
                                 <div class="row ">
                                     <div class="col-md-6 col-6">
                                         <div class="card">
@@ -330,23 +414,26 @@
                                             <div class="card-body pt-0 p-3 text-center">
                                                 <h6 class="text-center mb-0">From Account</h6>
 
-                                               
-                                                <select   wire:click="fromAccount()" wire:model.defer="fromAccount" class="form-select" size="3" aria-label="size 3 select example">
-                                                     @foreach ($accounts as $account)
-                                                    <option value="{{ $account->id }}">
-                                                        {{ $account->account_number }}
-                                                        {{ $account->accounType->account_currency }}
-                                                    </option>
-                                                     @endforeach
-                                                </select>
-                                               
 
-                                                <input type="text" name="" class="form-control fw-bold px-3" placeholder="Enter Account" wire:model.defer="fromGuestAccount">
-                                                @if ($this->fromBalance == 0)
-                                                <h5 class="mb-0">0.00</h5>
-                                            @else
-                                                <h5 class="mb-0">{{ $this->fromSymbol }} {{ $this->fromBalance }}</h5>
-                                            @endif
+                                                <select wire:click="fromAccount()" wire:model.defer="fromAccount"
+                                                    class="form-select" size="3"
+                                                    aria-label="size 3 select example">
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->account_number }}">
+                                                            {{ $account->account_number }}
+                                                            {{ $account->accounType->account_currency }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+
+                                                <input type="text" name=""
+                                                    class="form-control fw-bold px-3" placeholder="Enter Account"
+                                                    wire:model="fromAccount">
+
+
+                                                <h5 class="mb-0" style="font-size: 17px">{{ $this->fromSymbol }}
+                                                    {{ $this->fromBalance }}</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -362,28 +449,97 @@
                                                 <h6 class="text-center mb-0">To Account</h6>
 
 
-                                                <select   wire:click="toAccount()" wire:model.defer="toAccount" class="form-select" size="3" aria-label="size 3 select example">
+                                                <select wire:click="toAccount()" wire:model.defer="toAccount"
+                                                    class="form-select" size="3"
+                                                    aria-label="size 3 select example">
                                                     @foreach ($accounts as $account)
-                                                    <option value="{{ $account->id }}">
-                                                        {{ $account->account_number }}
-                                                        {{ $account->accounType->account_currency }}
-                                                    </option> 
-                                                     @endforeach
+                                                        <option value="{{ $account->account_number }}">
+                                                            {{ $account->account_number }}
+                                                            {{ $account->accounType->account_currency }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
-                                                   
-                                               
-                                                <input type="text" name="" class="form-control fw-bold px-3" placeholder="Enter Account" wire:model.defer="toGuestAccount">
-                                               
-                                                @if ($this->toBalance == 0)
-                                                <h5 class="mb-0">0.00</h5>
-                                            @else
-                                                <h5 class="mb-0">{{ $this->toSymbol }} {{ $this->toBalance }}</h5>
-                                            @endif
+
+
+                                                <input type="text" name=""
+                                                    class="form-control fw-bold px-3" placeholder="Enter Account"
+                                                    wire:model="toAccount">
+                                                <h5 class="mb-0" style="font-size: 17px">{{ $this->toSymbol }}
+                                                    {{ $this->toBalance }}</h5>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-3 mb-xl-0 mb-4 ">
+                                <div class="card bg-transparent shadow-xl">
+                                    <div class="overflow-hidden position-relative border-radius-xl">
+                                        <img src="../assets/img/illustrations/pattern-tree.svg"
+                                            class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100"
+                                            alt="pattern-tree">
+
+                                        @switch($this->toCurrency)
+                                            @case('EUR')
+                                                <span class="mask bg-gradient-primary opacity-10"></span>
+                                            @break
+
+                                            @case('NGN')
+                                                <span class="mask bg-gradient-warning opacity-10"></span>
+                                            @break
+
+                                            @case('RUB')
+                                                <span class="mask bg-gradient-info opacity-10"></span>
+                                            @break
+
+                                            @case('BYN')
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                            @break
+
+                                            @case('GBP')
+                                                <span class="mask bg-gradient-secondary opacity-10"></span>
+                                            @break
+
+                                            @case('USD')
+                                                <span class="mask bg-gradient-success opacity-10"></span>
+                                            @break
+
+                                            @default
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                        @endswitch
+
+                                        <div class="card-body position-relative z-index-1 p-3">
+                                            <i class="material-icons text-white p-1 fs-6">wifi</i>
+                                            <h6 class="material-icons text-white p-1 float-end fw-bold"
+                                                style="font-size: 13px">{{ $this->toCurrency }}</h6>
+                                            <h6 class="text-white mt-2 mb-0 pb-2 " style="font-size: 13px">
+                                                4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852
+                                            </h6>
+                                            <div class="d-flex">
+                                                <div class="d-flex">
+                                                    <div class="me-4">
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Card Holder</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">
+                                                            {{ $this->toName }}</h6>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Expires</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">11/22</h6>
+                                                    </div>
+
+                                                </div>
+                                                <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                                                    <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png"
+                                                        alt="logo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-12 mb-lg-0 mb-4">
                                 <div class="card mt-4">
                                     <form wire:submit.prevent="transfer">
@@ -394,14 +550,16 @@
                                                 </div>
 
                                                 <div class="col-6 text-end">
-                                                    <button type="submit" class="btn bg-gradient-dark mb-0">  <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Transfer</a></a>
+                                                    <button type="submit" class="btn bg-gradient-dark mb-0"> <i
+                                                            class="material-icons text-sm">add</i>&nbsp;&nbsp;Transfer</a></a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body p-3">
                                             <div class="col-md-12 mb-md-0 mb-4">
                                                 <input type="text" class="form-control fw-bold px-3"
-                                                    placeholder="  {{ $this->currency }} Transfer  Amount" wire:model.defer="amount">
+                                                    placeholder="  {{ $this->currency }} Transfer  Amount"
+                                                    wire:model.defer="amount">
                                                 @error('amount')
                                                     <span class="error text-danger">{{ $message }}</span>
                                                 @enderror
@@ -410,8 +568,17 @@
                                     </form>
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
+                    {{-- =========== TRANSFER SECTION END========= --}}
+
+
+
+                    {{-- =========== CONVERTER SECTION ========= --}}
+
+
                     <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
                         tabindex="0">
 
@@ -532,35 +699,9 @@
                             </div>
                         </div>
                     </div>
+                    {{-- =========== CONVERTER SECTION END========= --}}
                 </div>
-
-
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -37,7 +37,7 @@
             bg-gradient-warning shadow-warning 
             @elseif($account->accounType->account_currency == '£')
             bg-gradient-secondary shadow-secondary 
-   @endif
+           @endif
               
     
               text-center border-radius-xl mt-n4 position-absolute">
