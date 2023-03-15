@@ -22,6 +22,7 @@ class Operations extends Component
     public $currency;
     public $balance;
     public $amount;
+    public $result;
     public $symbol;
     public $toName;
     protected array $rules = [
@@ -179,6 +180,48 @@ class Operations extends Component
                     }
                 }
             }
+        }
+    }
+
+    public function exchange()
+    {
+        if (!$this->fromCurrency || !$this->toCurrency) {
+            $this->dispatchBrowserEvent('message', [
+                'text' => ' Select Currencies',
+            ]);
+        } elseif ($this->fromAccount == $this->toAccount) {
+            $this->dispatchBrowserEvent('message', [
+                'text' => 'Select Different Currencies',
+            ]);
+        } else {
+            $validatedData = $this->validate();
+
+            $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.apilayer.com/currency_data/convert?to=".$this->toCurrency."&from=".$this->fromCurrency."&amount=".$this->amount,
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: text/plain",
+                    "apikey: XByj6XjTvKFtHHsmUbJkyeat6Qfs8OtM"
+                ),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET"
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+
+                $result =  json_decode($response, true);
+               $this->result =  $result['result'];
+
+
+
         }
     }
 

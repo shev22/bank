@@ -14,13 +14,13 @@
                             aria-controls="profile-tab-pane" aria-selected="false"><span
                                 class="fw-bold">Withdraw</span></button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item" role="presentation"  wire:ignore>
                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
                             data-bs-target="#contact-tab-pane" type="button" role="tab"
                             aria-controls="contact-tab-pane" aria-selected="false"><span
                                 class="fw-bold">Transfer</span></button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item" role="presentation"  wire:ignore>
                         <button class="nav-link" id="disabled-tab" data-bs-toggle="tab"
                             data-bs-target="#disabled-tab-pane" type="button" role="tab"
                             aria-controls="disabled-tab-pane" aria-selected="false"><span class="fw-bold">Currency
@@ -78,14 +78,18 @@
                                                             
                                                     @if ($this->currency == 'BYN') bg-gradient-dark shadow-dark 
                                                     @elseif($this->currency == 'USD')
-                                                    bg-gradient-success shadow-success @endif
-                                                    @if ($this->currency == 'EUR') bg-gradient-primary shadow-primary 
+                                                    bg-gradient-success shadow-success 
+                                                    @elseif ($this->currency == 'EUR') 
+                                                    bg-gradient-primary shadow-primary 
                                                     @elseif($this->currency == 'RUB')
                                                     bg-gradient-info shadow-info 
                                                     @elseif($this->currency == 'NGN')
                                                     bg-gradient-warning shadow-warning 
                                                     @elseif($this->currency == 'GBP')
-                                                    bg-gradient-secondary shadow-secondary @endif
+                                                    bg-gradient-secondary shadow-secondary
+                                                    @else
+                                                    bg-gradient-primary shadow-primary 
+                                                     @endif
                                                             shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
                                                 </div>
@@ -225,16 +229,21 @@
                                                 <div
                                                     class="icon icon-shape icon-lg 
                                                             
-                                                    @if ($this->symbol == 'BYN') bg-gradient-dark shadow-dark 
+                                                    @if ($this->symbol == 'BYN') 
+                                                    bg-gradient-dark shadow-dark 
                                                     @elseif($this->symbol == '$')
-                                                    bg-gradient-success shadow-success @endif
-                                                    @if ($this->symbol == '€') bg-gradient-primary shadow-primary 
+                                                    bg-gradient-success shadow-success 
+                                                    @elseif ($this->symbol == '€') 
+                                                    bg-gradient-primary shadow-primary 
                                                     @elseif($this->symbol == '₽')
                                                     bg-gradient-info shadow-info 
                                                     @elseif($this->symbol == '₦')
                                                     bg-gradient-warning shadow-warning 
                                                     @elseif($this->symbol == '£')
-                                                    bg-gradient-secondary shadow-secondary @endif
+                                                    bg-gradient-secondary shadow-secondary 
+                                                    @else
+                                                    bg-gradient-primary shadow-primary 
+                                                    @endif
                                                             shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
                                                 </div>
@@ -579,32 +588,66 @@
                     {{-- =========== CONVERTER SECTION ========= --}}
 
 
-                    <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
-                        tabindex="0">
-
-                        <div class="row mt-2">
-                            <div class="col-xl-6 mb-xl-0 mb-4">
+                     <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                        tabindex="0" wire:ignore.self>
+                        <div class="row mt-4">
+                            <div class="col-xl-3 mb-xl-0 mb-4 ">
                                 <div class="card bg-transparent shadow-xl">
                                     <div class="overflow-hidden position-relative border-radius-xl">
                                         <img src="../assets/img/illustrations/pattern-tree.svg"
                                             class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100"
                                             alt="pattern-tree">
-                                        <span class="mask bg-gradient-dark opacity-10"></span>
+
+                                        @switch($this->fromCurrency)
+                                            @case('EUR')
+                                                <span class="mask bg-gradient-primary opacity-10"></span>
+                                            @break
+
+                                            @case('NGN')
+                                                <span class="mask bg-gradient-warning opacity-10"></span>
+                                            @break
+
+                                            @case('RUB')
+                                                <span class="mask bg-gradient-info opacity-10"></span>
+                                            @break
+
+                                            @case('BYN')
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                            @break
+
+                                            @case('GBP')
+                                                <span class="mask bg-gradient-secondary opacity-10"></span>
+                                            @break
+
+                                            @case('USD')
+                                                <span class="mask bg-gradient-success opacity-10"></span>
+                                            @break
+
+                                            @default
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                        @endswitch
+
                                         <div class="card-body position-relative z-index-1 p-3">
-                                            <i class="material-icons text-white p-2">wifi</i>
-                                            <h5 class="text-white mt-4 mb-5 pb-2">
+                                            <i class="material-icons text-white p-1 fs-6">wifi</i>
+                                            <h6 class="material-icons text-white p-1 float-end fw-bold"
+                                                style="font-size: 13px">{{ $this->fromCurrency }}</h6>
+                                            <h6 class="text-white mt-2 mb-0 pb-2 " style="font-size: 13px">
                                                 4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852
-                                            </h5>
+                                            </h6>
                                             <div class="d-flex">
                                                 <div class="d-flex">
                                                     <div class="me-4">
-                                                        <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-                                                        <h6 class="text-white mb-0">Jack Peterson</h6>
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Card Holder</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">
+                                                            {{ $this->fromName }}</h6>
                                                     </div>
                                                     <div>
-                                                        <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-                                                        <h6 class="text-white mb-0">11/22</h6>
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Expires</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">11/22</h6>
                                                     </div>
+
                                                 </div>
                                                 <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
                                                     <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png"
@@ -615,21 +658,55 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-xl-6">
-                                <div class="row">
+                                <div class="row ">
                                     <div class="col-md-6 col-6">
                                         <div class="card">
                                             <div class="card-header mx-4 p-3 text-center">
-                                                <div
-                                                    class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                               
+                                                    <div
+                                                    class="icon icon-shape icon-lg 
+                                                            
+                                                   
+                                                    bg-gradient-primary shadow-primary 
+                                                    
+                                                            shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
                                                 </div>
+
+
+
+
+
+
+
+
+
+                                                
                                             </div>
                                             <div class="card-body pt-0 p-3 text-center">
-                                                <h6 class="text-center mb-0">Salary</h6>
-                                                <span class="text-xs">Belong Interactive</span>
-                                                <hr class="horizontal dark my-3">
-                                                <h5 class="mb-0">+$2000</h5>
+                                                <h6 class="text-center mb-0">{{ $this->fromCurrency }}</h6>
+
+
+                                                <select wire:click="fromAccount()" wire:model.defer="fromAccount"
+                                                    class="form-select" size="3"
+                                                    aria-label="size 3 select example">
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->account_number }}">
+                                                            {{ $account->account_number }}
+                                                            {{ $account->accounType->account_currency }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+
+                                                <input type="text" name=""
+                                                    class="form-control fw-bold px-3" placeholder="Enter Account"
+                                                    wire:model="fromAccount">
+
+
+                                            
                                             </div>
                                         </div>
                                     </div>
@@ -642,61 +719,137 @@
                                                 </div>
                                             </div>
                                             <div class="card-body pt-0 p-3 text-center">
-                                                <h6 class="text-center mb-0">Paypal</h6>
-                                                <span class="text-xs">Freelance Payment</span>
-                                                <hr class="horizontal dark my-3">
-                                                <h5 class="mb-0">$455.00</h5>
+                                                <h6 class="text-center mb-0">{{ $this->toCurrency }}</h6>
+
+
+                                                <select wire:click="toAccount()" wire:model.defer="toAccount"
+                                                    class="form-select" size="3"
+                                                    aria-label="size 3 select example">
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->account_number }}">
+                                                            {{ $account->account_number }}
+                                                            {{ $account->accounType->account_currency }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+
+                                                <input type="text" 
+                                                    class="form-control fw-bold px-3" placeholder="Enter Account"
+                                                    wire:model="toAccount">
+                                               
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-3 mb-xl-0 mb-4 ">
+                                <div class="card bg-transparent shadow-xl">
+                                    <div class="overflow-hidden position-relative border-radius-xl">
+                                        <img src="../assets/img/illustrations/pattern-tree.svg"
+                                            class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100"
+                                            alt="pattern-tree">
+
+                                        @switch($this->toCurrency)
+                                            @case('EUR')
+                                                <span class="mask bg-gradient-primary opacity-10"></span>
+                                            @break
+
+                                            @case('NGN')
+                                                <span class="mask bg-gradient-warning opacity-10"></span>
+                                            @break
+
+                                            @case('RUB')
+                                                <span class="mask bg-gradient-info opacity-10"></span>
+                                            @break
+
+                                            @case('BYN')
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                            @break
+
+                                            @case('GBP')
+                                                <span class="mask bg-gradient-secondary opacity-10"></span>
+                                            @break
+
+                                            @case('USD')
+                                                <span class="mask bg-gradient-success opacity-10"></span>
+                                            @break
+
+                                            @default
+                                                <span class="mask bg-gradient-dark opacity-10"></span>
+                                        @endswitch
+
+                                        <div class="card-body position-relative z-index-1 p-3">
+                                            <i class="material-icons text-white p-1 fs-6">wifi</i>
+                                            <h6 class="material-icons text-white p-1 float-end fw-bold"
+                                                style="font-size: 13px">{{ $this->toCurrency }}</h6>
+                                            <h6 class="text-white mt-2 mb-0 pb-2 " style="font-size: 13px">
+                                                4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852
+                                            </h6>
+                                            <div class="d-flex">
+                                                <div class="d-flex">
+                                                    <div class="me-4">
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Card Holder</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">
+                                                            {{ $this->toName }}</h6>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-white  opacity-8 mb-0" style="font-size: 9px">
+                                                            Expires</p>
+                                                        <h6 class="text-white mb-0" style="font-size: 9px">11/22</h6>
+                                                    </div>
+
+                                                </div>
+                                                <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                                                    <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png"
+                                                        alt="logo">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            @if ($this->result )
+                            &nbsp; &nbsp;<h5>{{ $this->toSymbol }}{{ $this->result }}</h5>
+                            @endif
+                           
                             <div class="col-md-12 mb-lg-0 mb-4">
                                 <div class="card mt-4">
-                                    <div class="card-header pb-0 p-3">
-                                        <div class="row">
-                                            <div class="col-6 d-flex align-items-center">
-                                                <h6 class="mb-0">Payment Method</h6>
-                                            </div>
-                                            <div class="col-6 text-end">
-                                                <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                                    Card</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-md-0 mb-4">
-                                                <div
-                                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                    <img class="w-10 me-3 mb-0"
-                                                        src="../assets/img/logos/mastercard.png" alt="logo">
-                                                    <h6 class="mb-0">
-                                                        ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852
-                                                    </h6>
-                                                    <i class="material-icons ms-auto text-dark cursor-pointer"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Edit Card">edit</i>
+                                    <form wire:submit.prevent="exchange">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="row">
+                                                <div class="col-6 d-flex align-items-center">
+                                                    <h6 class="mb-0">Enter Exchange Amount   </h6>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div
-                                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                    <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png"
-                                                        alt="logo">
-                                                    <h6 class="mb-0">
-                                                        ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
-                                                    </h6>
-                                                    <i class="material-icons ms-auto text-dark cursor-pointer"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Edit Card">edit</i>
+                                                
+                                        
+                                                <div class="col-6 text-end">
+                                                    <div wire:loading wire:target="exchange" wire:key="exchange"><i
+                                                        class="fa fa-spinner fa-spin  ml-2" style="color: #A10000;  font-size: 19px;"></i> </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <button type="submit" class="btn bg-gradient-dark mb-0"> 
+                                                  
+                                                        <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Exchange</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="card-body p-3">
+                                            <div class="col-md-12 mb-md-0 mb-4">
+                                                <input type="text" class="form-control fw-bold px-3"
+                                                    placeholder="  {{ $this->fromCurrency }} Exchange Amount"
+                                                    wire:model.defer="amount">
+                                                @error('amount')
+                                                    <span class="error text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     {{-- =========== CONVERTER SECTION END========= --}}
@@ -710,7 +863,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-6 d-flex align-items-center">
-                                <h6 class="mb-0">Invoices</h6>
+                                <h6 class="mb-0">Exchange rates</h6>
                             </div>
                             <div class="col-6 text-end">
                                 <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
