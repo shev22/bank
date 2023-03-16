@@ -37,5 +37,7 @@ Route::post('/create-account', [App\Http\Controllers\AccountController::class, '
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
     Route::get('/operations', [App\Http\Controllers\OperationsController::class, 'index'])->name('operations');
+    Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
+
 });
 
