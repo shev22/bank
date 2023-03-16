@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Account;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\TransactionRepository\TransactionRepository;
 
 class Operations extends Component
 {
@@ -224,6 +225,30 @@ class Operations extends Component
 
 
 
+        }
+    }
+
+    private function transaction($account_number, $operation, $status, $comment)
+    {
+        $transaction_id = substr(str_shuffle('0123456789'), 0, 7);
+        $createdAccountNumbers = TransactionRepository::getTransactionIDs();
+        if (in_array($transaction_id, (array) $createdAccountNumbers)) {
+            $this->dispatchBrowserEvent('message', [
+                'text' => 'Error with transaction_id',
+            ]);
+        } else {
+            $data['account_number'] = $account_number;
+            $data['transaction_id'] = $transaction_id;
+            $data['operation'] = $operation;
+            $data['status'] = $status;
+            $data['currency'] = $this->currency;
+            $data['description'] =
+                'Lorem Ipsum is simply dummy text of the printingand typesetting industry. Lorem Ipsum';
+            $data['comment'] = $comment;
+            $data['amount'] = $this->amount;
+            $data['balance'] = $this->balance;
+
+            TransactionRepository::setTransactionData($data);
         }
     }
 
