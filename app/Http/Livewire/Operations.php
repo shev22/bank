@@ -52,7 +52,7 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-            $validatedData = $this->validate();
+           // $validatedData = $this->validate();
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -63,6 +63,10 @@ class Operations extends Component
                     $account->account_balance += $this->amount;
                     $account->update();
                     $this->balance = $account->account_balance;
+                    $this->transaction($account->account_number, 'Deposit', 'Success',  'Deposit of ' .
+                    $this->symbol .
+                    $this->amount .
+                    ' Successfull');
                 }
                 $this->dispatchBrowserEvent('message', [
                     'text' =>
@@ -90,12 +94,12 @@ class Operations extends Component
         } else {
 
 
-            $validatedData = $this->validate();
+           // $validatedData = $this->validate();
            
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
                 ->get();
-                dd( 5676);
+
             if ($accounts) {
                 foreach ($accounts as $account) {
                     if ($account->account_balance >= $this->amount) {
@@ -109,11 +113,18 @@ class Operations extends Component
                                 $this->amount .
                                 ' Successfull',
                         ]);
+                        $this->transaction($account->account_number, 'Withdrawal', 'Success',  'Withdrawal of ' .
+                        $this->symbol .
+                        $this->amount .
+                        ' Successfull');
+    
                         $this->resetInput();
                     } else {
                         $this->dispatchBrowserEvent('message', [
                             'text' => 'Insufficient Balance',
                         ]);
+                        $this->transaction($account->account_number, 'Withdrawal', 'Failed', 'Insufficient Balance');
+                        $this->resetInput();
                     }
                 }
             } else {
@@ -230,7 +241,7 @@ class Operations extends Component
 
     private function transaction($account_number, $operation, $status, $comment)
     {
-        $transaction_id = substr(str_shuffle('0123456789'), 0, 7);
+        $transaction_id = substr(str_shuffle('0123456789'), 0, 10);
         $createdAccountNumbers = TransactionRepository::getTransactionIDs();
         if (in_array($transaction_id, (array) $createdAccountNumbers)) {
             $this->dispatchBrowserEvent('message', [

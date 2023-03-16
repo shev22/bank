@@ -19,7 +19,7 @@ class TransactionRepository
             'description' => $data['description'],
             'comment' => $data['comment'],
             'amount' => $data['amount'],
-            'balance' => $data['balance'],
+            'available_balance' => $data['balance'],
         ]);
     }
     
