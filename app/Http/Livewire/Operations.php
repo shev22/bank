@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Account;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+//use App\Http\Livewire\TransactionRepository\TransactionRepository as Transaction;
 
 class Operations extends Component
 {
@@ -62,6 +63,10 @@ class Operations extends Component
                     $account->account_balance += $this->amount;
                     $account->update();
                     $this->balance = $account->account_balance;
+                    // $this->transaction($account->account_number, 'Deposit', 'Success',  'Deposit of ' .
+                    // $this->symbol .
+                    // $this->amount .
+                    // ' Successfull');
                 }
                 $this->dispatchBrowserEvent('message', [
                     'text' =>
@@ -70,12 +75,13 @@ class Operations extends Component
                         $this->amount .
                         ' Successfull',
                 ]);
-
+               
                 $this->resetInput();
             } else {
                 $this->dispatchBrowserEvent('message', [
                     'text' => 'Something went wrong',
                 ]);
+                
             }
         }
     }
@@ -106,11 +112,16 @@ class Operations extends Component
                                 $this->amount .
                                 ' Successfull',
                         ]);
+                        $this->transaction($account->account_number, 'Withdrawal', 'Success',  'Withdrawal of ' .
+                        $this->symbol .
+                        $this->amount .
+                        ' Successfull');
                         $this->resetInput();
                     } else {
                         $this->dispatchBrowserEvent('message', [
                             'text' => 'Insufficient Balance',
                         ]);
+                        $this->transaction($account->account_number, 'Withdrawal', 'Failed',  'Insufficient Balance');
                     }
                 }
             } else {
@@ -198,30 +209,57 @@ class Operations extends Component
 
             $curl = curl_init();
 
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.apilayer.com/currency_data/convert?to=".$this->toCurrency."&from=".$this->fromCurrency."&amount=".$this->amount,
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: text/plain",
-                    "apikey: XByj6XjTvKFtHHsmUbJkyeat6Qfs8OtM"
-                ),
+            curl_setopt_array($curl, [
+                CURLOPT_URL =>
+                    'https://api.apilayer.com/currency_data/convert?to=' .
+                    $this->toCurrency .
+                    '&from=' .
+                    $this->fromCurrency .
+                    '&amount=' .
+                    $this->amount,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: text/plain',
+                    'apikey: XByj6XjTvKFtHHsmUbJkyeat6Qfs8OtM',
+                ],
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
+                CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
                 CURLOPT_TIMEOUT => 0,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET"
-                ));
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ]);
 
-                $response = curl_exec($curl);
+            $response = curl_exec($curl);
 
-                curl_close($curl);
+            curl_close($curl);
 
-                $result =  json_decode($response, true);
-               $this->result =  $result['result'];
+            $result = json_decode($response, true);
+            $this->result = $result['result'];
+        }
+    }
 
+    private function transaction($account_number, $operation, $status, $comment)
+    {
+        $transaction_id = substr(str_shuffle('0123456789'), 0, 7);
+        $createdAccountNumbers = Transaction::getTransactionIDs();
+        if (in_array($transaction_id, (array) $createdAccountNumbers)) {
+            $this->dispatchBrowserEvent('message', [
+                'text' => 'Error with transaction_id',
+            ]);
+        } else {
+            $data['account_number'] = $account_number;
+            $data['transaction_id'] = $transaction_id;
+            $data['operation'] = $operation;
+            $data['status'] = $status;
+            $data['currency'] = $this->currency;
+            $data['description'] =
+                'Lorem Ipsum is simply dummy text of the printingand typesetting industry. Lorem Ipsum';
+            $data['comment'] = $comment;
+            $data['amount'] = $this->amount;
+            $data['balance'] = $this->balance;
 
-
+            Transaction::setTransactionData($data);
         }
     }
 
@@ -266,7 +304,6 @@ class Operations extends Component
     public function resetInput()
     {
         $this->amount = null;
-        
     }
 
     public function render()

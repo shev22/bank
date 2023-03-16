@@ -17,6 +17,8 @@ class Transaction extends Model
         'status',
         'description',
         'amount',
+        'comment',
+        'transaction_id',
         'available_balance',
     ];
 }

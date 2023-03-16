@@ -1,8 +1,13 @@
 <div>
+    
     <div class="container-fluid py-4">
+        
         <div class="row">
+            
             <div class="col-lg-8">
+                
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    
                     <li class="nav-item" role="presentation" wire:ignore>
                         <button class="nav-link active " id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
@@ -14,13 +19,13 @@
                             aria-controls="profile-tab-pane" aria-selected="false"><span
                                 class="fw-bold">Withdraw</span></button>
                     </li>
-                    <li class="nav-item" role="presentation"  wire:ignore>
+                    <li class="nav-item" role="presentation" wire:ignore>
                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
                             data-bs-target="#contact-tab-pane" type="button" role="tab"
                             aria-controls="contact-tab-pane" aria-selected="false"><span
                                 class="fw-bold">Transfer</span></button>
                     </li>
-                    <li class="nav-item" role="presentation"  wire:ignore>
+                    <li class="nav-item" role="presentation" wire:ignore>
                         <button class="nav-link" id="disabled-tab" data-bs-toggle="tab"
                             data-bs-target="#disabled-tab-pane" type="button" role="tab"
                             aria-controls="disabled-tab-pane" aria-selected="false"><span class="fw-bold">Currency
@@ -29,8 +34,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
 
-
-
+              
                     {{-- =========== DEPOSIT SECTION ========= --}}
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                         tabindex="0" wire:ignore.self>
@@ -88,8 +92,7 @@
                                                     @elseif($this->currency == 'GBP')
                                                     bg-gradient-secondary shadow-secondary
                                                     @else
-                                                    bg-gradient-primary shadow-primary 
-                                                     @endif
+                                                    bg-gradient-primary shadow-primary @endif
                                                             shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
                                                 </div>
@@ -229,8 +232,7 @@
                                                 <div
                                                     class="icon icon-shape icon-lg 
                                                             
-                                                    @if ($this->symbol == 'BYN') 
-                                                    bg-gradient-dark shadow-dark 
+                                                    @if ($this->symbol == 'BYN') bg-gradient-dark shadow-dark 
                                                     @elseif($this->symbol == '$')
                                                     bg-gradient-success shadow-success 
                                                     @elseif ($this->symbol == '€') 
@@ -242,8 +244,7 @@
                                                     @elseif($this->symbol == '£')
                                                     bg-gradient-secondary shadow-secondary 
                                                     @else
-                                                    bg-gradient-primary shadow-primary 
-                                                    @endif
+                                                    bg-gradient-primary shadow-primary @endif
                                                             shadow text-center border-radius-lg">
                                                     <i class="material-icons opacity-10">account_balance</i>
                                                 </div>
@@ -588,7 +589,7 @@
                     {{-- =========== CONVERTER SECTION ========= --}}
 
 
-                     <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                    <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
                         tabindex="0" wire:ignore.self>
                         <div class="row mt-4">
                             <div class="col-xl-3 mb-xl-0 mb-4 ">
@@ -664,8 +665,8 @@
                                     <div class="col-md-6 col-6">
                                         <div class="card">
                                             <div class="card-header mx-4 p-3 text-center">
-                                               
-                                                    <div
+
+                                                <div
                                                     class="icon icon-shape icon-lg 
                                                             
                                                    
@@ -683,7 +684,7 @@
 
 
 
-                                                
+
                                             </div>
                                             <div class="card-body pt-0 p-3 text-center">
                                                 <h6 class="text-center mb-0">{{ $this->fromCurrency }}</h6>
@@ -706,7 +707,7 @@
                                                     wire:model="fromAccount">
 
 
-                                            
+
                                             </div>
                                         </div>
                                     </div>
@@ -734,10 +735,9 @@
                                                 </select>
 
 
-                                                <input type="text" 
-                                                    class="form-control fw-bold px-3" placeholder="Enter Account"
-                                                    wire:model="toAccount">
-                                               
+                                                <input type="text" class="form-control fw-bold px-3"
+                                                    placeholder="Enter Account" wire:model="toAccount">
+
 
                                             </div>
                                         </div>
@@ -809,30 +809,33 @@
                                             </div>
                                         </div>
 
-                                        
+
                                     </div>
                                 </div>
                             </div>
-                            @if ($this->result )
-                            &nbsp; &nbsp;<h5>{{ $this->toSymbol }}{{ $this->result }}</h5>
+                            @if ($this->result)
+                                &nbsp; &nbsp;<h5>{{ $this->toSymbol }}{{ $this->result }}</h5>
                             @endif
-                           
+
                             <div class="col-md-12 mb-lg-0 mb-4">
                                 <div class="card mt-4">
                                     <form wire:submit.prevent="exchange">
                                         <div class="card-header pb-0 p-3">
                                             <div class="row">
                                                 <div class="col-6 d-flex align-items-center">
-                                                    <h6 class="mb-0">Enter Exchange Amount   </h6>
+                                                    <h6 class="mb-0">Enter Exchange Amount </h6>
                                                 </div>
-                                                
-                                        
+
+
                                                 <div class="col-6 text-end">
                                                     <div wire:loading wire:target="exchange" wire:key="exchange"><i
-                                                        class="fa fa-spinner fa-spin  ml-2" style="color: #A10000;  font-size: 19px;"></i> </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button type="submit" class="btn bg-gradient-dark mb-0"> 
-                                                  
-                                                        <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Exchange</button>
+                                                            class="fa fa-spinner fa-spin  ml-2"
+                                                            style="color: #A10000;  font-size: 19px;"></i> </div>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <button type="submit" class="btn bg-gradient-dark mb-0">
+
+                                                        <i
+                                                            class="material-icons text-sm">add</i>&nbsp;&nbsp;Exchange</button>
                                                 </div>
                                             </div>
                                         </div>
