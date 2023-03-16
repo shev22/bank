@@ -81,18 +81,20 @@ class Operations extends Component
     }
 
     public function withdraw()
-    {
+    { 
         if (!$this->account_id) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Please Select an Account',
             ]);
         } else {
-            $validatedData = $this->validate();
 
+
+            $validatedData = $this->validate();
+           
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
                 ->get();
-
+                dd( 5676);
             if ($accounts) {
                 foreach ($accounts as $account) {
                     if ($account->account_balance >= $this->amount) {
