@@ -177,9 +177,9 @@ class Operations extends Component
                                 'text' => 'Transfer Completed',
                             ]);
                             $this->transaction($accountToDebit->account_number, $this->fromCurrency, 'Transfer', 'Success',  
-                            $this->fromSymbol .
+                            $this->fromSymbol.
                             $this->amount .
-                            ' Transfer debited',  $accountToDebit->user_id, $this->fromBalance);
+                            ' Transfer Debited',  $accountToDebit->user_id, $this->fromBalance);
                         } else {
                             $this->dispatchBrowserEvent('message', [
                                 'text' => 'Insufficient Balance',
@@ -190,19 +190,18 @@ class Operations extends Component
                 }
                 if ($flag == true) {
                     foreach ($accounts as $accounToCredit) {
-                        if (
-                            $accounToCredit->account_number == $this->toAccount
-                        ) {
-                            $accounToCredit->account_balance += $this->amount;
-                            $accounToCredit->update();
-                            $accounToCredit->user_id == Auth::id() ?
-                            $this->toBalance = $accounToCredit->account_balance : '';
-                            $this->transaction($accounToCredit->account_number,   $this->toCurrency, 'Transfer', 'Success',
-                            $this->toSymbol .
-                            $this->amount .
-                            ' Transfer credited ',  $accounToCredit->user_id,  $this->toBalance);
-                            $this->resetInput();
-                        }
+                        if ($accounToCredit->account_number == $this->toAccount) 
+                            {
+                                $accounToCredit->account_balance += $this->amount;
+                                $accounToCredit->update();
+                                $accounToCredit->user_id == Auth::id() ?
+                                $this->toBalance = $accounToCredit->account_balance : '';
+                                $this->transaction($accounToCredit->account_number,   $this->toCurrency, 'Transfer', 'Success', 
+                                $this->toSymbol .
+                                $this->amount .
+                                ' Transfer Credited',  $accounToCredit->user_id,  $this->toBalance);
+                                $this->resetInput();
+                            }
                     }
                 }
             }
