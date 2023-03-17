@@ -474,7 +474,9 @@
                                                 <input type="text" name=""
                                                     class="form-control fw-bold px-3" placeholder="Enter Account"
                                                     wire:model="toAccount">
-                                                <h5 class="mb-0" style="font-size: 17px">{{ $this->toSymbol }}
+                                                <h5 class="mb-0" style="font-size: 17px">
+                                               
+                                                    {{ $this->toSymbol }}
                                                     {{ $this->toBalance }}</h5>
 
                                             </div>

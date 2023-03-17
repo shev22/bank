@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Account;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-//use App\Http\Livewire\TransactionRepository\TransactionRepository as Transaction;
+use App\Http\Livewire\TransactionRepository\TransactionRepository;
 
 class Operations extends Component
 {
@@ -52,7 +52,7 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-            $validatedData = $this->validate();
+           // $validatedData = $this->validate();
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -63,10 +63,10 @@ class Operations extends Component
                     $account->account_balance += $this->amount;
                     $account->update();
                     $this->balance = $account->account_balance;
-                    // $this->transaction($account->account_number, 'Deposit', 'Success',  'Deposit of ' .
-                    // $this->symbol .
-                    // $this->amount .
-                    // ' Successfull');
+                    $this->transaction($account->account_number, $this->currency, 'Deposit', 'Success',  'Deposit of ' .
+                    $this->symbol .
+                    $this->amount .
+                    ' Successfull',  $account->user_id, $this->balance);
                 }
                 $this->dispatchBrowserEvent('message', [
                     'text' =>
@@ -87,14 +87,16 @@ class Operations extends Component
     }
 
     public function withdraw()
-    {
+    { 
         if (!$this->account_id) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Please Select an Account',
             ]);
         } else {
-            $validatedData = $this->validate();
 
+
+           // $validatedData = $this->validate();
+           
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
                 ->get();
@@ -112,16 +114,18 @@ class Operations extends Component
                                 $this->amount .
                                 ' Successfull',
                         ]);
-                        $this->transaction($account->account_number, 'Withdrawal', 'Success',  'Withdrawal of ' .
+                        $this->transaction($account->account_number, $this->currency, 'Withdrawal', 'Success',  'Withdrawal of ' .
                         $this->symbol .
                         $this->amount .
-                        ' Successfull');
+                        ' Successfull',  $account->user_id, $this->balance);
+    
                         $this->resetInput();
                     } else {
                         $this->dispatchBrowserEvent('message', [
                             'text' => 'Insufficient Balance',
                         ]);
-                        $this->transaction($account->account_number, 'Withdrawal', 'Failed',  'Insufficient Balance');
+                        $this->transaction($account->account_number, $this->currency, 'Withdrawal', 'Failed', 'Insufficient Balance',  $account->user_id, $this->balance);
+                        $this->resetInput();
                     }
                 }
             } else {
@@ -134,6 +138,7 @@ class Operations extends Component
 
     public function transfer(): void
     {
+        //dd($this->amount);
         $flag = false;
 
         if (!$this->fromAccount || !$this->toAccount) {
@@ -160,6 +165,7 @@ class Operations extends Component
                     'text' => 'Incorrect Accounts',
                 ]);
             } else {
+                //  dd($this->amount);
                 foreach ($accounts as $accountToDebit) {
                     if ($accountToDebit->account_number == $this->fromAccount) {
                         if ($accountToDebit->account_balance >= $this->amount) {
@@ -169,25 +175,34 @@ class Operations extends Component
                             $this->fromBalance =
                                 $accountToDebit->account_balance;
                             $this->dispatchBrowserEvent('message', [
-                                'text' => 'Tranfer Completed',
+                                'text' => 'Transfer Completed',
                             ]);
+                            $this->transaction($accountToDebit->account_number, $this->fromCurrency, 'Transfer', 'Success',  
+                            $this->fromSymbol.
+                            $this->amount .
+                            ' Transfer Debited',  $accountToDebit->user_id, $this->fromBalance);
                         } else {
                             $this->dispatchBrowserEvent('message', [
                                 'text' => 'Insufficient Balance',
                             ]);
+                            $this->transaction($accountToDebit->account_number,   $this->fromCurrency, 'Transfer', 'Failed',  'Insufficient Balance',  $accountToDebit->user_id,  $this->fromBalance);
                         }
                     }
                 }
                 if ($flag == true) {
                     foreach ($accounts as $accounToCredit) {
-                        if (
-                            $accounToCredit->account_number == $this->toAccount
-                        ) {
-                            $accounToCredit->account_balance += $this->amount;
-                            $accounToCredit->update();
-                            $this->resetInput();
-                            $this->toBalance = $accounToCredit->account_balance;
-                        }
+                        if ($accounToCredit->account_number == $this->toAccount) 
+                            {
+                                $accounToCredit->account_balance += $this->amount;
+                                $accounToCredit->update();
+                                $accounToCredit->user_id == Auth::id() ?
+                                $this->toBalance = $accounToCredit->account_balance : '';
+                                $this->transaction($accounToCredit->account_number,   $this->toCurrency, 'Transfer', 'Success', 
+                                $this->toSymbol .
+                                $this->amount .
+                                ' Transfer Credited',  $accounToCredit->user_id,  $this->toBalance);
+                                $this->resetInput();
+                            }
                     }
                 }
             }
@@ -239,27 +254,29 @@ class Operations extends Component
         }
     }
 
-    private function transaction($account_number, $operation, $status, $comment)
+
+    private function transaction($account_number,  $currency, $operation, $status, $comment, $id, $balance)
     {
-        $transaction_id = substr(str_shuffle('0123456789'), 0, 7);
-        $createdAccountNumbers = Transaction::getTransactionIDs();
+        $transaction_id = substr(str_shuffle('0123456789'), 0, 10);
+        $createdAccountNumbers = TransactionRepository::getTransactionIDs();
         if (in_array($transaction_id, (array) $createdAccountNumbers)) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Error with transaction_id',
             ]);
         } else {
+            $data['id'] = $id;
             $data['account_number'] = $account_number;
             $data['transaction_id'] = $transaction_id;
             $data['operation'] = $operation;
             $data['status'] = $status;
-            $data['currency'] = $this->currency;
+            $data['currency'] = $currency;
             $data['description'] =
-                'Lorem Ipsum is simply dummy text of the printingand typesetting industry. Lorem Ipsum';
+                'Lorem Ipsum is simply dummy text of  the';
             $data['comment'] = $comment;
             $data['amount'] = $this->amount;
-            $data['balance'] = $this->balance;
+            $data['balance'] = $balance;
 
-            Transaction::setTransactionData($data);
+            TransactionRepository::setTransactionData($data);
         }
     }
 
