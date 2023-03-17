@@ -10,7 +10,7 @@ class TransactionRepository
     public static function  setTransactionData($data): void
     {
         Transaction::create([
-            'user_id' => Auth::id(),
+            'user_id' => $data['id'],
             'account_number' => $data['account_number'],
             'transaction_id' => $data['transaction_id'],
             'operation' => $data['operation'],

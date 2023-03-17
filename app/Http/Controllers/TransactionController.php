@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -10,7 +12,7 @@ class TransactionController extends Controller
     {
         // $accountsTypes = $this->accountService->getAccountCurrencies();
       
-      
-        return view('frontend.transaction');
+        $transactions = Transaction::where('user_id', Auth::id())->get();
+        return view('frontend.transaction', ['transactions'=> $transactions]);
     }
 }

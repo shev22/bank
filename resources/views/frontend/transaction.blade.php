@@ -16,8 +16,6 @@
 
 
 
-
-
 <div class="container-fluid py-4">
     <div class="row">
       <div class="col-12">
@@ -30,7 +28,9 @@
           <div class="card-body px-0 pb-2">
             <div class="table-responsive p-0">
               <table class="table align-items-center mb-0">
+
                 <thead>
+
                   <tr>
                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center">№</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Account Number</th>
@@ -47,52 +47,59 @@
                   </tr>
                 </thead>
                 <tbody>
+
+                    @php
+                        $№ = 1;
+                    @endphp  
+           @foreach($transactions as $transaction)
+                       
+          
                   <tr>
                   
                     <td class="align-middle text-center">
-                        <p class="text-xs font-weight-bold mb-0">1</p>
+                        <p class="text-xs font-weight-bold mb-0">{{$№++}}</p>
                        
                       </td>
                     <td class="align-middle text-center">
-                      <p class="text-xs font-weight-bold mb-0">1212453211</p>
+                      <p class="text-xs font-weight-bold mb-0">{{ $transaction->account_number }}</p>
                      
                     </td>
 
                     <td class="align-middle text-center">
-                        <p class="text-xs font-weight-bold mb-0">121785682453211</p>
+                        <p class="text-xs font-weight-bold mb-0">{{ $transaction->transaction_id }}</p>
                        
                       </td >
                     <td >
-                        <p class="text-xs font-weight-bold mb-0">withdrawal</p>
+                        <p class="text-xs font-weight-bold mb-0">{{ $transaction->operation }}</p>
                        
                       </td>
                       <td class="align-middle text-center"> 
-                        <p class="text-xs font-weight-bold mb-0">Comment</p>
+                        <p class="text-xs font-weight-bold mb-0">{{ $transaction->comment }}</p>
                        
                       </td>
                     <td class="align-middle text-center text-sm">
-                      <span class="badge badge-sm bg-gradient-success">Success</span>
+                      <span class="badge badge-sm bg-gradient-{{ $transaction->status == 'Success' ? 'success' : 'danger'  }}">{{ $transaction->status }}</span>
                     </td>
 
                     <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">usd</span>
+                      <span class="text-secondary text-xs font-weight-bold">{{ $transaction->currency }}</span>
                     </td>
 
-                    <td class="align-middle text-center">
+                    <td class="align-middle text-center " >
                      
-                       <p class="text-xs font-weight-bold mb-0">Lorem Ipsum is simply dummy text of the printing <br> and typesetting industry. Lorem Ipsum</p>
+                       <p class="text-xs font-weight-bold mb-0  ">{{ $transaction->description }}</p>
                       </a>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold ">1254</span>
+                        <span class="text-secondary text-xs font-weight-bold ">{{ $transaction->amount }}</span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">12245.256</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $transaction->available_balance }}</span>
                       </td>
 
 
                   </tr>
-               
+                  @endforeach 
                  
                 </tbody>
               </table>
