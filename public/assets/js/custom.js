@@ -1,3 +1,9 @@
+// $("#toggle").click(function(){
+//   alert()
+//   $("#toggleDiv").slideToggle("slow");
+// });
+
+
 
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -245,6 +251,8 @@
       },
     });
 
+  
+   
 
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

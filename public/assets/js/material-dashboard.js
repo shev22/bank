@@ -652,6 +652,7 @@ function sidenavTypeOnResize() {
 }
 
 
+
 // Light Mode / Dark Mode
 function darkMode(el) {
   const body = document.getElementsByTagName('body')[0];
