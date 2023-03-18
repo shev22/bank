@@ -22,8 +22,8 @@
                                             name='account_number'>
                                             <option value="">Select Accounts</option>
                                             @foreach ($accounts as $account)
-                                                <option value="{{ $account->account_number }}">
-                                                    {{ $account->account_number }}</option>
+                                                <option value="{{ $account->account_number }}   ">
+                                                    {{ $account->account_number }} &nbsp; {{ $account->accounType->account_symbol }}</option>
                                             @endforeach
                                         </select>
                                     </div>
