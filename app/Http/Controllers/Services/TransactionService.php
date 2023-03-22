@@ -26,6 +26,15 @@ class TransactionService
         return $transactions;
     }
 
+    public function getNotifications()
+    {
+        return  $this->TransactionRepository->getNotifications();
+    }
+   
+    public function  readNotification($request)
+    {
+        return  $this->TransactionRepository->readNotification($request);
+    }
     
    
 }

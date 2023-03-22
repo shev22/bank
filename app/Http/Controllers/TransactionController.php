@@ -12,7 +12,7 @@ class TransactionController extends Controller
 {
     private $transactionService;
     private $accountService;
-    private $transactions;
+  
 
     public function __construct(TransactionService $transactionService, AccountService $accountService)
     {
@@ -20,17 +20,20 @@ class TransactionController extends Controller
         $this->accountService = $accountService;
     }
 
-    // public function getTransactions(Request $request)
-    // {
-    //     $this->transactions = $this->transactionService->getTransactions($request); 
-         
-    // }
-
+    public function readNotification(Request $request)
+    {
+        $this->transactionService->readNotification($request); 
+    }
 
     public function index(Request $request)
     {
         $accounts = $this->accountService->getUserAccounts();
         $transactions = $this->transactionService->getTransactions($request); 
-        return view('frontend.transaction', ['transactions'=> $transactions, 'accounts'=> $accounts]);
+        $notifications =  $this->transactionService->getNotifications(); 
+        return view('frontend.transaction', ['transactions'=> $transactions,
+                                              'accounts'=> $accounts,
+                                              'notifications'      => $notifications['notifications'],
+                                              'newMessage'      => $notifications['newMessage']
+                                              ]);
     }
 }

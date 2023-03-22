@@ -31,6 +31,7 @@ Route::get('login/facebook/callback', [App\Http\Controllers\Auth\SocialControlle
 
 
 Route::post('/create-account', [App\Http\Controllers\AccountController::class, 'createAccount'])->name('createAccount');
+Route::post('/account', [App\Http\Controllers\AccountController::class, 'account'])->name('account');
 
 
 
@@ -39,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/operations', [App\Http\Controllers\OperationsController::class, 'index'])->name('operations');
     Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
     Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
+    Route::post('/read_notifications', [App\Http\Controllers\TransactionController::class, 'readNotification'])->name('notification');
 
 });
 

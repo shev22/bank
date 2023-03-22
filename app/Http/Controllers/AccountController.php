@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Account;
 use Illuminate\Http\Request;
@@ -20,8 +21,6 @@ class AccountController extends Controller
 
     public function createAccount(Request $request)
     {
-
-        
         $validatedData = $request->validate([
            'account_name' => 'required|max:255',
             
@@ -56,6 +55,25 @@ class AccountController extends Controller
           Session::flash('alert-class', 'alert-danger'); 
           return redirect()->route('dashboard');
         }
+    }
+
+
+    public function account(Request $request)
+    {
+            $account = Account::where('user_id', Auth::id())
+                                    ->where('id', $request->id)
+                                    ->first();
+
+            $user_account = [
+                'name' =>   $account->account_name,
+                'number' =>  $account->account_number,
+                'balance' =>$account->accounType->account_currency.$account->account_balance,
+                'created_at' => Carbon::parse($account->created_at)->format('d/m/Y'),
+            ];                 
+
+           $data = ['account' => $user_account, 'id'=>$request->id];
+           echo json_encode($data);                
+    }
 
     }
-}
+

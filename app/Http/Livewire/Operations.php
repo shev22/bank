@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Livewire;
-
 use App\Models\Account;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +51,7 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-           // $validatedData = $this->validate();
+            // $validatedData = $this->validate();
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -63,10 +62,18 @@ class Operations extends Component
                     $account->account_balance += $this->amount;
                     $account->update();
                     $this->balance = $account->account_balance;
-                    $this->transaction($account->account_number, $this->currency, 'Deposit', 'Success',  'Deposit of ' .
-                    $this->symbol .
-                    $this->amount .
-                    ' Successfull',  $account->user_id, $this->balance);
+                    $this->transaction(
+                        $account->account_number,
+                        $this->currency,
+                        'Deposit',
+                        'Success',
+                        'Deposit of ' .
+                            $this->symbol .
+                            $this->amount .
+                            ' Successfull',
+                        $account->user_id,
+                        $this->balance
+                    );
                 }
                 $this->dispatchBrowserEvent('message', [
                     'text' =>
@@ -75,28 +82,25 @@ class Operations extends Component
                         $this->amount .
                         ' Successfull',
                 ]);
-               
+
                 $this->resetInput();
             } else {
                 $this->dispatchBrowserEvent('message', [
                     'text' => 'Something went wrong',
                 ]);
-                
             }
         }
     }
 
     public function withdraw()
-    { 
+    {
         if (!$this->account_id) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Please Select an Account',
             ]);
         } else {
+            // $validatedData = $this->validate();
 
-
-           // $validatedData = $this->validate();
-           
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
                 ->get();
@@ -114,17 +118,33 @@ class Operations extends Component
                                 $this->amount .
                                 ' Successfull',
                         ]);
-                        $this->transaction($account->account_number, $this->currency, 'Withdrawal', 'Success',  'Withdrawal of ' .
-                        $this->symbol .
-                        $this->amount .
-                        ' Successfull',  $account->user_id, $this->balance);
-    
+                        $this->transaction(
+                            $account->account_number,
+                            $this->currency,
+                            'Withdrawal',
+                            'Success',
+                            'Withdrawal of ' .
+                                $this->symbol .
+                                $this->amount .
+                                ' Successfull',
+                            $account->user_id,
+                            $this->balance
+                        );
+
                         $this->resetInput();
                     } else {
                         $this->dispatchBrowserEvent('message', [
                             'text' => 'Insufficient Balance',
                         ]);
-                        $this->transaction($account->account_number, $this->currency, 'Withdrawal', 'Failed', 'Insufficient Balance',  $account->user_id, $this->balance);
+                        $this->transaction(
+                            $account->account_number,
+                            $this->currency,
+                            'Withdrawal',
+                            'Failed',
+                            'Insufficient Balance',
+                            $account->user_id,
+                            $this->balance
+                        );
                         $this->resetInput();
                     }
                 }
@@ -177,32 +197,65 @@ class Operations extends Component
                             $this->dispatchBrowserEvent('message', [
                                 'text' => 'Transfer Completed',
                             ]);
-                            $this->transaction($accountToDebit->account_number, $this->fromCurrency, 'Transfer', 'Success',  
-                            $this->fromSymbol.
-                            $this->amount .
-                            ' Transfer Debited',  $accountToDebit->user_id, $this->fromBalance);
+                            $this->transaction(
+                                $accountToDebit->account_number,
+                                $this->fromCurrency,
+                                'Transfer',
+                                'Success',
+                                $this->fromSymbol .
+                                    $this->amount .
+                                    ' Transfer Debited',
+                                $accountToDebit->user_id,
+                                $this->fromBalance
+                            );
                         } else {
                             $this->dispatchBrowserEvent('message', [
                                 'text' => 'Insufficient Balance',
                             ]);
-                            $this->transaction($accountToDebit->account_number,   $this->fromCurrency, 'Transfer', 'Failed',  'Insufficient Balance',  $accountToDebit->user_id,  $this->fromBalance);
+                            $this->transaction(
+                                $accountToDebit->account_number,
+                                $this->fromCurrency,
+                                'Transfer',
+                                'Failed',
+                                'Insufficient Balance',
+                                $accountToDebit->user_id,
+                                $this->fromBalance
+                            );
                         }
                     }
                 }
                 if ($flag == true) {
                     foreach ($accounts as $accounToCredit) {
-                        if ($accounToCredit->account_number == $this->toAccount) 
-                            {
-                                $accounToCredit->account_balance += $this->amount;
-                                $accounToCredit->update();
-                                $accounToCredit->user_id == Auth::id() ?
-                                $this->toBalance = $accounToCredit->account_balance : '';
-                                $this->transaction($accounToCredit->account_number,   $this->toCurrency, 'Transfer', 'Success', 
-                                $this->toSymbol .
-                                $this->amount .
-                                ' Transfer Credited',  $accounToCredit->user_id,  $this->toBalance);
-                                $this->resetInput();
-                            }
+                        if (
+                            $accounToCredit->account_number == $this->toAccount
+                        ) {
+                            $accounToCredit->account_balance += $this->amount;
+                            $accounToCredit->update();
+                            $accounToCredit->user_id == Auth::id()
+                                ? ($this->toBalance =
+                                    $accounToCredit->account_balance)
+                                : '';
+                            $this->transaction(
+                                $accounToCredit->account_number,
+                                $accounToCredit->accounType->account_symbol,
+                                'Transfer',
+                                'Success',
+                                $this->fromSymbol .
+                                    $this->amount .
+                                    ' Transfer Credited',
+                                $accounToCredit->user_id,
+                                $accounToCredit->account_balance
+                            );
+                            $accounToCredit->user_id !== Auth::id()
+                                ? TransactionRepository::saveNotifications(
+                                    $accounToCredit->user_id,
+                                    $this->fromSymbol .
+                                        $this->amount .
+                                        ' was received from '.Auth::user()->name
+                                )
+                                : '';
+                            $this->resetInput();
+                        }
                     }
                 }
             }
@@ -254,9 +307,15 @@ class Operations extends Component
         }
     }
 
-
-    private function transaction($account_number,  $currency, $operation, $status, $comment, $id, $balance)
-    {
+    private function transaction(
+        $account_number,
+        $currency,
+        $operation,
+        $status,
+        $comment,
+        $id,
+        $balance
+    ) {
         $transaction_id = substr(str_shuffle('0123456789'), 0, 10);
         $createdAccountNumbers = TransactionRepository::getTransactionIDs();
         if (in_array($transaction_id, (array) $createdAccountNumbers)) {
@@ -270,8 +329,7 @@ class Operations extends Component
             $data['operation'] = $operation;
             $data['status'] = $status;
             $data['currency'] = $currency;
-            $data['description'] =
-                'Lorem Ipsum is simply dummy text of  the';
+            $data['description'] = 'Lorem Ipsum is simply dummy text of  the';
             $data['comment'] = $comment;
             $data['amount'] = $this->amount;
             $data['balance'] = $balance;

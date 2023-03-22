@@ -1,7 +1,3 @@
-// $("#toggle").click(function(){
-//   alert()
-//   $("#toggleDiv").slideToggle("slow");
-// });
 
 
 

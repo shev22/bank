@@ -53,11 +53,13 @@ class SocialController extends Controller
         $user = User::where('email', $data->email)->first();
 
         if ($user) {
-            $user->update([
-                'image' => $data->getAvatar(),
-                'provider' => $provider,
-                'provider_id' => $data->getId(),
-            ]);
+            // $user->update([
+            //     'image' => $data->getAvatar(),
+            //     'provider' => $provider,
+            //     'provider_id' => $data->getId(),
+            // ]);
+
+            Auth::login($user);
         } else {
             $user = User::create([
                 'name' => $data->getName(),

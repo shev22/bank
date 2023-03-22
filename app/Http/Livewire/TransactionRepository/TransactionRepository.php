@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\TransactionRepository;
 
 use App\Models\Transaction;
-use Illuminate\Database\Query\Builder;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Query\Builder;
 
 class TransactionRepository
 {
@@ -30,6 +31,46 @@ class TransactionRepository
         $transactionID = Transaction::all()->pluck('transaction_id');
 
         return $transactionID;
+    }
+
+    public static function saveNotifications($receiver_id, $message)
+    {
+        //dd($message);
+        Notification::create([
+            'transaction_sender_id' => Auth::id(),
+            'transaction_receiver_id' => $receiver_id,
+            'message' => $message,
+        ]);
+    }
+
+    public function getNotifications()
+    {
+        $notifications = Notification::where(
+            'transaction_receiver_id',
+            Auth::id()
+        )
+        ->orderBy('created_at', 'DESC')
+        ->get();
+        $newMessage = $notifications->where('read_at' , 0)->all();
+        return [
+            'notifications'=>$notifications,
+            'newMessage'=>  $newMessage
+        ];
+    }
+
+    public function readNotification($request)
+    {
+        Notification::where(
+            'transaction_receiver_id',
+            Auth::id()
+        )
+            ->where('id', $request->id)
+            ->update(['read_at' => 1]);
+        $newMessage = Notification::where('transaction_receiver_id', Auth::id())->where('read_at', 0)->get();
+
+        $content = $request->data;
+        $notificationInfo = ['messages' => $content, 'newMessage' => $newMessage];
+        echo json_encode($notificationInfo);
     }
 
     public function getTransactions(Request $request)
@@ -60,7 +101,8 @@ class TransactionRepository
                     );
             })
 
-            ->get();
+            ->orderBy('created_at', 'DESC')
+            ->paginate(15);
 
         return $transactions;
     }

@@ -4,45 +4,41 @@
 @extends('layouts.app')
 @include('frontend.modals.modal')
  @include('layouts.inc.navbar')
-
-
-
- 
-
-   
-    
     <div class="container-fluid py-4">
-
-
       <div class="row">
-
         @foreach ($accounts as $account)
 
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4">
+
+       
+        
+        
+ 
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 account_modal" data-bs-toggle="modal" data-bs-target="#staticBackdropAccounts" role='button' id="{{$account['id'] }}">
+         
           <div class="card">
             <div class="card-header p-3 pt-2">
+
               <div class="icon icon-lg icon-shape 
               
+                @if ($account->accounType->account_currency == 'BYN')
+                        bg-gradient-dark shadow-dark 
+                @elseif($account->accounType->account_currency == '$')
+                  bg-gradient-success shadow-success 
+                @endif
+                @if ($account->accounType->account_currency == '€')
+                bg-gradient-primary shadow-primary 
+                @elseif($account->accounType->account_currency == '₽')
+                  bg-gradient-info shadow-info 
+                  @elseif($account->accounType->account_currency == '₦')
+                  bg-gradient-warning shadow-warning 
+                  @elseif($account->accounType->account_currency == '£')
+                  bg-gradient-secondary shadow-secondary 
+                  @endif
               
-          @if ($account->accounType->account_currency == 'BYN')
-                 bg-gradient-dark shadow-dark 
-          @elseif($account->accounType->account_currency == '$')
-            bg-gradient-success shadow-success 
-          @endif
-          @if ($account->accounType->account_currency == '€')
-          bg-gradient-primary shadow-primary 
-        @elseif($account->accounType->account_currency == '₽')
-            bg-gradient-info shadow-info 
-            @elseif($account->accounType->account_currency == '₦')
-            bg-gradient-warning shadow-warning 
-            @elseif($account->accounType->account_currency == '£')
-            bg-gradient-secondary shadow-secondary 
-           @endif
-              
-    
               text-center border-radius-xl mt-n4 position-absolute">
+
                <h4 class="mt-3 text-white">{{ $account->accounType->account_symbol }}</h4> 
-                
+
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">balance</p>
@@ -55,16 +51,9 @@
             </div>
           </div>
         </div> 
+     
         @endforeach
       
-   
-
-
-
-
-
-
-
 
         {{-- <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
