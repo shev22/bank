@@ -25,6 +25,12 @@ class TransactionController extends Controller
         $this->transactionService->readNotification($request); 
     }
 
+    public function statement(Request $request)
+    {
+        $this->transactionService->statement($request); 
+    }
+    
+
     public function index(Request $request)
     {
         $accounts = $this->accountService->getUserAccounts();

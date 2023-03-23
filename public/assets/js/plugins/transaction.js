@@ -110,46 +110,47 @@ $(document).ready(function () {
   });
 
 
-//   $(document).on("click", '.delete-account', function (e) {
-//     e.preventDefault();
-//     let id = $(this).attr("id");
-
-// alert(id)
-
-//     $.ajaxSetup({
-//       headers: {
-//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//       }
-//     });
+  $(document).on("click", '.statement', function (e) {
+    e.preventDefault();
+    let account_number = $('#account_number').val();
+    let start = $('#start').val();
+    let end = $('#end').val();
 
 
-//     $.ajax({
-//       method: "POST",
-//       url: "account",
-//       data: {
-
-//         'id': id,
-//       },
-
-//       success: function (response) {
-
-//         let message = JSON.parse(response)
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 
 
-//        // console.log(message.id)
+    $.ajax({
+      method: "POST",
+      url: "statement",
+      data: {
 
-//         $("#name").text(message.account.name);
-//         $("#number").text(message.account.number);
-//         $("#balance").text(message.account.balance);
-//         $("#created_at").text(message.account.created_at);
+        'account_number': account_number,
+        'start': start,
+        'end': end,
+      },
 
-//       }
+      success: function (response) {
 
-//     })
-
-//   });
+        let message = JSON.parse(response)
 
 
+       // console.log(message.id)
+
+        $("#name").text(message.account.name);
+        $("#number").text(message.account.number);
+        $("#balance").text(message.account.balance);
+        $("#created_at").text(message.account.created_at);
+
+      }
+
+    })
+
+  });
 
 
 })

@@ -72,6 +72,22 @@ class TransactionRepository
         $notificationInfo = ['messages' => $content, 'newMessage' => $newMessage];
         echo json_encode($notificationInfo);
     }
+    
+
+    public function statement($request)
+    {
+       
+        $transactions = $this->getTransactions($request);
+        $data = ['transactions' =>  $transactions];
+
+        
+      
+
+
+       
+    }
+
+
 
     public function getTransactions(Request $request)
     {
@@ -102,7 +118,7 @@ class TransactionRepository
             })
 
             ->orderBy('created_at', 'DESC')
-            ->paginate(15);
+            ->get();
 
         return $transactions;
     }

@@ -19,7 +19,7 @@
                                 <div class=" d-flex justify-content-between py-4 mb-0">
                                     <div class="mx-5">
                                         <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                            name='account_number'>
+                                            name='account_number' id="account_number">
                                             <option value="">Select Accounts</option>
                                             @foreach ($accounts as $account)
                                                 <option value="{{ $account->account_number }}   ">
@@ -29,9 +29,10 @@
                                     </div>
                                     <div>
                                         Start: &nbsp; <input type="date" class=" fw-bold px-3 text-sm" name="start"
-                                            placeholder="  Start Date">
-                                        &nbsp;End: &nbsp;<input type="date" class=" fw-bold px-3 text-sm" name="end">
+                                            id="start">
+                                        &nbsp;End: &nbsp;<input type="date" class=" fw-bold px-3 text-sm" name="end" id="end">
                                     </div>
+                                    <button class="btn btn-outline-dark btn-sm statement">Request Statement</button>
                                     <button class="btn btn-outline-dark btn-sm mx-5">Apply</button>
                                 </div>
                             </div>
@@ -138,15 +139,13 @@
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $transaction->available_balance }}</span>
                                             </td>
-
-
                                         </tr>
                                     @endforeach
 
                                 </tbody>
                             </table>
                         </div>
-                        {!! $transactions->links() !!}
+                        {{-- {!! $transactions->links() !!} --}}
                     </div>
                 </div>
             </div>

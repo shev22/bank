@@ -35,6 +35,11 @@ class TransactionService
     {
         return  $this->TransactionRepository->readNotification($request);
     }
+
+    public function  statement($request)
+    {
+        return  $this->TransactionRepository->statement($request);
+    }
     
    
 }
