@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\TransactionRepository;
 
+use App\Models\Account;
 use App\Models\Transaction;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionRepository
 {
@@ -74,24 +76,11 @@ class TransactionRepository
     }
     
 
-    public function statement($request)
-    {
-       
-        $transactions = $this->getTransactions($request);
-        $data = ['transactions' =>  $transactions];
-
-        
-      
-
-
-       
-    }
-
-
-
     public function getTransactions(Request $request)
     {
         $input = $request->all();
+
+      //  dump( $input);
         $account = $request->input('account_number');
         $timeFrame = [$request->input('start'), $request->input('end')];
         $array = ['account' => $account, 'period' => $timeFrame];

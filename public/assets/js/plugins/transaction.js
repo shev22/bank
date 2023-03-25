@@ -117,6 +117,7 @@ $(document).ready(function () {
     let end = $('#end').val();
 
 
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -126,7 +127,7 @@ $(document).ready(function () {
 
     $.ajax({
       method: "POST",
-      url: "statement",
+      url: "view",
       data: {
 
         'account_number': account_number,
@@ -136,15 +137,7 @@ $(document).ready(function () {
 
       success: function (response) {
 
-        let message = JSON.parse(response)
-
-
-       // console.log(message.id)
-
-        $("#name").text(message.account.name);
-        $("#number").text(message.account.number);
-        $("#balance").text(message.account.balance);
-        $("#created_at").text(message.account.created_at);
+      
 
       }
 

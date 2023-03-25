@@ -10,42 +10,111 @@
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">Transactions
-                                <a class="btn btn-sm btn-outline-light float-end mx-5" id="toggle">Filter</a>
+                                <a class="btn btn-sm btn-outline-light float-end mx-2" id="toggle">Filter</a>
+                                <a class="btn btn-sm btn-outline-light float-end d-none" id="statement">Statement</a>
+
+                                <div method="post" action="{{ url('statement') }}" class=" float-end mx-3 btn btn-sm btn-outline-light mb-3"
+                                    id="statementDiv"  style="display: none">
+                                    @csrf
+                                    <select class="" aria-label=".form-select-sm example" name='account_number'
+                                        style="height:25px; border-radius:4px" id="account_number">
+                                        <option value="">Select Accounts</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->account_number }}" >
+                                                &nbsp; {{ $account->account_number }} &nbsp;
+                                                {{ $account->accounType->account_symbol }} </option>
+                                        @endforeach
+                                    </select>
+
+                                    <input type="date" class="p-2 fw-bold " style="height:25px; border-radius:4px"
+                                        name="start" id="start">
+                                    <input type="date" class="p-2 fw-bold" style="height:25px; border-radius:4px"
+                                        name="end" id="end">
+                                
+                                    <button class=" statement"
+                                       >view</button>
+                                </div>
+
                             </h6>
                         </div>
-                        <form method="post" action="{{ url('transactions') }}">
-                            @csrf
-                            <div id="toggleDiv" style="display: none">
-                                <div class=" d-flex justify-content-between py-4 mb-0">
-                                    <div class="mx-5">
-                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                            name='account_number' id="account_number">
-                                            <option value="">Select Accounts</option>
-                                            @foreach ($accounts as $account)
-                                                <option value="{{ $account->account_number }}   ">
-                                                    {{ $account->account_number }} &nbsp; {{ $account->accounType->account_symbol }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div>
-                                        Start: &nbsp; <input type="date" class=" fw-bold px-3 text-sm" name="start"
-                                            id="start">
-                                        &nbsp;End: &nbsp;<input type="date" class=" fw-bold px-3 text-sm" name="end" id="end">
-                                    </div>
-                                    <button class="btn btn-outline-dark btn-sm statement">Request Statement</button>
-                                    <button class="btn btn-outline-dark btn-sm mx-5">Apply</button>
-                                </div>
-                            </div>
-                        </form>
-                     
+                  
                         <hr class="horizontal dark my-2">
                     </div>
-                    <div class="card-body px-0 pb-2 py-0 "  >
+                    <div class="card-body px-0 pb-2 py-0" id="toggleDiv" style="display:none"> 
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0 table-primary">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center">
+                                            Select Account</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center">
+                                            Select Period</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center">
+                                            Download Statement</th>
+                                        <th
+                                            class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                                            Email Statement</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Apply</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <form method="post" action="{{ url('transactions') }}">
+                                        @csrf
+                                        <tr>
+
+                                            <td class="align-middle text-center">
+                                                <p class="text-xs font-weight-bold mb-0 mx-3">    
+                                                     <select class="form-select form-select-sm " aria-label=".form-select-sm example"
+                                                    name='account_number' style="width:110px; border-radius:4px">
+                                                    <option value="">Select Accounts</option>
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->account_number }}   ">
+                                                            &nbsp; {{ $account->account_number }} &nbsp;
+                                                            {{ $account->accounType->account_symbol }} </option>
+                                                    @endforeach
+                                                </select></p>
+
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-xs font-weight-bold mt-2"> <input type="date" class=" fw-bold px-3 text-sm" name="start" style="height:25px; border-radius:4px">
+                                                    &nbsp;<input type="date" class=" fw-bold px-3 text-sm" name="end" style="height:25px; border-radius:4px">
+                                                </p>
+
+                                            </td>
+
+                                            <td class="align-middle text-center">
+                                                <p class="text-xs font-weight-bold mb-0"><button class="btn btn-outline-dark btn-sm mx-5"name="download-statement" value="download-statement" >download</button>
+                                                </p>
+
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0 text-center"><button class="btn btn-outline-dark btn-sm mx-5"name="download-statement" value="email-statement" >Email</button></p>
+
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-xs font-weight-bold mb-0"><button class="btn btn-outline-dark btn-sm mx-5">Apply</button></p>
+
+                                            </td>
+                                          
+                                        </tr>
+                             
+                                    </form>
+                                </tbody>
+                            </table>
+                        </div>
+                
+                    </div>
+                    <div class="card-body px-0 pb-2 py-0 ">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
                                 <thead>
-                                  <tr>
-                                       <th
+                                    <tr>
+                                        <th
                                             class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center">
                                             №</th>
                                         <th
@@ -79,7 +148,7 @@
 
                                     </tr>
                                 </thead>
-                                <tbody >
+                                <tbody>
 
                                     @php
                                         $№ = 1;
@@ -127,13 +196,15 @@
                                                 </a>
                                             </td>
                                             <td class="align-middle text-center">
-                                                
-                                                @if ($transaction->operation == 'Withdrawal' || str_contains($transaction->comment, 'Debited') )
-                                                <span class="text-secondary text-xs font-weight-bold text-danger">-{{ $transaction->amount }}</span>
+
+                                                @if ($transaction->operation == 'Withdrawal' || str_contains($transaction->comment, 'Debited'))
+                                                    <span
+                                                        class="text-secondary text-xs font-weight-bold text-danger">-{{ $transaction->amount }}</span>
                                                 @else
-                                                <span class="text-secondary text-xs font-weight-bold text-success">+{{ $transaction->amount }}</span>
+                                                    <span
+                                                        class="text-secondary text-xs font-weight-bold text-success">+{{ $transaction->amount }}</span>
                                                 @endif
-                            
+
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
@@ -152,8 +223,8 @@
         </div>
 
     </div>
-   
-    
+
+
 
     @include('layouts.inc.plugins')
 @endsection
