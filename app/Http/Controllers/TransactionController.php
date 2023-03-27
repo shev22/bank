@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Services\AccountService;
 use App\Http\Controllers\Services\TransactionService;
-use Illuminate\Support\Facades\Session;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
@@ -60,6 +61,24 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function emailStatement($pdf, $data)
+    {          
+        Mail::send('frontend.statement', $data, function (
+            $message
+        ) use ($pdf) {
+            $message
+                ->to(Auth::user()->email)
+                ->subject(
+                    'Bank Statement for ' . Auth::user()->name
+                )
+                ->attachData($pdf->output(), 'Statement.pdf');
+        });
+        Session::flash('message', 'Email Sent Successfully');
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('transactions');
+    }
+
+
     public function index(Request $request)
     {
         $accounts = $this->accountService->getUserAccounts();
@@ -68,7 +87,10 @@ class TransactionController extends Controller
         $total_transactions = count($transactions);
         $total = $transactions->sum('amount');
 
-        if ($request->has('download-statement')) {
+        if (
+            $request->has('download-statement') ||
+            $request->has('email-statement')
+        ) {
             if ($total_transactions > 0) {
                 $data = [
                     'transactions' => $transactions,
@@ -80,7 +102,14 @@ class TransactionController extends Controller
                     'a4',
                     'landscape'
                 );
-                return $pdf->stream('statement ' . Auth::user()->name . '.pdf');
+                if ($request->has('email-statement')) {
+               
+                    $this->emailStatement($pdf, $data);
+                } else {
+                    return $pdf->stream(
+                        'statement ' . Auth::user()->name . 'statement.pdf'
+                    );
+                }
             } else {
                 Session::flash(
                     'message',

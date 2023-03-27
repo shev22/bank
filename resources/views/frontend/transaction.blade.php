@@ -93,7 +93,7 @@
 
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0 text-center"><button class="btn btn-outline-dark btn-sm mx-5"name="download-statement" value="email-statement" >Email</button></p>
+                                                <p class="text-xs font-weight-bold mb-0 text-center"><button class="btn btn-outline-dark btn-sm mx-5" name="email-statement" value="email-statement" >Email</button></p>
 
                                             </td>
                                             <td class="align-middle text-center">

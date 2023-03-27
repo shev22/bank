@@ -38,18 +38,15 @@
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
  
 </head>
-<body class="g-sidenav-show  bg-gray-200">
 
+       <body class="g-sidenav-show  bg-gray-200">
         @include('layouts.inc.sidebar')
+
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg py-4">
-           
             @yield('content')
-        </main>
+        </main>   
 
-
-        
-   
-
+         
         <script>
               window.addEventListener('message', event => {
             alertify.notify(event.detail.text);

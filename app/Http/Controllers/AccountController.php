@@ -25,14 +25,14 @@ class AccountController extends Controller
            'account_name' => 'required|max:255',
             
         ]);
-       
+      
         $createdAccountNumbers = [$this->accountService->getCreatedAccounts()];
         $createdAccountCurrencies = $this->accountService->getCreatedAccountCurrenciesForSpecificUser();
         $account_number = substr(str_shuffle('0123456789'), 0, 7);
         $account_number .= substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0,2 );
 
-        if (!in_array($account_number, (array)$createdAccountNumbers)) { 
-                if ( in_array($request->account_currency_id, (array)$createdAccountCurrencies)) 
+        if (!in_array($account_number, $createdAccountNumbers)) { 
+                if ( in_array($request->account_currency_id, $createdAccountCurrencies)) 
                     {
                         Session::flash('message', 'Account Currency Already Exists!'); 
                         Session::flash('alert-class', 'alert-danger');  

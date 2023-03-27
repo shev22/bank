@@ -29,14 +29,14 @@ class AccountRepository
     
     public function getCreatedAccounts()
     {
-        $accounts = Account::all()->pluck('account_number');
+        $accounts = Account::all()->pluck('account_number')->toArray();
        
         return $accounts;
     }
 
     public function getCreatedAccountCurrenciesForSpecificUser()
     {
-        $accounts = Account::where('user_id', Auth::id())->pluck('account_currency_id');
+        $accounts = Account::where('user_id', Auth::id())->pluck('account_currency_id')->toArray();
         return $accounts;
     }
 
