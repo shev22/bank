@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->text("address")->nullable();
             $table->string("image")->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
@@ -38,3 +37,4 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('users');
     }
 }
+

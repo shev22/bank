@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddReadAtToNotificationsTable extends Migration
+class AddAddressToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddReadAtToNotificationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            $table->unsignedBigInteger("read_at")->default('0');
+        Schema::table('users', function (Blueprint $table) {
+            $table->text("address")->nullable();
         });
     }
 
@@ -25,9 +25,11 @@ class AddReadAtToNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('notifications', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
 }
+
+
 
