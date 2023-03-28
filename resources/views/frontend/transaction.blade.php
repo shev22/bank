@@ -13,7 +13,7 @@
                                 <a class="btn btn-sm btn-outline-light float-end mx-2" id="toggle">Filter</a>
                                 <a class="btn btn-sm btn-outline-light float-end d-none" id="statement">Statement</a>
 
-                                <div method="post" action="{{ url('statement') }}" class=" float-end mx-3 btn btn-sm btn-outline-light mb-3"
+                                <form method="post" action="{{ url('statement') }}" class=" float-end mx-3 btn btn-sm btn-outline-light mb-3"
                                     id="statementDiv"  style="display: none">
                                     @csrf
                                     <select class="" aria-label=".form-select-sm example" name='account_number'
@@ -33,7 +33,7 @@
                                 
                                     <button class=" statement"
                                        >view</button>
-                                </div>
+                                </form>
 
                             </h6>
                         </div>

@@ -22,7 +22,7 @@ class OperationsController extends Controller
         $accountsTypes = $this->accountService->getAccountCurrencies();
         $notifications =  $this->transactionService->getNotifications(); 
         return view('frontend.operations', [
-            'accounts_types' => $accountsTypes,
+           'accounts_types' => $accountsTypes, 
             'notifications'      => $notifications['notifications'],
             'newMessage'      => $notifications['newMessage']
         ]);

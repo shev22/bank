@@ -58,8 +58,8 @@
                             class="text-dark font-weight-bold ms-sm-2" id="name"></span></span>
                     <span class="mb-2 text-xs">Account Number: <span
                             class="text-dark ms-sm-2 font-weight-bold" id="number"></span></span>
-                    <span class="text-xs">Account Balance: <span
-                            class="text-dark ms-sm-2 font-weight-bold" id="balance"></span></span>
+                    <span class="mb-2 text-xs">Account Balance: <span
+                            class="mb-2 text-dark ms-sm-2 font-weight-bold" id="balance"></span></span>
                     <span class="text-xs">Creation Date: <span
                               class="text-dark ms-sm-2 font-weight-bold" id="created_at" ></span></span>
                 </div>

@@ -37,15 +37,21 @@ Route::post('/account', [App\Http\Controllers\AccountController::class, 'account
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
+
+
     Route::get('/operations', [App\Http\Controllers\OperationsController::class, 'index'])->name('operations');
+
+
     Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
     Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
     Route::get('/email', [App\Http\Controllers\TransactionController::class, 'statement'])->name('statement');
     Route::post('/view', [App\Http\Controllers\TransactionController::class, 'viewStatement'])->name('view');
-   
-
-
     Route::post('/read_notifications', [App\Http\Controllers\TransactionController::class, 'readNotification'])->name('notification');
+
+
+    Route::post('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
+
+   
 
 });
 

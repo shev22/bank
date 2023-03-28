@@ -48,5 +48,9 @@ class User extends Authenticatable
         'accounts' => 'array',
     ];
 
+    public function transactions() {
+        return $this->hasMany(Transaction::class, 'user_id');
+    }
+
   
 }

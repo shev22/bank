@@ -25,7 +25,7 @@ class Transaction extends Model
         'available_balance',
     ];
 
- 
+    
 }
 
 

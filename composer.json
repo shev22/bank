@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "*",
         "livewire/livewire": "^2.12",
+        "protonemedia/laravel-cross-eloquent-search": "^2.4",
         "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
