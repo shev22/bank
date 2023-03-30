@@ -73,12 +73,15 @@
                                                         <span class="mb-2 text-xs">Address : <span
                                                                 class="mb-2 text-dark ms-sm-2 font-weight-bold">{{ $searchItem->address }}  </span></span>
                                                     </div>
+
+                                                    @if (Auth::user()->isAdmin == 1)
                                                     <div class="ms-auto text-end">
                                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0"
                                                             href="javascript:;"><i
                                                                 class="material-icons text-sm me-2">delete</i>Delete</a>
-
+                                                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</a>
                                                     </div>
+                                                    @endif
                                                 </li>
                                             @endif
 
@@ -120,6 +123,9 @@
                                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0"
                                                             href="javascript:;"><i
                                                                 class="material-icons text-sm me-2">delete</i>Delete</a>
+                                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                                href="javascript:;"><i
+                                                                    class="material-icons text-sm me-2">delete</i>Delete</a>
 
                                                     </div>
                                                 </li>

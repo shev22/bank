@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'accounts',
-        'total_balance',
+        'address',
         'image',
         'provider',
         'provider_id',

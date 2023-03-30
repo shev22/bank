@@ -10,7 +10,7 @@
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">Transactions
-                                <a class="btn btn-sm btn-outline-light float-end mx-2" id="toggle">Filter</a>
+                                <a class="btn btn-sm btn-outline-light float-end mx-3" id="toggle">Filter</a>
                                 <a class="btn btn-sm btn-outline-light float-end d-none" id="statement">Statement</a>
 
                                 <form method="post" action="{{ url('statement') }}" class=" float-end mx-3 btn btn-sm btn-outline-light mb-3"

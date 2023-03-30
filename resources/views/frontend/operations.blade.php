@@ -6,4 +6,6 @@
 
 
 @include('layouts.inc.plugins')
+
+
 @endsection

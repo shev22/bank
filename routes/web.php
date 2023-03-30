@@ -36,11 +36,13 @@ Route::post('/account', [App\Http\Controllers\AccountController::class, 'account
 
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+
+
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
 
-
     Route::get('/operations', [App\Http\Controllers\OperationsController::class, 'index'])->name('operations');
-
 
     Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
     Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
