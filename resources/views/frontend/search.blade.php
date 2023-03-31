@@ -1,5 +1,6 @@
 @section('content')
     @extends('layouts.app')
+    @include('frontend.search-modals.modal')
     @include('layouts.inc.navbar')
 
 
@@ -33,6 +34,7 @@
                                                 <li
                                                     class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                                     <div class="d-flex flex-column">
+
                                                         <h6 class="mb-3 text-sm">
                                                             {{ ucwords(strtolower($searchItem->name)) }}</h6>
                                                         <span class="mb-2 text-xs">Accounts: <span
@@ -53,6 +55,10 @@
                                                         <span class="mb-2 text-xs">Email Address : <span
                                                                 class="text-dark ms-sm-2 font-weight-bold">{{ $searchItem->email }}</span></span>
 
+
+                                                        <span class="mb-2 text-xs">Phone number : <span
+                                                                class="text-dark ms-sm-2 font-weight-bold">{{ $searchItem->phone }}</span></span>
+
                                                         <span class="mb-2  text-xs">Registered : <span
                                                                 class="text-dark ms-sm-2 font-weight-bold">
                                                                 {{ Carbon\Carbon::parse($searchItem->created_at)->diffForHumans() }}
@@ -71,16 +77,27 @@
 
                                                             </span></span>
                                                         <span class="mb-2 text-xs">Address : <span
-                                                                class="mb-2 text-dark ms-sm-2 font-weight-bold">{{ $searchItem->address }}  </span></span>
+                                                                class="mb-2 text-dark ms-sm-2 font-weight-bold">{{ $searchItem->address }}
+                                                            </span></span>
+
+
                                                     </div>
 
                                                     @if (Auth::user()->isAdmin == 1)
-                                                    <div class="ms-auto text-end">
-                                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                                            href="javascript:;"><i
-                                                                class="material-icons text-sm me-2">delete</i>Delete</a>
-                                                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</a>
-                                                    </div>
+                                                        <div class="ms-auto text-end">
+
+                                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0 edit-user"
+                                                                id="{{ $searchItem->id }}" data-bs-toggle="modal"
+                                                                data-bs-target="#delete-user"><i
+                                                                    class="material-icons text-sm me-2">delete</i>Delete</a>
+                                                            <a class="btn btn-link text-dark px-3 mb-0 edit-user"
+                                                                id="{{ $searchItem->id }}" href="javascript:;"
+                                                                data-bs-toggle="modal" data-bs-target="#edit-user">
+
+
+                                                                <i class="material-icons text-sm me-2">edit</i>
+                                                                Edit</a>
+                                                        </div>
                                                     @endif
                                                 </li>
                                             @endif
@@ -123,31 +140,31 @@
                                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0"
                                                             href="javascript:;"><i
                                                                 class="material-icons text-sm me-2">delete</i>Delete</a>
-                                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                                                href="javascript:;"><i
-                                                                    class="material-icons text-sm me-2">delete</i>Delete</a>
+                                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                            href="javascript:;"><i
+                                                                class="material-icons text-sm me-2">delete</i>Delete</a>
 
                                                     </div>
                                                 </li>
                                             @endif
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                             @if(!$searchTitle )
+                                    @if (!$searchTitle)
                                         <div class="mx-auto">
                                             <h6 class="mb-3">No Results </h6>
                                         </div>
-                                        @endif 
-                            </ul>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
-</div>
 
 
-
-@include('layouts.inc.plugins')
+    @include('layouts.inc.plugins')
 @endsection

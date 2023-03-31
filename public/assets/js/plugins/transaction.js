@@ -136,7 +136,71 @@ $(document).ready(function () {
       },
 
       success: function (response) {
+      }
 
+    })
+
+  });
+
+  $(document).on("click", '.edit-user', function (e) {
+    e.preventDefault();
+    let id = $(this).attr("id");
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+
+    $.ajax({
+      method: "POST",
+      url: "edit",
+      data: {
+
+        'id': id,
+      
+      },
+
+      success: function (response) {
+        
+        let message = JSON.parse(response)
+        $("#name").val(message.name);
+        $("#email").val(message.email);
+        $("#phone").val(message.phone);
+        $("#address").val(message.address);
+        $("#id").val(message.id);
+         $("#edit_id").val(message.id);
+      }
+
+    })
+
+  });
+
+  $(document).on("click", '.delete-user', function (e) {
+    e.preventDefault();
+    let id = $(this).attr("id");
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+
+    $.ajax({
+      method: "POST",
+      url: "delete",
+      data: {
+
+        'id': id,
+      
+      },
+
+      success: function (response) {
+        
+        let message = JSON.parse(response)
+        $("#id").val(message.id);
+      
       
 
       }

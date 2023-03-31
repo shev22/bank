@@ -23,6 +23,7 @@ class SearchRepository
         $results['users'] = User::where('name', 'LIKE', '%' . $keyWord . '%')
             ->orWhere('email', 'LIKE', '%' . $keyWord . '%')
             ->orWhere('address', 'LIKE', '%' . $keyWord . '%')
+            ->orWhere('phone', 'LIKE', '%' . $keyWord . '%')
             ->get();
 
         $results['transactions'] = Transaction::where('transaction_id', 'LIKE', '%' . $keyWord . '%' )

@@ -37,7 +37,15 @@ Route::post('/account', [App\Http\Controllers\AccountController::class, 'account
 
 Route::middleware(['auth'])->group(function () {
 
+
+  
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+    Route::post('/role', [App\Http\Controllers\AdminController::class, 'role'])->name('role');
+    Route::post('/edit', [App\Http\Controllers\AdminController::class, 'edit'])->name('edit');
+    Route::post('/update', [App\Http\Controllers\AdminController::class, 'update'])->name('update');
+    Route::post('/delete', [App\Http\Controllers\AdminController::class, 'delete'])->name('delete');
+    
+
 
 
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
@@ -52,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
+   
 
    
 
