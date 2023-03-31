@@ -61,7 +61,7 @@ class AdminRepository
 
        $user->save();
        Session::flash('message', 'User updated Successfully!'); 
-        Session::flash('alert-class', 'alert-danger');  
+        Session::flash('alert-class', 'alert-success');  
 
     }
 
@@ -70,8 +70,9 @@ class AdminRepository
         dd($request->id);
         $user = User::findOrFail($request->id);
         $user -> delete();
+        
         Session::flash('message', 'User Deleted Successfully!'); 
-        Session::flash('alert-class', 'alert-danger');  
+        Session::flash('alert-class', 'alert-success');  
 
     }
 

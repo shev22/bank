@@ -17,22 +17,24 @@
                     <label for="currency">Currency</label>
                     <select class="form-select" size="5" name="account_currency_id"
                         aria-label="size 3 select example">
-                        @php
-                            $account_id = [];
-                        @endphp
+                        {{-- @php
+                            $account_currency = [];
+                            $currency = implode( $account_currency);
+                        @endphp --}}
                         @foreach ($accounts_types as $accounts_type)  
                             
-                                    @php
-                                    $account_id[] =$accounts_type['id'];
-                                      @endphp
+                                    {{-- @php
+                                    $account_currency[] =$accounts_type['account_currency'];
+                                      @endphp --}}
                             <option value="{{ $accounts_type['id'] }}">
                                 &nbsp;&nbsp;{{ $accounts_type['account_symbol'] }} &nbsp;&nbsp; {{ $accounts_type['account_description'] }}</option>
+                                <input type="hidden" name = "account_currency" value="{{ $accounts_type['account_currency'] }}">
                         @endforeach
                     </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary" >Create</button>
             </div>
             </form>
         </div>

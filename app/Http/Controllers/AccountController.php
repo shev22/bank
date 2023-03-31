@@ -21,12 +21,15 @@ class AccountController extends Controller
 
     public function createAccount(Request $request)
     {
+
+       // dd($request);
         $validatedData = $request->validate([
            'account_name' => 'required|max:255',
             
         ]);
       
         $createdAccountNumbers = [$this->accountService->getCreatedAccounts()];
+
         $createdAccountCurrencies = $this->accountService->getCreatedAccountCurrenciesForSpecificUser();
         $account_number = substr(str_shuffle('0123456789'), 0, 7);
         $account_number .= substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0,2 );
@@ -43,7 +46,7 @@ class AccountController extends Controller
                             'account_currency_id' => $request->account_currency_id,
                             'account_name' => $request->account_name,
                             'account_number' => $account_number,
-                            // 'account_currency' => $request->account_currency,
+                             'account_currency' => $request->account_currency,
                         ]);    
                                         
                              Session::flash('message', 'Account Created Successfully!'); 
