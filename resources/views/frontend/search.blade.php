@@ -1,6 +1,6 @@
 @section('content')
     @extends('layouts.app')
-    @include('frontend.search-modals.modal')
+    @include('frontend.modals.modal')
     @include('layouts.inc.navbar')
 
 

@@ -6,7 +6,7 @@
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
                     {{ ucfirst(Request::route()->getName()) }}</li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">{{  ucwords(strtolower((Request::route()->getName()))) }} </h6>
+            <h6 class="font-weight-bolder mb-0">{{ ucwords(strtolower(Request::route()->getName())) }} </h6>
         </nav>
 
 
@@ -18,24 +18,28 @@
         @error('account_name')
             <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
         @enderror
+        @error('account_currency')
+            <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
+        @enderror
+        @error('search')
+            <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
+        @enderror
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
 
                 <form method="post" action="{{ url('search') }}">
                     @csrf
-                    <div class="input-group input-group-outline">               
+                    <div class="input-group input-group-outline">
                         <label class="form-label">Type here...</label>
                         <input type="text" class="form-control" name="search">
-                        @error('title')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+
                     </div>
                 </form>
-                
+
             </div>
 
             <ul class="navbar-nav  justify-content-end">
-             
+
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link text-body font-weight-bold px-0 dropdown-toggle"
                         href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"

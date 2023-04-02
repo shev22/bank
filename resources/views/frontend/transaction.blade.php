@@ -1,6 +1,7 @@
 @section('content')
     @extends('layouts.app')
     @include('layouts.inc.navbar')
+    @include('frontend.modals.modal')
 
 
     <div class="container-fluid py-4" style="height: 100vh">

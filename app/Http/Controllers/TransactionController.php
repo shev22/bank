@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Services\AdminService;
 use App\Http\Controllers\Services\AccountService;
 use App\Http\Controllers\Services\TransactionService;
 
@@ -14,13 +16,16 @@ class TransactionController extends Controller
 {
     private $transactionService;
     private $accountService;
+    private $adminService;
 
     public function __construct(
         TransactionService $transactionService,
-        AccountService $accountService
+        AccountService $accountService,
+        AdminService $adminService
     ) {
         $this->transactionService = $transactionService;
         $this->accountService = $accountService;
+        $this->adminService = $adminService;
     }
 
     public function readNotification(Request $request)
@@ -53,6 +58,7 @@ class TransactionController extends Controller
         $transactions = $this->transactionService->getTransactions($request);
         $total_transactions = count($transactions);
         $total = $transactions->sum('amount');
+    
         return view('frontend.statement', [
             'transactions' => $transactions,
             'request' => $request,
@@ -82,9 +88,11 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $accounts = $this->accountService->getUserAccounts();
+        $accountsTypes = $this->accountService->getAccountCurrencies();
         $transactions = $this->transactionService->getTransactions($request);
         $notifications = $this->transactionService->getNotifications();
         $total_transactions = count($transactions);
+        $currencies = $this->adminService->currencyAPI();
         $total = $transactions->sum('amount');
 
         if (
@@ -121,8 +129,10 @@ class TransactionController extends Controller
         }
 
         return view('frontend.transaction', [
-            'transactions' => $transactions,
             'accounts' => $accounts,
+            'currencies' => $currencies,
+            'transactions' => $transactions,
+            'accounts_types' => $accountsTypes,   
             'notifications' => $notifications['notifications'],
             'newMessage' => $notifications['newMessage'],
         ]);

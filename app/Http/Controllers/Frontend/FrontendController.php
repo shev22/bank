@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use view;
-use App\Models\Account;
-use Illuminate\Http\Request;
+
+
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Services\AdminService;
 use App\Http\Controllers\Services\AccountService;
 use App\Http\Controllers\Services\TransactionService;
 
@@ -13,10 +13,13 @@ class FrontendController extends Controller
 {
     public const DASHBOARD = '/dashboard';
     private $accountService;
+    private $adminService;
     private $transactionService;
 
-    public function __construct(AccountService $accountService, TransactionService $transactionService )
+    public function __construct(AccountService $accountService, TransactionService $transactionService,  AdminService $adminService )
     {
+        
+        $this->adminService = $adminService;
         $this->accountService = $accountService;
         $this->transactionService = $transactionService;
     }
@@ -31,7 +34,7 @@ class FrontendController extends Controller
 
     public function dashboard()
     {
-       
+        $currencies = $this->adminService->currencyAPI();
         $accountsTypes =  $this->accountService->getAccountCurrencies();
         $accounts =  $this->accountService->getUserAccounts();
         $notifications =  $this->transactionService->getNotifications(); 
@@ -39,6 +42,7 @@ class FrontendController extends Controller
 
             'accounts_types'=> $accountsTypes,
             'accounts'      => $accounts,
+            'currencies' => $currencies,
            'notifications'      => $notifications['notifications'],
             'newMessage'      => $notifications['newMessage']
         

@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * Created by PhpStorm.
  * User: Francis
@@ -44,6 +46,24 @@ class AdminService
         $this->adminRepository->delete($request);
        return redirect()->route('admin');
 
+    }
+
+    public function currencyAPI()
+    {
+     return($this->adminRepository->currencyAPI());
+       
+    }
+
+    
+    public function addCurrency($request) // add currency to db afrom currencyAPI
+    {
+        $this->adminRepository->addCurrency($request);
+        
+    }
+
+    public function operations( $request)
+    {
+      return($this->adminRepository->operations($request));
     }
 
 

@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/edit', [App\Http\Controllers\AdminController::class, 'edit'])->name('edit');
     Route::post('/update', [App\Http\Controllers\AdminController::class, 'update'])->name('update');
     Route::post('/delete', [App\Http\Controllers\AdminController::class, 'delete'])->name('delete');
+
+    Route::get('/operations/{id}', [App\Http\Controllers\AdminController::class, 'operations'])->name('operations');
     
 
 
@@ -60,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
+
+    Route::post('/currency', [App\Http\Controllers\AccountTypeController::class, 'currency'])->name('currency');
    
 
    

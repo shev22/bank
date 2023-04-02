@@ -16,9 +16,7 @@ class SearchRepository
 {
     public function search($request): array
     {
-        $request->validate([
-            'search' => 'required|max:255',
-        ]);
+       
         $keyWord = $request->search;
         $results['users'] = User::where('name', 'LIKE', '%' . $keyWord . '%')
             ->orWhere('email', 'LIKE', '%' . $keyWord . '%')

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Services\AccountService;
+use App\Models\AccountType;
 
 class AccountController extends Controller
 {
@@ -22,9 +23,9 @@ class AccountController extends Controller
     public function createAccount(Request $request)
     {
 
-       // dd($request);
         $validatedData = $request->validate([
            'account_name' => 'required|max:255',
+           'account_currency' => 'required',
             
         ]);
       
@@ -41,12 +42,13 @@ class AccountController extends Controller
                         Session::flash('alert-class', 'alert-danger');  
                         return redirect()->route('dashboard');
                     }else{
-                        Account::create([
+                     
+                     $account = Account::create([
                             'user_id' => Auth::id(),
-                            'account_currency_id' => $request->account_currency_id,
+                            'account_currency_id' => $request->account_currency,
                             'account_name' => $request->account_name,
                             'account_number' => $account_number,
-                             'account_currency' => $request->account_currency,
+                             'account_currency' => AccountType::getCurrencySymbol($request->account_currency_id),
                         ]);    
                                         
                              Session::flash('message', 'Account Created Successfully!'); 

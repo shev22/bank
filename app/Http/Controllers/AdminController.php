@@ -36,6 +36,7 @@ class AdminController extends Controller
 
     public function update(Request $request)
     {
+
         $this->adminService->update($request);
         return redirect()->route('admin');
     }
@@ -46,12 +47,27 @@ class AdminController extends Controller
         return redirect()->route('admin');
     }
 
+    public function currencyAPI()
+    {
+      return($this->adminService->currencyAPI());
+    }
+
+    
+    public function operations(Request $request)
+    {
+      return($this->adminService->operations($request));
+    }
+
     public function index()
     {
+        $currencies = $this->currencyAPI();
+        $accountsTypes = $this->accountService->getAccountCurrencies();
         $users = $this->adminService->getUsers();
         $notifications = $this->transactionService->getNotifications();
         return view('frontend.admin', [
             'users' => $users,
+            'currencies' => $currencies,
+            'accounts_types' => $accountsTypes, 
             'notifications' => $notifications['notifications'],
             'newMessage' => $notifications['newMessage'],
         ]);

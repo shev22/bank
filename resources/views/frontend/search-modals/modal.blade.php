@@ -1,4 +1,6 @@
-  <div class="modal fade" id="delete-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  delete user 
+  
+  {{-- <div class="modal fade" id="delete-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -19,9 +21,13 @@
       
       </div>
     </div>
-  </div>
+  </div> --}}
 
-  <div class="modal fade" id="edit-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+
+  {{-- Edit user --}}
+
+  {{-- <div class="modal fade" id="edit-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -56,16 +62,54 @@
           </div>
           
           </form>
-       
-
-
-        
-
-        
+      
         </div>
-        <div class="modal-footer">
+      
+      </div>
+    </div>
+  </div> --}}
+
+
+
+    {{-- add currency --}}
+
+    {{-- <div class="modal fade" id="add-currency" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Add Currency</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form role="form"  method="post" action="currency">
+              <div class="input-group input-group-outline mb-3">
+                <label class="form-label">Symbol</label>
+                <input type="text" class="form-control" name="symbol">
+              </div>
+              <div class="input-group input-group-outline mb-3">
+              <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                
+          @foreach($currencies as $key => $value)
+        
+          <option value="{{ $key }}"> &nbsp; &nbsp;{{ $value }}</option> 
+          <input type="hidden">
+          @endforeach
+              </select>
+            </div>
+         
+              <div class="text-center">
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Add</button>
+                </div>            
+                </div>
+            </form>
+
+
+
+          </div>
          
         </div>
       </div>
-    </div>
-  </div>
+    </div> --}}
+  
