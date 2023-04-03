@@ -20,7 +20,7 @@
 
               <div class="icon icon-lg icon-shape 
               
-                @if ($account->accounType->account_currency == 'BYN')
+                @if ($account->accounType->account_currency == 'Br')
                         bg-gradient-dark shadow-dark 
                 @elseif($account->accounType->account_currency == '$')
                   bg-gradient-success shadow-success 

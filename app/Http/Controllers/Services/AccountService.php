@@ -30,15 +30,13 @@ class AccountService
         return $accounts;
     }
 
-    public function getCreatedAccounts()
+    public function createAccount( $request)
     {
-        $accounts =  $this->accountRepository->getCreatedAccounts();
-        return $accounts;
+        $this->accountRepository->createAccount($request);
     }
 
-    public function getCreatedAccountCurrenciesForSpecificUser()
+    public function getAccountDetail($request)
     {
-        $accounts =  $this->accountRepository->getCreatedAccountCurrenciesForSpecificUser();
-        return $accounts;
+        $this->accountRepository->getAccountDetail($request);
     }
 }

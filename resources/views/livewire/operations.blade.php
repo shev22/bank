@@ -97,7 +97,7 @@
                                                                 <div
                                                                     class="icon icon-shape icon-lg 
                                                             
-                                                    @if ($this->currency == 'BYN') bg-gradient-dark shadow-dark 
+                                                    @if ($this->currency == 'Br') bg-gradient-dark shadow-dark 
                                                     @elseif($this->currency == 'USD')
                                                     bg-gradient-success shadow-success 
                                                     @elseif ($this->currency == 'EUR') 
@@ -262,7 +262,7 @@
                                                                 <div
                                                                     class="icon icon-shape icon-lg 
                                                             
-                                                    @if ($this->symbol == 'BYN') bg-gradient-dark shadow-dark 
+                                                    @if ($this->symbol == 'Br') bg-gradient-dark shadow-dark 
                                                     @elseif($this->symbol == '$')
                                                     bg-gradient-success shadow-success 
                                                     @elseif ($this->symbol == '€') 
@@ -400,7 +400,7 @@
                                                                 <span class="mask bg-gradient-info opacity-10"></span>
                                                             @break
 
-                                                            @case('BYN')
+                                                            @case('Br')
                                                                 <span class="mask bg-gradient-dark opacity-10"></span>
                                                             @break
 
@@ -556,7 +556,7 @@
                                                                 <span class="mask bg-gradient-info opacity-10"></span>
                                                             @break
 
-                                                            @case('BYN')
+                                                            @case('Br')
                                                                 <span class="mask bg-gradient-dark opacity-10"></span>
                                                             @break
 
@@ -676,7 +676,7 @@
                                                                 <span class="mask bg-gradient-info opacity-10"></span>
                                                             @break
 
-                                                            @case('BYN')
+                                                            @case('Br')
                                                                 <span class="mask bg-gradient-dark opacity-10"></span>
                                                             @break
 
@@ -844,7 +844,7 @@
                                                                 <span class="mask bg-gradient-info opacity-10"></span>
                                                             @break
 
-                                                            @case('BYN')
+                                                            @case('Br')
                                                                 <span class="mask bg-gradient-dark opacity-10"></span>
                                                             @break
 

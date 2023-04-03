@@ -31,7 +31,7 @@ Route::get('login/facebook/callback', [App\Http\Controllers\Auth\SocialControlle
 
 
 Route::post('/create-account', [App\Http\Controllers\AccountController::class, 'createAccount'])->name('createAccount');
-Route::post('/account', [App\Http\Controllers\AccountController::class, 'account'])->name('account');
+Route::post('/account', [App\Http\Controllers\AccountController::class, 'getAccountDetail'])->name('account');
 
 
 
@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update', [App\Http\Controllers\AdminController::class, 'update'])->name('update');
     Route::post('/delete', [App\Http\Controllers\AdminController::class, 'delete'])->name('delete');
 
-    Route::get('/operations/{id}', [App\Http\Controllers\AdminController::class, 'operations'])->name('operations');
+    Route::post('/operations', [App\Http\Controllers\AdminController::class, 'operations'])->name('operations');
     
 
 

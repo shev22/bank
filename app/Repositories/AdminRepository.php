@@ -12,6 +12,7 @@ use stdClass;
 use App\Models\User;
 use App\Models\AccountType;
 use Illuminate\Support\Facades\Session;
+use App\Repositories\traits\CurrencyTrait;
 
 class AdminRepository
 {
@@ -87,49 +88,24 @@ class AdminRepository
 
     public function currencyAPI()
     {
-        // $curl = curl_init();
-
-        // curl_setopt_array($curl, array(
-        //   CURLOPT_URL => "https://api.apilayer.com/currency_data/list",
-        //   CURLOPT_HTTPHEADER => array(
-        //     "Content-Type: text/plain",
-        //     "apikey: XByj6XjTvKFtHHsmUbJkyeat6Qfs8OtM"
-        //   ),
-        //   CURLOPT_RETURNTRANSFER => true,
-        //   CURLOPT_ENCODING => "",
-        //   CURLOPT_MAXREDIRS => 10,
-        //   CURLOPT_TIMEOUT => 0,
-        //   CURLOPT_FOLLOWLOCATION => true,
-        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //   CURLOPT_CUSTOMREQUEST => "GET"
-        // ));
-        
-        // $response = curl_exec($curl);
-        // curl_close($curl);
-        // $result = json_decode($response, true);
-        // dd( $result );
-
-        $result=[];
-
-
-       return $result;
-       
+      return (CurrencyTrait::currencyStore()); 
+      
     }
 
     public function addCurrency($request) // add currency to db afrom currencyAPI
     {
+
         $validatedData = $request->validate([
-            'symbol' => 'required',
+            'code' => 'required',
              
          ]);
 
         $currencyPair = explode(',',$request->code);
-        $currencyPair[2] =  $request->symbol;
-        
+
         AccountType::create([
-            'account_currency' =>  $currencyPair[2],
+            'account_currency' =>  $currencyPair[1],
             'account_symbol' => $currencyPair[0],
-            'account_description' =>  $currencyPair[1],
+            'account_description' =>  $currencyPair[2],
         ]); 
         Session::flash('message', 'Currency Added Successfully!'); 
         Session::flash('alert-class', 'alert-success'); 
@@ -139,15 +115,23 @@ class AdminRepository
 
     public function operations( $request)
     {
-      dd($request->id);
-      if($request->edit == 'edit')
+
+      if(str_contains($request->id , 'edit'))
       {
-        $user = User::findOrFail($request->edit_id);
-      }elseif($request->delete == 'delete')
-      {
-        $currency = AccountType::findOrFail($request->id);
-        $currency->delete();
+        $id = str_replace('edit', '', $request->id);
+      
+        $user = AccountType::findOrFail($id);
+        var_dump($user);
+
       }
+
+    //   }elseif(str_contains($request->id , 'delete'))
+    //   {
+    //     $id = str_replace('delete', '', $request->id);
+    //     dd($id);
+    //     $currency = AccountType::findOrFail($request->id);
+    //     $currency->delete();
+    //   }
     }
 
 

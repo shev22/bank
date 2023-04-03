@@ -61,6 +61,7 @@ class AdminController extends Controller
     public function index()
     {
         $currencies = $this->currencyAPI();
+       // dd( $currencies);
         $accountsTypes = $this->accountService->getAccountCurrencies();
         $users = $this->adminService->getUsers();
         $notifications = $this->transactionService->getNotifications();

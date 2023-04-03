@@ -181,8 +181,8 @@
                                                            
                                                             <td  class="text-center mt-1">
                                                                
-                                                                <a href="{{url('operations/'. $accounts_type['id'])}}"  class="btn btn-outline-dark btn-sm" name="edit" value="edit">Edit</a>
-                                                                <a href="{{url('operations/'. $accounts_type['id'])}}" onclick="return confirm('Are you sure you wanty to delete')" class="btn btn-outline-danger btn-sm" name="delete" value="delete">Delete</a>
+                                                                <a   class="btn btn-outline-dark btn-sm edit-currency"  id="{{ $accounts_type['id'] }}edit"  data-bs-toggle="modal" data-bs-target="#edit-currency">Edit</a>
+                                                                <a   class="btn btn-outline-danger btn-sm delete-currency"  id="{{ $accounts_type['id'] }}delete"  data-bs-toggle="modal" data-bs-target="#delete-currency">Delete</a> 
                                                               
                                                             </td>
                                                            
