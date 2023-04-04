@@ -32,6 +32,7 @@ Route::get('login/facebook/callback', [App\Http\Controllers\Auth\SocialControlle
 
 Route::post('/create-account', [App\Http\Controllers\AccountController::class, 'createAccount'])->name('createAccount');
 Route::post('/account', [App\Http\Controllers\AccountController::class, 'getAccountDetail'])->name('account');
+Route::post('/delete-account', [App\Http\Controllers\AccountController::class, 'deleteAccount'])->name('delete-account');
 
 
 

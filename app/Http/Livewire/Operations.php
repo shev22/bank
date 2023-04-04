@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use App\Models\Account;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +26,6 @@ class Operations extends Component
     public $result;
     public $symbol;
     public $toName;
-    public array $rules = [
-        'amount' => 'required|string|integer',
-       
-    ];
 
     public function rules()
     {
@@ -50,7 +47,9 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-             $validatedData = $this->validate();
+            $validatedData = $this->validate([
+                'amount' => 'required',
+            ]);
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -76,7 +75,7 @@ class Operations extends Component
                 }
                 $this->dispatchBrowserEvent('message', [
                     'text' =>
-                        'Deposit of ' .
+                    'Deposit of ' .
                         $this->symbol .
                         $this->amount .
                         ' Successfull',
@@ -98,7 +97,9 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-             $validatedData = $this->validate();
+            $validatedData = $this->validate([
+                'amount' => 'required',
+            ]);
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -112,7 +113,7 @@ class Operations extends Component
                         $this->balance = $account->account_balance;
                         $this->dispatchBrowserEvent('message', [
                             'text' =>
-                                'Withdrawal of ' .
+                            'Withdrawal of ' .
                                 $this->symbol .
                                 $this->amount .
                                 ' Successfull',
@@ -172,8 +173,9 @@ class Operations extends Component
             $validatedData = $this->validate([
                 'toAccount' => 'required',
                 'fromAccount' => 'required',
+                'amount' => 'required',
             ]);
-      
+
             $accountsArray = [$this->fromAccount, $this->toAccount];
             $accounts = Account::whereIn(
                 'account_number',
@@ -253,7 +255,8 @@ class Operations extends Component
                                     $accounToCredit->user_id,
                                     $this->fromSymbol .
                                         $this->amount .
-                                        ' was received from '.Auth::user()->name
+                                        ' was received from ' .
+                                        Auth::user()->name
                                 )
                                 : '';
                             $this->resetInput();
@@ -275,13 +278,15 @@ class Operations extends Component
                 'text' => 'Select Different Currencies',
             ]);
         } else {
-            $validatedData = $this->validate();
+            $validatedData = $this->validate([
+                'amount' => 'required',
+            ]);
 
             $curl = curl_init();
 
             curl_setopt_array($curl, [
                 CURLOPT_URL =>
-                    'https://api.apilayer.com/currency_data/convert?to=' .
+                'https://api.apilayer.com/currency_data/convert?to=' .
                     $this->toCurrency .
                     '&from=' .
                     $this->fromCurrency .
@@ -305,7 +310,13 @@ class Operations extends Component
             curl_close($curl);
 
             $result = json_decode($response, true);
-            $this->result = $result['result'];
+            if (!array_key_exists('result', $result)) {
+                $this->dispatchBrowserEvent('message', [
+                    'text' => 'Sever error!',
+                ]);
+            } else {
+                $this->result = $result['result'];
+            }
         }
     }
 

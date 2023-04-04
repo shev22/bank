@@ -39,4 +39,10 @@ class AccountService
     {
         $this->accountRepository->getAccountDetail($request);
     }
+
+    
+    public function deleteAccount($request)
+    {
+        $this->accountRepository->deleteAccount($request);                
+    }
 }

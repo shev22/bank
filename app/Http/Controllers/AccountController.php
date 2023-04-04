@@ -34,5 +34,12 @@ class AccountController extends Controller
         $this->accountService->getAccountDetail($request);                
     }
 
+    public function deleteAccount(Request $request)
+    {
+     
+        $this->accountService->deleteAccount($request);  
+        return redirect()->route('dashboard');              
+    }
+
     }
 

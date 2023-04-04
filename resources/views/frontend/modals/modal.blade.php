@@ -62,11 +62,13 @@
 
 
                 <div class="ms-auto text-end">
-                   
-                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 delete-account" ><i
-                            class="material-icons text-sm me-2">delete</i>Delete</a>
-                    <a class="btn btn-link text-dark px-3 mb-0" id="statement"> Statement</a>
-                   
+                  <form role="form" class="text-start" method="Post" action="{{ url('delete-account') }}">
+                    @csrf
+                  <input type="hidden" id="account_id" name="id">
+                    <button class="btn btn-link text-danger text-gradient px-3 mb-0 delete-account" type="submit" onclick="return confirm('Are you sure you wanty to delete')"><i
+                            class="material-icons text-sm me-2">delete</i>Delete</button>
+                  </form>
+                  <button type="submit" class="btn btn-link text-dark px-3 mb-0" id="statement"> Statement</button>
                         <div class="col-md-12 float_end " style="display:none" id="statementDiv">
                             <input type="date" class="form-control fw-bold px-3 p-0 " >
                             <input type="date" class="form-control fw-bold px-3 p-0" >

@@ -59,11 +59,12 @@ class AccountRepository
 
     public function createAccount($request)
     {
+       
         $createdAccountNumbers = [$this->getCreatedAccounts()];
         $createdAccountCurrencies = $this->getCreatedAccountCurrenciesForSpecificUser(
             $request->account_currency
         );
-
+       // dump( $createdAccountCurrencies);
         if (!in_array($this->createAccountNumber(), $createdAccountNumbers)) {
             foreach ($request->account_currency as $currency) {
                 if (!$createdAccountCurrencies == []) {
@@ -98,6 +99,7 @@ class AccountRepository
             ->first();
 
         $user_account = [
+            'id' => $account->id,
             'name' => $account->account_name,
             'number' => $account->account_number,
             'balance' =>
@@ -111,4 +113,22 @@ class AccountRepository
         $data = ['account' => $user_account, 'id' => $request->id];
         echo json_encode($data);
     }
+
+    public function deleteAccount($request)
+    {
+        $account = Account::findOrFail($request->id);
+
+        if(  $account->account_balance > 0)
+        {
+            Session::flash("message', 'Account Balance above '0'!");
+            Session::flash('alert-class', 'alert-danger');
+        }else{
+            $account->delete();
+            Session::flash('message', 'Account Removed!');
+            Session::flash('alert-class', 'alert-success');
+        }
+               
+          
+    }
+
 }

@@ -96,8 +96,8 @@ $(document).ready(function () {
         let message = JSON.parse(response)
 
 
-        //console.log(message.id)
-        $("#account_id").text(message.id);
+       // console.log(message.id)
+        $("#account_id").val(message.id);
         $("#name").text(message.account.name);
         $("#number").text(message.account.number);
         $("#balance").text(message.account.balance);
