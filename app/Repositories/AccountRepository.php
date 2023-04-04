@@ -64,7 +64,6 @@ class AccountRepository
         $createdAccountCurrencies = $this->getCreatedAccountCurrenciesForSpecificUser(
             $request->account_currency
         );
-       // dump( $createdAccountCurrencies);
         if (!in_array($this->createAccountNumber(), $createdAccountNumbers)) {
             foreach ($request->account_currency as $currency) {
                 if (!$createdAccountCurrencies == []) {
@@ -76,9 +75,8 @@ class AccountRepository
                         'account_currency_id' => $currency,
                         'account_name' => $request->account_name,
                         'account_number' => $this->createAccountNumber(),
-                        // 'account_currency' => AccountType::getCurrencySymbol(
-                        //     $request->account_currency_id
-                        // ),
+                        // 'account_currency' => AccountType::getCurrencySymbol($request->account_currency_id),
+                          
                     ]);
 
                     Session::flash('message', 'Created Successfully!');
