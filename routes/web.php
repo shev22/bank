@@ -46,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/delete', [App\Http\Controllers\AdminController::class, 'delete'])->name('delete');
 
     Route::post('/operations', [App\Http\Controllers\AdminController::class, 'operations'])->name('operations');
+    // Route::post('/destroy', [App\Http\Controllers\AdminController::class, 'destroy'])->name('destroy');
+     Route::post('/actions', [App\Http\Controllers\AdminController::class, 'updateCurrency'])->name('update-currency');
     
 
 

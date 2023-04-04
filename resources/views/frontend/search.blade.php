@@ -51,7 +51,26 @@
                                                                 @endforeach
 
                                                                 ]
-                                                            </span></span>
+                                                            </span>
+                                                        </span>
+
+                                                            <span class="mb-2 text-xs">Role : 
+                                                                @if ( $searchItem->isAdmin == 1)
+                                                                <span
+                                                                class="text-success fst-italic ms-sm-2 font-weight-bold">
+                                                                Admin
+                                                            </span>
+                                                                @else
+                                                                <span
+                                                                class="text-primary fst-italic ms-sm-2 font-weight-bold">
+                                                                Customer
+                                                            </span>  
+                                                                @endif
+                                                         
+                                                            
+                                                            
+                                                            </span>
+
                                                         <span class="mb-2 text-xs">Email Address : <span
                                                                 class="text-dark ms-sm-2 font-weight-bold">{{ $searchItem->email }}</span></span>
 

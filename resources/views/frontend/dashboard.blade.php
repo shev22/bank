@@ -17,7 +17,6 @@
          
           <div class="card">
             <div class="card-header p-3 pt-2">
-
               <div class="icon icon-lg icon-shape 
               
                 @if ($account->accounType->account_currency == 'Br')
@@ -33,6 +32,8 @@
                   bg-gradient-warning shadow-warning 
                   @elseif($account->accounType->account_currency == '£')
                   bg-gradient-secondary shadow-secondary 
+                  @else
+                  bg-gradient-primary shadow-primary 
                   @endif
               
               text-center border-radius-xl mt-n4 position-absolute">

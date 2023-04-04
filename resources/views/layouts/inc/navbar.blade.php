@@ -18,9 +18,11 @@
         @error('account_name')
             <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
         @enderror
+        <br>
         @error('account_currency')
             <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
         @enderror
+         <br>
         @error('search')
             <p class="alert alert-class alert-danger"><span class="text-white fw-bold">{{ $message }}</span></p>
         @enderror

@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class AccountRepository
- {
-
+{
     public function getAccountTypes()
     {
         $account_types = AccountType::all()->toArray();
@@ -28,71 +27,88 @@ class AccountRepository
         $accounts = Account::where('user_id', Auth::id())->get();
         return $accounts;
     }
-    
-    public function getCreatedAccounts()
+
+    private function getCreatedAccounts()
     {
-        $accounts = Account::all()->pluck('account_number')->toArray();
-       
+        $accounts = Account::all()
+            ->pluck('account_number')
+            ->toArray();
+
         return $accounts;
     }
 
-    public function getCreatedAccountCurrenciesForSpecificUser()
+    private function getCreatedAccountCurrenciesForSpecificUser(array $array)
     {
-        $accounts = Account::where('user_id', Auth::id())->pluck('account_currency_id')->toArray();
-        return $accounts;
+        $accounts = Account::where('user_id', Auth::id())
+            ->whereIn('account_currency_id', $array)
+            ->get();
+        $toarray = collect($accounts)->toArray();
+        return $toarray;
     }
 
-    public function createAccount( $request)
+    private function createAccountNumber(): string
+    {
+        $account_number = substr(str_shuffle('0123456789'), 0, 7);
+        $account_number .= substr(
+            str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+            0,
+            2
+        );
+        return $account_number;
+    }
+
+    public function createAccount($request)
     {
         $createdAccountNumbers = [$this->getCreatedAccounts()];
-        $createdAccountCurrencies = $this->getCreatedAccountCurrenciesForSpecificUser();
-        $account_number = substr(str_shuffle('0123456789'), 0, 7);
-        $account_number .= substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0,2 );
+        $createdAccountCurrencies = $this->getCreatedAccountCurrenciesForSpecificUser(
+            $request->account_currency
+        );
 
-        if (!in_array($account_number, $createdAccountNumbers)) { 
-                if ( in_array($request->account_currency, $createdAccountCurrencies)) 
-                    {
-                        Session::flash('message', 'Account Currency Already Exists!'); 
-                        Session::flash('alert-class', 'alert-danger');  
-                        return redirect()->route('dashboard');
-                    }else{
-                     
-                        Account::create([
-                            'user_id' => Auth::id(),
-                            'account_currency_id' => $request->account_currency,
-                            'account_name' => $request->account_name,
-                            'account_number' => $account_number,
-                             'account_currency' => AccountType::getCurrencySymbol($request->account_currency_id),
-                        ]);    
-                                        
-                             Session::flash('message', 'Account Created Successfully!'); 
-                             Session::flash('alert-class', 'alert-success'); 
-                          
-                    }
-        }else{
-          Session::flash('message', 'Account number DB full'); 
-          Session::flash('alert-class', 'alert-danger'); 
-          return redirect()->route('dashboard');
+        if (!in_array($this->createAccountNumber(), $createdAccountNumbers)) {
+            foreach ($request->account_currency as $currency) {
+                if (!$createdAccountCurrencies == []) {
+                    Session::flash('message', 'Already Added!');
+                    Session::flash('alert-class', 'alert-danger');
+                } else {
+                    Account::create([
+                        'user_id' => Auth::id(),
+                        'account_currency_id' => $currency,
+                        'account_name' => $request->account_name,
+                        'account_number' => $this->createAccountNumber(),
+                        // 'account_currency' => AccountType::getCurrencySymbol(
+                        //     $request->account_currency_id
+                        // ),
+                    ]);
+
+                    Session::flash('message', 'Created Successfully!');
+                    Session::flash('alert-class', 'alert-success');
+                }
+            }
+        } else {
+            Session::flash('message', 'Account number DB full');
+            Session::flash('alert-class', 'alert-danger');
+            return redirect()->route('dashboard');
         }
     }
-
 
     public function getAccountDetail($request)
     {
         $account = Account::where('user_id', Auth::id())
-        ->where('id', $request->id)
-        ->first();
+            ->where('id', $request->id)
+            ->first();
 
         $user_account = [
-        'name' =>   $account->account_name,
-        'number' =>  $account->account_number,
-        'balance' =>$account->accounType->account_currency.$account->account_balance,
-        'created_at' => Carbon::parse($account->created_at)->format('d/m/Y'),
-        ];                 
+            'name' => $account->account_name,
+            'number' => $account->account_number,
+            'balance' =>
+                $account->accounType->account_currency .
+                $account->account_balance,
+            'created_at' => Carbon::parse($account->created_at)->format(
+                'd/m/Y'
+            ),
+        ];
 
-        $data = ['account' => $user_account, 'id'=>$request->id];
-        echo json_encode($data);   
+        $data = ['account' => $user_account, 'id' => $request->id];
+        echo json_encode($data);
     }
-
-    
- }
+}

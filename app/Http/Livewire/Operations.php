@@ -25,10 +25,9 @@ class Operations extends Component
     public $result;
     public $symbol;
     public $toName;
-    protected array $rules = [
+    public array $rules = [
         'amount' => 'required|string|integer',
-        'toAccount' => 'required',
-        'fromAccount' => 'required',
+       
     ];
 
     public function rules()
@@ -51,7 +50,7 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-            // $validatedData = $this->validate();
+             $validatedData = $this->validate();
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -99,7 +98,7 @@ class Operations extends Component
                 'text' => 'Please Select an Account',
             ]);
         } else {
-            // $validatedData = $this->validate();
+             $validatedData = $this->validate();
 
             $accounts = Account::where('user_id', Auth::id())
                 ->where('id', $this->account_id)
@@ -170,8 +169,11 @@ class Operations extends Component
                 'text' => 'Select Different Accounts',
             ]);
         } else {
-            $validatedData = $this->validate();
-
+            $validatedData = $this->validate([
+                'toAccount' => 'required',
+                'fromAccount' => 'required',
+            ]);
+      
             $accountsArray = [$this->fromAccount, $this->toAccount];
             $accounts = Account::whereIn(
                 'account_number',

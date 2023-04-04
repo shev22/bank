@@ -55,7 +55,16 @@ class AdminController extends Controller
     
     public function operations(Request $request)
     {
-      return($this->adminService->operations($request));
+     $this->adminService->operations($request);
+
+    }
+
+
+    public function updateCurrency(Request $request)
+    {
+      
+        $this->adminService->updateCurrency($request);
+        return redirect()->route('admin');
     }
 
     public function index()

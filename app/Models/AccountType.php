@@ -19,10 +19,10 @@ class AccountType extends Model
   
     ];
 
-    public static function getCurrencySymbol($id) :string
-    {
-       $result = AccountType::where('id',$id)->pluck('account_currency')->toArray();
-       $symbol = implode($result);
-       return  $symbol; 
-    }
+    // public static function getCurrencySymbol($id) :string
+    // {
+    //    $result = AccountType::where('id',$id)->pluck('account_currency')->toArray();
+    //    $symbol = implode($result);
+    //    return  $symbol; 
+    // }
 }

@@ -160,7 +160,7 @@
                                                                     @foreach ($accounts as $account)
                                                                         <option value="{{ $account->id }}">
                                                                             {{ $account->account_number }}
-                                                                            {{ $account->account_currency }}</option>
+                                                                            {{ $account->accounType->account_currency }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <span class="text-xs">Secure Payment</span>
@@ -325,7 +325,7 @@
                                                                     @foreach ($accounts as $account)
                                                                         <option value="{{ $account->id }}">
                                                                             {{ $account->account_number }}
-                                                                            {{ $account->account_currency }}</option>
+                                                                            {{ $account->accounType->account_currency }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <span class="text-xs">Secure Payment</span>

@@ -15,8 +15,8 @@
                         <input type="text" name="account_name" class="form-control" placeholder="Account Name">
                     </div>
                     <label for="currency">Currency</label>
-                    <select class="form-select" size="5" name="account_currency"
-                        aria-label="size 3 select example">
+                    <select class="form-select " size="10" name="account_currency[]"
+                        aria-label="size 3 select example" multiple>
                    
                         @foreach ($accounts_types as $accounts_type)  
      
@@ -175,8 +175,10 @@
                 @csrf
            
               <div class="input-group input-group-outline mb-3">
-              <select class="form-select" size="10" aria-label="size 3 select example" name="code">
-                
+                <label for="id_label_multiple">
+                  Select Currencies
+              <select class="form-select multiple-select "  name="code[]"  multiple="multiple" style="width: 20rem">
+         
           @foreach($currencies as $key => $value)
     
           <option value="{{ $key }},{{ $value['symbol'] }},{{$value['name']  }}"> &nbsp; &nbsp;{{ $value['name']  }}</option>
@@ -184,7 +186,6 @@
           @endforeach 
               </select>  
             </div>
-         
               <div class="text-center">
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -207,7 +208,8 @@
     <!-- edit currency modal -->
 
   
-  <!-- Modal -->
+ <!-- Modal -->
+
   <div class="modal fade" id="edit-currency" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered">
       <div class="modal-content">
@@ -215,7 +217,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form role="form"  method="post" action="operations">
+            <form role="form"  method="post" action="actions">
                 @csrf
                 <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Name</label>
@@ -224,7 +226,7 @@
                 </div>
                 <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Symbol</label>
-                  <input type="email" class="form-control"  name="symbol">
+                  <input type="TEXT" class="form-control"  name="symbol">
                 </div>
                 <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Code</label>
@@ -232,7 +234,7 @@
                 </div>
                 
               
-                <input type="hidden" name="edit_id" id="edit_id">
+                <input type="hidden" name="id" id="currency_id">
                 <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary " >Update</button>
@@ -244,7 +246,7 @@
       </div>
     </div>
   </div>
-  
+   
 
     {{-- delete currency  --}}
   
@@ -256,12 +258,13 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="delete" method="POST">
+              <form action="actions" method="POST">
                 @csrf
                <p class="fw-bold"> Are you sure you want to Delete ?</p>
+               <input type="hidden" name="id" id="delete_currency_id">
                 <div class="modal-footer ">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="subit" class="btn btn-primary" name="id" id="id" >Delete</button>
+                  <button type="subit" class="btn btn-primary"  >Delete</button>
                 </div>
               </form>
           

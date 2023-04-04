@@ -63,9 +63,17 @@ class AdminService
 
     public function operations( $request)
     {
-      return($this->adminRepository->operations($request));
+      $this->adminRepository->operations($request);
+       
     }
 
+
+    public function updateCurrency( $request)
+    {
+      
+        $this->adminRepository->updateCurrency($request);
+       
+    }
 
 
 }

@@ -219,7 +219,6 @@ $(document).ready(function () {
       }
     });
 
-
     $.ajax({
       method: "POST",
       url: "operations",
@@ -231,8 +230,12 @@ $(document).ready(function () {
 
       success: function (response) {
         
+
         let message = JSON.parse(response)
-        $("#id").val(message.id);
+
+     //  console.log(message);
+
+        $("#delete_currency_id").val(message.id+"destroy");
       
       
 
@@ -265,12 +268,8 @@ $(document).ready(function () {
       success: function (response) {
         
         let message = JSON.parse(response)
-        $("#name").val(message.name);
-        $("#email").val(message.email);
-        $("#phone").val(message.phone);
-        $("#address").val(message.address);
-        $("#id").val(message.id);
-         $("#edit_id").val(message.id);
+        $("#currency_id").val(message.id+"update");
+      
       }
 
     })
@@ -278,4 +277,11 @@ $(document).ready(function () {
   });
 
 
-})
+
+  $(".multiple-select").select2({
+    theme: "classic"
+
+    // maximumSelectionLength: 2
+  });
+
+ })
