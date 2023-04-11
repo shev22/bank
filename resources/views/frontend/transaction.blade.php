@@ -72,10 +72,10 @@
                                                 <p class="text-xs font-weight-bold mb-0 mx-3">    
                                                      <select class="form-select form-select-sm " aria-label=".form-select-sm example"
                                                     name='account_number' style="width:110px; border-radius:4px">
-                                                    <option value="">Select Accounts</option>
+                                                    <option value="">Select Accounts</option>&nbsp;
                                                     @foreach ($accounts as $account)
-                                                        <option value="{{ $account->account_number }}   ">
-                                                            &nbsp; {{ $account->account_number }} &nbsp;
+                                                      &nbsp;  <option value="{{ $account->account_number }}">
+                                                             {{ $account->account_number }} 
                                                             {{ $account->accounType->account_symbol }} </option>
                                                     @endforeach
                                                 </select></p>
@@ -100,10 +100,8 @@
                                             <td class="align-middle text-center">
                                                 <p class="text-xs font-weight-bold mb-0"><button class="btn btn-outline-dark btn-sm mx-5">Apply</button></p>
 
-                                            </td>
-                                          
-                                        </tr>
-                             
+                                            </td>                                         
+                                        </tr>                            
                                     </form>
                                 </tbody>
                             </table>
@@ -217,7 +215,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{-- {!! $transactions->links() !!} --}}
+                         {{ $transactions->links()}} 
                     </div>
                 </div>
             </div>

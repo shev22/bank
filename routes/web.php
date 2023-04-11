@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])->name('dashboard');
+    Route::get('/chat', [App\Http\Controllers\Frontend\FrontendController::class, 'chat'])->name('chat');
 
     Route::get('/operations', [App\Http\Controllers\OperationsController::class, 'index'])->name('operations');
 

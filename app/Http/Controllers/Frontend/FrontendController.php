@@ -25,7 +25,23 @@ class FrontendController extends Controller
     }
 
 
-
+    public function chat()
+    {
+        $currencies = $this->adminService->currencyAPI();
+        $accountsTypes =  $this->accountService->getAccountCurrencies();
+        $accounts =  $this->accountService->getUserAccounts();
+        $notifications =  $this->transactionService->getNotifications(); 
+        $setDefaultUser = $this->adminService->setDefaultUser();
+        return view('frontend.chat',[
+            'setDefaultUser'=> $setDefaultUser,
+            'accounts_types'=> $accountsTypes,
+            'accounts'      => $accounts,
+            'currencies' => $currencies,
+           'notifications'      => $notifications['notifications'],
+            'newMessage'      => $notifications['newMessage']
+        
+        ]);
+    }
 
 
 

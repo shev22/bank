@@ -75,5 +75,12 @@ class AdminService
        
     }
 
+    public function setDefaultUser()
+    {
+        return  $this->adminRepository->setDefaultUser();
+      
+       
+    }
+
 
 }

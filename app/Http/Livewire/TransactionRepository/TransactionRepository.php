@@ -107,7 +107,7 @@ class TransactionRepository
             })
 
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->paginate();
 
         return $transactions;
     }

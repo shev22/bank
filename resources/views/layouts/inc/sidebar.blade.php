@@ -18,14 +18,6 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white  {{Request::is('operations') ? 'active bg-gradient-primary' : ''}}" href="operations">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-            </div>
-            <span class="nav-link-text ms-1">Operations</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-white  {{Request::is('transactions') ? 'active bg-gradient-primary' : ''}}" href="transactions">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
@@ -33,6 +25,15 @@
             <span class="nav-link-text ms-1">Transactions</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white  {{Request::is('operations') ? 'active bg-gradient-primary' : ''}}" href="operations">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+            </div>
+            <span class="nav-link-text ms-1">Operations</span>
+          </a>
+        </li>
+       
         {{-- <li class="nav-item">
           <a class="nav-link text-white " href="../pages/billing.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -41,15 +42,7 @@
             <span class="nav-link-text ms-1">Billing</span>
           </a>
         </li> --}}
-        <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/virtual-reality.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">view_in_ar</i>
-            </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
-          </a>
-        </li>
-
+    
         @auth
         @if (Auth::user()->isAdmin == 1)
        
@@ -73,6 +66,15 @@
             <span class="nav-link-text ms-1">Notifications</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white  {{Request::is('chat') ? 'active bg-gradient-primary' : ''}}" href="chat">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">view_in_ar</i>
+            </div>
+            <span class="nav-link-text ms-1">Chat</span>
+          </a>
+        </li>
+
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>

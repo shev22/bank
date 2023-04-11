@@ -11,6 +11,7 @@ namespace App\Repositories;
 use stdClass;
 use App\Models\User;
 use App\Models\AccountType;
+use App\Models\UsersChat;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\traits\CurrencyTrait;
 
@@ -176,5 +177,18 @@ class AdminRepository
                 Session::flash('alert-class', 'alert-danger');
                 break;
         }
+    }
+
+    // CHAT SECTION  //
+
+    public function setDefaultUser()
+    {
+        // $defaultUser = UsersChat::first();
+        // if(  $defaultUser)
+        // {
+        //    collect(  $defaultUser) ->toArray();
+        //    return ( $defaultUser['id']);
+        // }
+        return 254;
     }
 }
