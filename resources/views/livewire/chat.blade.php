@@ -1,4 +1,6 @@
+
 <div>
+    {{-- @include('frontend.modals.group-chat') --}}
     {{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> 
  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
@@ -33,6 +35,7 @@
     </head>
 
     <body>
+   
       <div class="container-fluid h-100"> 
         <div class="container-fluid h-100">
             <div class="row justify-content-center h-100">
@@ -45,7 +48,7 @@
                             
                             <div class="action_menu_group_chat mb-0">
                                 <ul>
-                                    <li><button type="button" class="btn btn-outline-secondary btn-sm mb-0 mt-2 mx-auto"><i class="fas fa-plus "> </i><span class="mx-2">create chat</span> </button></li>            
+                                    <li><button data-bs-toggle="modal" data-bs-target="#group-chat"    type="button" class="btn btn-outline-secondary btn-sm mb-0 mt-2 mx-auto"><i class="fas fa-plus "> </i><span class="mx-2">create chat</span> </button></li>            
                                 </ul>
                             </div>
                   
@@ -64,16 +67,51 @@
                                     <li class="active ">
                                         <div class="d-flex bd-highlight ">
                                             <div class="user_info">
-                                                <a wire:click="addUserToChat({{ $item->id }})"> <span
+
+                                                @if ($this->activeGroup)
+                                                <a wire:click="addUserToChat({{ $item->id }}, {{ $this->activeGroup }})"> <span
+                                                    class="text-sm fst-italic "
+                                                    role='button'>{{ $item->name }}</span></a> 
+                                                @else
+                                                     <a wire:click="addUserToChat({{ $item->id }}, null)"> <span
                                                         class="text-sm fst-italic "
-                                                        role='button'>{{ $item->name }}</span></a>
+                                                        role='button'>{{ $item->name }}</span></a> 
+                                                @endif
+
+                                              
+
+
+
+
                                             </div>
                                         </div>
                                     </li>
                                 @endforeach
                             </ul>
+                     
 
                             <ui class="contacts">
+                                @foreach ($groups as $item)
+                                <a wire:click="selectGroup({{ $item->id }})">
+                                        <li class="active p-0">
+
+                                            <div class="d-flex bd-highlight mx-3 p-0">
+                                              
+                                                <div class="img_cont_msg">
+                                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                                                        class="rounded-circle user_img_msg ">                                                     
+                                                </div>
+                                                <div class="user_info">
+                                                    <span class="text-sm fw-bold">{{ $item->title }} </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </a>
+                                @endforeach
+                        
+
+
+                 
                                 @foreach ($users as $item)
                                     <a wire:click="selectUser({{ $item->user_id }})">
                                         <li class="active">
@@ -106,7 +144,7 @@
                         <div class="card-footer"></div>
                     </div>
                 </div>
-                <div class="col-md-8 col-xl-6 chat" wire:onmessage.my-event>
+                <div class="col-md-8 col-xl-6 chat" >
                     <div class="card">
                         <div class="card-header msg_head">
                             <div class="d-flex bd-highlight">
@@ -122,23 +160,68 @@
                                         <p>{{ $item->total_messages }} Messages</p>
                                     </div>
                                 @endforeach
-                                <div class="video_cam">
-                                    <span><i class="fas fa-video"></i></span>
-                                    <span><i class="fas fa-phone"></i></span>
-                                </div>
-                            </div>
-                            <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                                @foreach ($activeGroup as $item)
+                                <div class="user_info">
 
-                            <div class="action_menu">
+                                    <span class="fw-bold">{{ $item->title }}</span>
+                                    <p>{{ $item->total_messages }} Messages</p>
+                                </div>
+                            @endforeach
+
+                            <div class="video_cam">
+                                <span><i class="fas fa-video"></i></span>
+                                <span><i class="fas fa-phone"></i></span>
+                            </div>
+                         
+                                
+                            </div>
+                          
+                            <span id="action_menu_btn" wire:ignore><i class="fas fa-ellipsis-v"></i></span>
+                        @if ($this->activeGroup)
+                            <div class="action_menu"  >
+                                <ul>
+
+                                    {{-- <li><i class="fas fa-user-circle"></i> View profile</li>
+                                    <li><i class="fas fa-users"></i> Add to close friends</li>
+                                    <li><i class="fas fa-plus"></i> Add to group</li>
+                                    <li><i class="fas fa-ban"></i> Block</li>
+                               --}}
+                               <li><i class="fas fa-users"></i> Group members</li>
+                                  @foreach ($groupMembers as $item)
+                                  <li>
+                                    @if ( $item->creator_id == Auth::id())
+                                    <span class="text-danger text-sm"><i class="fas fa-trash"></i></span> 
+                                    
+                                    @elseif ($item->user_id == Auth::id() )
+                                    <span class="text-danger text-sm"><i class="fas fa-trash"></i></span> 
+                                    @endif
+                                     
+                                     
+                                     {{ $item->user->name }} <span class="mx-4 text-sm text-success fst-italic fw-bold">
+                                        {{ $item->creator_id == $item->user_id  ? ' Admin' : ''}}</span>
+                                    
+                                    
+                                    </li>
+                                  @endforeach
+                               
+                                </ul>
+                            </div>
+                            @else
+                            <div class="action_menu"  >
                                 <ul>
 
                                     <li><i class="fas fa-user-circle"></i> View profile</li>
                                     <li><i class="fas fa-users"></i> Add to close friends</li>
-                                    <li><i class="fas fa-plus"></i> Add to group</li>
-                                    <li><i class="fas fa-ban"></i> Block</li>
+                              
+                              
+                                    
+
                                   
                                 </ul>
                             </div>
+
+                         @endif
+                       
                         </div>
                         <div class="card-body msg_card_body">
 

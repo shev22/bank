@@ -13,37 +13,44 @@ class Chat extends Component
  
     public $search;
     public $message;
+    public $groupName;
     public $activeUserId;
     public $activeUser = array();
-    protected $listeners = ['messageSent' => 'setNotification'];
+    public $activeGroup = array();
+    public $groupMembers = array();
+   
+  
+ 
+   
 
     public function mount($setDefaultUser)
     {
+    
         $this->selectUser($setDefaultUser);
     }
 
     public function search()
-    {
+    {  
         return ChatRepository::search($this->search);
     }
 
-    public function addUserToChat($id): void
+    public function addUserToChat($user_id, $chat): void
     {
-        // dump($id,(array)$this->getUsers());
-        if ($id == Auth::id()) {
+         
+        if ($user_id == Auth::id()) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Cant chat with Urself',
             ]);
-        } elseif (ChatRepository::isUserInChat(UsersChat::class, $id)) {
+        } elseif (ChatRepository::isUserInChat(UsersChat::class, $user_id, $this->activeGroup )) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'User already added',
             ]);
         } else {
-            ChatRepository::addUserToChat($id);
+            ChatRepository::addUserToChat($user_id,  $chat);
             $this->dispatchBrowserEvent('message', [
                 'text' => 'User added to chat',
             ]);
-            $this->search = null;
+             $this->search = null;
         }
     }
 
@@ -54,16 +61,18 @@ class Chat extends Component
 
     public function selectUser($id)
     {
+      
         $activeUser = ChatRepository::selectUser($id);
         $this->getMessage($id);
         $this->activeUserId = $id;
-        return $this->activeUser = $activeUser;
+        $this->activeGroup = array();
+        $this->activeUser = $activeUser;
     }
 
     public function setMessage(): void
     {
         ChatRepository::setMessage($this->activeUser, $this->message);
-        $this->emit('messageSent');
+
         $this->message = '';
     }
 
@@ -78,25 +87,80 @@ class Chat extends Component
         return ChatRepository::unReadMessages();
     }
 
-    public static function setNotification()
+    public  function createGroupChat(): void
     {
-      return ChatRepository::setNotification();
+      ChatRepository::createGroupChat($this->groupName);
     }
+
+    public function getGroupChats()
+    {
+     return(ChatRepository::getGroupChats()) ;
+    }
+
+    public  function selectGroup($id)
+    {
+      $activeGroup = ChatRepository::selectGroup($id);
+      $this->activeUser =  array();
+      $this->activeGroup = $activeGroup;
+      $this->getGroupMembers($id);
+    }
+
+    public  function getGroupMembers($id)
+    {
+      $groupMembers = ChatRepository::getGroupMembers($id);
+       $this->groupMembers =  $groupMembers ;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function render()
     {
-      // ChatRepository::setNotification();
-        $unreadCount = $this->unReadMessages();
-        $searchUsers = array();
+    
+     
+       
+        $searchUsers = array();    
         $users = $this->getUsers();
+        $groups = $this->getGroupChats();
+        $unreadCount = $this->unReadMessages();
         $messages = $this->getMessage($this->activeUserId);
-        // dd( $messages );
         $this->search != null ? ($searchUsers = $this->search()) : '';
 
         return view('livewire.chat', [
             'unreadCount' => $unreadCount,
             'searchUsers' => $searchUsers,
             'messages' => $messages,
+            'groups' => $groups,
             'users' => $users,
         ]);
     }

@@ -212,29 +212,23 @@
 
 @section('content')
     @extends('layouts.app')
-    @include('frontend.modals.modal')
     @include('layouts.inc.navbar')
-
+	
 
     <div class="container-fluid py-4" style="height: 100vh">
         <div class="row">
-            <div class="col-12">
-           
+            <div class="col-12">          
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 mb-4">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">Chat
                               
                             </h6>
                         </div>
-                      
-               
+                    
                     </div>
-                             @livewire('chat',  ['setDefaultUser' => $setDefaultUser]) 
-            
+                             @livewire('chat',  ['setDefaultUser' => $setDefaultUser])             
             </div>
         </div>
     </div>
-   
-
     @include('layouts.inc.plugins')
 @endsection

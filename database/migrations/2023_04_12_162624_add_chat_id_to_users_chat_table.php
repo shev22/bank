@@ -14,7 +14,7 @@ class AddChatIdToUsersChatTable extends Migration
     public function up()
     {
         Schema::table('users_chat', function (Blueprint $table) {
-            $table->unsignedBigInteger("chat_id");
+            $table->unsignedBigInteger("chat_id")->nullable();
             $table->foreign('chat_id')->references('id')->on('chat_titles')->onDelete('cascade');
         });
     }

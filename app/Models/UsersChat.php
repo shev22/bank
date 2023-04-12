@@ -15,6 +15,7 @@ class UsersChat extends Model
         'user_id',
         'total_messages',
         'creator_id',
+        'chat_id',
     ];
 
     
