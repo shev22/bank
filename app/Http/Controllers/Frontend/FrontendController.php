@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Services\AdminService;
 use App\Http\Controllers\Services\AccountService;
+use App\Http\Livewire\ChatRepository\ChatRepository;
 use App\Http\Controllers\Services\TransactionService;
 
 class FrontendController extends Controller
@@ -27,6 +28,7 @@ class FrontendController extends Controller
 
     public function chat()
     {
+    
         $currencies = $this->adminService->currencyAPI();
         $accountsTypes =  $this->accountService->getAccountCurrencies();
         $accounts =  $this->accountService->getUserAccounts();
@@ -50,6 +52,7 @@ class FrontendController extends Controller
 
     public function dashboard()
     {
+        
         $currencies = $this->adminService->currencyAPI();
         $accountsTypes =  $this->accountService->getAccountCurrencies();
         $accounts =  $this->accountService->getUserAccounts();

@@ -11,8 +11,8 @@ class Notification extends Model
     protected $table = 'notifications';
 
     protected $fillable = [
-        'transaction_sender_id',
-        'transaction_receiver_id',
+        'sender_id',
+        'receiver_id',
         'message',
     ];
 }

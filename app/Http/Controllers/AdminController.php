@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Services\AdminService;
 use App\Http\Controllers\Services\AccountService;
+use App\Http\Livewire\ChatRepository\ChatRepository;
 use App\Http\Controllers\Services\TransactionService;
 
 class AdminController extends Controller
@@ -69,6 +70,7 @@ class AdminController extends Controller
 
     public function index()
     {
+        ChatRepository::setNotification();
         $currencies = $this->currencyAPI();
        // dd( $currencies);
         $accountsTypes = $this->accountService->getAccountCurrencies();

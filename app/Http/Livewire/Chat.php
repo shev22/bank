@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\ChatRepository\ChatRepository;
@@ -27,6 +28,7 @@ class Chat extends Component
 
     public function addUserToChat($id): void
     {
+        // dump($id,(array)$this->getUsers());
         if ($id == Auth::id()) {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Cant chat with Urself',
@@ -76,6 +78,7 @@ class Chat extends Component
 
     public function render()
     {
+      // ChatRepository::setNotification();
         $unreadCount = $this->unReadMessages();
         $searchUsers = [];
         $users = $this->getUsers();

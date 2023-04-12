@@ -15,11 +15,11 @@ class CreateNotificationTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("transaction_sender_id");
-            $table->unsignedBigInteger("transaction_receiver_id");
+            $table->unsignedBigInteger("sender_id")->nullable();
+            $table->unsignedBigInteger("receiver_id")->nullable();
             $table->string("message");
             $table->timestamps();
-            $table->foreign("transaction_sender_id")->references("id")->on('users')->onDelete('cascade');
+            $table->foreign("sender_id")->references("id")->on('users')->onDelete('cascade');
         });
     }
 

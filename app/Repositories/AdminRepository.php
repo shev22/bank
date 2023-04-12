@@ -10,8 +10,10 @@ namespace App\Repositories;
 
 use stdClass;
 use App\Models\User;
-use App\Models\AccountType;
+use App\Models\Message;
 use App\Models\UsersChat;
+use App\Models\AccountType;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\traits\CurrencyTrait;
 
@@ -179,16 +181,21 @@ class AdminRepository
         }
     }
 
-    // CHAT SECTION  //
+    // CHAT SECTION  SET DEFAULT USER//
 
     public function setDefaultUser()
     {
-        // $defaultUser = UsersChat::first();
-        // if(  $defaultUser)
-        // {
-        //    collect(  $defaultUser) ->toArray();
-        //    return ( $defaultUser['id']);
-        // }
-        return 254;
+        $defaultUser = Message::where('receiver_id', Auth::id())
+            ->orWhere('sender_id', Auth::id())
+            ->latest('created_at')
+            ->first();
+
+        if ($defaultUser) {
+            if ($defaultUser->sender_id == Auth::id()) {
+                return $defaultUser->receiver_id;
+            } else {
+                return $defaultUser->sender_id;
+            }
+        }
     }
 }

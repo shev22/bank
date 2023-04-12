@@ -10,7 +10,10 @@ namespace App\Http\Livewire\ChatRepository;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\UsersChat;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 
 class ChatRepository
 {
@@ -41,7 +44,9 @@ class ChatRepository
 
     public static function selectUser($id)
     {
-        $user = UsersChat::where('user_id', $id)->where('creator_id', Auth::id())->get();
+        $user = UsersChat::where('user_id', $id)
+            ->where('creator_id', Auth::id())
+            ->get();
         return $user;
     }
 
@@ -55,21 +60,9 @@ class ChatRepository
             'receiver_id' => $id,
             'message' => $message,
         ]);
-
-        self::startChat($id);
-
-
-
-
-
+        self::startChat($id); // start chat if not already started
+        // self::setNotification($id);
     }
-
-
-
-
-
-
-
 
     public static function getMessages($id)
     {
@@ -127,16 +120,47 @@ class ChatRepository
         return $response;
     }
 
-    private static function startChat($id) // creates a hat with the user if the chat is not already started. (if already not in a users chat group)
+    private static function startChat($id)
     {
-        $users = UsersChat::where('user_id', Auth::id())->where('creator_id', $id)->get()->toArray();
-        if(!$users)
-        {
+        // creates a chat with the user if the chat is not already started. (if already not in a users chat group)
+        $users = UsersChat::where('user_id', Auth::id())
+            ->where('creator_id', $id)
+            ->get()
+            ->toArray();
+        if (!$users) {
             UsersChat::create([
                 'user_id' => Auth::id(),
                 // 'total_messages' => ,
-                'creator_id' =>  $id,
+                'creator_id' => $id,
             ]);
-        }  
+        }
+    }
+
+    public static function setNotification()
+    {
+
+        $routeName = Route::currentRouteName();
+
+        $newMesaages = Message::where('receiver_id', Auth::id())
+            ->where('isRead', 0)
+            ->get()
+            ->toArray();
+        $notifications = Notification::where('receiver_id', Auth::id())
+            ->where('message', 'You have new messages')
+            ->where('read_at', 0)
+            ->get()
+            ->toArray();
+       if (!$notifications) {
+            if ($newMesaages) {
+        if($routeName !== 'chat')
+        {
+                Notification::create([
+                    'sender_id' => Auth::id(),
+                    'receiver_id' => Auth::id(),
+                    'message' => 'You have new messages',
+                ]);
+            }
+        }
+        }
     }
 }

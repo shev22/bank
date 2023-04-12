@@ -39,8 +39,8 @@ class TransactionRepository
     {
         //dd($message);
         Notification::create([
-            'transaction_sender_id' => Auth::id(),
-            'transaction_receiver_id' => $receiver_id,
+            'sender_id' => Auth::id(),
+            'receiver_id' => $receiver_id,
             'message' => $message,
         ]);
     }
@@ -48,9 +48,10 @@ class TransactionRepository
     public function getNotifications()
     {
         $notifications = Notification::where(
-            'transaction_receiver_id',
+            'receiver_id',
             Auth::id()
         )
+        ->where('read_at', 0)
         ->orderBy('created_at', 'DESC')
         ->get();
         $newMessage = $notifications->where('read_at' , 0)->all();
@@ -63,12 +64,12 @@ class TransactionRepository
     public function readNotification($request)
     {
         Notification::where(
-            'transaction_receiver_id',
+            'receiver_id',
             Auth::id()
         )
             ->where('id', $request->id)
             ->update(['read_at' => 1]);
-        $newMessage = Notification::where('transaction_receiver_id', Auth::id())->where('read_at', 0)->get();
+        $newMessage = Notification::where('receiver_id', Auth::id())->where('read_at', 0)->get();
 
         $content = $request->data;
         $notificationInfo = ['messages' => $content, 'newMessage' => $newMessage];
