@@ -172,6 +172,7 @@ cursor: pointer;
 margin-right: 20px;
 }
 .msg_cotainer{
+text-align: center;
 margin-top: auto;
 margin-bottom: auto;
 margin-left: 10px;
@@ -179,8 +180,10 @@ border-radius: 25px;
 background-color: #82ccdd;
 padding: 10px;
 position: relative;
+min-width: 80px;
 }
 .msg_cotainer_send{
+text-align: center;
 margin-top: auto;
 margin-bottom: auto;
 margin-right: 10px;
@@ -188,6 +191,7 @@ border-radius: 25px;
 background-color: #78e08f;
 padding: 10px;
 position: relative;
+min-width: 80px;
 }
 .msg_time{
 position: absolute;
@@ -206,7 +210,7 @@ font-size: 10px;
 .msg_head{
 position: relative;
 }
-#action_menu_btn{
+#action_menu_btn, #create_chat_button{
 position: absolute;
 right: 10px;
 top: 10px;
@@ -214,6 +218,19 @@ color: white;
 cursor: pointer;
 font-size: 20px;
 }
+
+.action_menu_group_chat{
+    display: none;
+  
+
+}
+
+.action_menu_group_chat ul{
+
+    list-style: none;
+
+}
+
 .action_menu{
 z-index: 1;
 position: absolute;

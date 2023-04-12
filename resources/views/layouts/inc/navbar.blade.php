@@ -155,6 +155,6 @@
         </div>
     </div>
 </nav>
-@php
+{{-- @php
   App\Http\Livewire\ChatRepository\ChatRepository::setNotification();  //  check for new messages
-@endphp
+@endphp --}}

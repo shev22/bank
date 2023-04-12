@@ -10,11 +10,12 @@ use App\Models\UsersChat;
 
 class Chat extends Component
 {
-    // public $chat = [];
+ 
     public $search;
     public $message;
     public $activeUserId;
-    public $activeUser = [];
+    public $activeUser = array();
+    protected $listeners = ['messageSent' => 'setNotification'];
 
     public function mount($setDefaultUser)
     {
@@ -62,6 +63,7 @@ class Chat extends Component
     public function setMessage(): void
     {
         ChatRepository::setMessage($this->activeUser, $this->message);
+        $this->emit('messageSent');
         $this->message = '';
     }
 
@@ -76,11 +78,16 @@ class Chat extends Component
         return ChatRepository::unReadMessages();
     }
 
+    public static function setNotification()
+    {
+      return ChatRepository::setNotification();
+    }
+
     public function render()
     {
       // ChatRepository::setNotification();
         $unreadCount = $this->unReadMessages();
-        $searchUsers = [];
+        $searchUsers = array();
         $users = $this->getUsers();
         $messages = $this->getMessage($this->activeUserId);
         // dd( $messages );
