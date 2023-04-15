@@ -17,7 +17,7 @@ class SocialController extends Controller
 
     public function googleCallback()
     {
-        $user = Socialite::driver('google')->user();
+        $user = Socialite::driver('google')->stateless()->user();
 
         $this->createOrUpdateUser($user, 'google');
         return redirect()->route('dashboard');

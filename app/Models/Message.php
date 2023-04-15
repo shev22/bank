@@ -16,5 +16,11 @@ class Message extends Model
         'receiver_id',
         'message',
         'isRead',
+        'chat_id',
     ];
+
+    public  function user()
+    {
+       return $this -> belongsTo(User::class, 'sender_id', 'id');
+    }
 }

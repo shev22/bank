@@ -60,27 +60,41 @@ class ChatRepository
         return $user;
     }
 
-    public static function setMessage($sender, $message): void
-    {
-        $sender = collect($sender)->toArray();
-        $id = $sender[0]['user_id'];
+    public static function setMessage(
+        $receiver = [],
+        $message,
+        $chat = []
+    ): void {
+        if ($chat) {
+            $chat_id = $chat[0]['id'];
+            $id = null;
+            self::setGroupUnreadMessages($chat_id);
+        } else {
+            $receiver = collect($receiver)->toArray();
+            $id = $receiver[0]['user_id'];
+            $chat_id = null;
+            self::startChat($id); // start chat if not already started
+        }
 
         Message::create([
             'sender_id' => Auth::id(),
             'receiver_id' => $id,
             'message' => $message,
+            'chat_id' => $chat_id,
         ]);
-        self::startChat($id); // start chat if not already started
     }
 
     public static function getMessages($id)
     {
+        // dump($id);
         $messages = Message::where('sender_id', $id)
             ->where('receiver_id', Auth::id())
             ->orWhere('sender_id', Auth::id())
             ->where('receiver_id', $id)
+            ->where('chat_id', null)
+            ->orderBy('created_at', 'ASC')
             ->get();
-
+       // dump( $messages);
         return $messages;
     }
 
@@ -92,6 +106,7 @@ class ChatRepository
             ->where('receiver_id', $id)
             ->whereIn('sender_id', $users)
             ->where('isRead', 0)
+            ->where('chat_id', null)
             ->pluck('sender_id')
             ->toArray();
         $messageCount = [];
@@ -196,10 +211,12 @@ class ChatRepository
     public static function getGroupChats()
     {
         $myGroupChats = UsersChat::where('user_id', Auth::id())
+            //->where('chat_id', Auth::id())
             ->pluck('chat_id')
+            
             ->toArray();
+
         $groups = ChatTitle::whereIn('id', $myGroupChats)->get();
-        // dump($groups);
         return $groups;
     }
 
@@ -213,5 +230,61 @@ class ChatRepository
     {
         $groupMembers = UsersChat::where('chat_id', $id)->get();
         return $groupMembers;
+    }
+
+    public static function getGroupMessages($id)
+    {
+        if ($id == null) {
+            $groupMessages = [];
+        } else {
+            $groupMessages = Message::where('chat_id', $id)->get();
+            self::readGroupMessages($id);
+        }
+
+        //dump(  $groupMessages,$id );
+        return $groupMessages;
+    }
+
+    public static function unreadGroupMessages()
+    {
+        $chatGroups = UsersChat::where('user_id', Auth::id())->pluck('chat_id')->toArray();
+        $groups =  UsersChat::where('user_id', Auth::id())->whereIn('chat_id', $chatGroups)->get();
+     
+        $groupMessageCount = [];
+        foreach ($groups as $chat) {
+            $groupMessageCount[$chat->chat_id] = $chat->group_chat_message_count;
+
+       }
+        //dump( $groupMessageCount);
+        return $groupMessageCount;
+    }
+
+    private static function setGroupUnreadMessages($chat_id): void
+    {
+       $users = UsersChat::where('chat_id',$chat_id)
+                             ->where('user_id', '!=', Auth::id())
+                            ->get();
+
+                        foreach($users as $user)
+                        {
+                            $user->group_chat_message_count++;
+                            $user->save();
+                       
+                        }                              
+    }
+
+    private static function readGroupMessages($chat_id)
+    {
+        $users = UsersChat::where('chat_id',$chat_id)
+        ->where('user_id', Auth::id())
+       ->get();
+       foreach($users as $user)
+       {
+        $user->group_chat_message_count = 0;
+           $user->save();
+      
+       } 
+      
+
     }
 }
