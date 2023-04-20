@@ -18,7 +18,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger("sender_id");
             $table->unsignedBigInteger("receiver_id")->nullable();
             $table->string('message');  
-            $table->string('isRead')->setDefault('0');   
+            $table->string('isRead')->default(0);   
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');

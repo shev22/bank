@@ -224,15 +224,18 @@ cursor: pointer;
 font-size: 20px;
 }
 
-.action_menu_group_chat{
-    display: none;
+#create_chat_button{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+
 }
 
-.action_menu_group_chat ul{
-    list-style: none;
-}
 
-.action_menu{
+.action_menu, .action_menu_group_chat{
 z-index: 1;
 position: absolute;
 padding: 15px 0;
@@ -257,7 +260,22 @@ margin-bottom: 5px;
 padding-right: 10px;
 
 }
-.action_menu ul li:hover{
+
+.action_menu_group_chat ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+    .action_menu_group_chat ul li{
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    }
+    .action_menu_group_chat ul li i{
+    padding-right: 10px;
+    
+    }
+.action_menu_group_chat ul li:hover{
 cursor: pointer;
 background-color: rgba(0,0,0,0.2);
 }

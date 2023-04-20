@@ -64,7 +64,7 @@ class Chat extends Component
             $this->dispatchBrowserEvent('message', [
                 'text' => 'User added to chat',
             ]);
-            $this->search = null;
+           // $this->search = null;
         }
     }
 

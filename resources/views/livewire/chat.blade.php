@@ -1,10 +1,5 @@
 <div>
-    {{-- @include('frontend.modals.group-chat') --}}
-    {{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> 
- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
-    <!------ Include the above in your HEAD tag ---------->
-
+ 
     <!DOCTYPE html>
     <html>
 
@@ -26,7 +21,7 @@
                 });
 
                 $('#create_chat_button').click(function() {
-                    $('.action_menu_group_chat').slideToggle("500");
+                    $('.action_menu_group_chat').toggle();
                 });
             });
         </script>
@@ -40,19 +35,23 @@
                 <div class="row justify-content-center h-100">
                     <div class="col-md-4 col-xl-3 chat">
                         <div class="card mb-sm-3 mb-md-0 contacts_card">
+                            <h6 class="text-secondary mx-3  fw-bold mx-auto mb-0 mt-3"> {{ date('l, M-d  H:m:s') }}</h6>
                             <div class="card-header">
-
-                                <h6 class="text-secondary mx-3 text-sm fw-bold"> {{ date('l, M-d  H:m:s') }}</h6>
+                            
+                              
                                 <span id="create_chat_button"><i class="fas fa-ellipsis-v"></i></span>
 
-                                <div class="action_menu_group_chat mb-0">
+                                <div class="action_menu_group_chat">
                                     <ul>
-                                        <li><button data-bs-toggle="modal" data-bs-target="#group-chat" type="button"
-                                                class="btn btn-outline-secondary btn-sm mb-0 mt-2 mx-auto"><i
-                                                    class="fas fa-plus "> </i><span class="mx-2">create chat</span>
-                                            </button></li>
+                                        <li><i class="fas fa-users"></i>   <input type="text" placeholder="Group chat..." wire:model="groupName"
+                                            class="form-control "></li>
+
+                                            <button type="button" class="btn btn-outline-light btn-sm float-end mx-3 mb-0" wire:click="createGroupChat()">Go</button>
+                                       
+
                                     </ul>
                                 </div>
+
 
                                 <div class="input-group">
 
@@ -109,8 +108,11 @@
                                                         <span class="text-sm fw-bold">{{ $item->title }} </span>
                                                         @foreach ($groupUnreadCount as $key => $value)
                                                         @if ($item->id == $key)
-                                                            <span style="font-size: 9px;"
-                                                                class="badge rounded-pill text-bg-danger mx-2 ">{{ $value }}</span>
+                                                        @if ($value > 0)
+                                                        <span style="font-size: 9px;"
+                                                        class="badge rounded-pill text-bg-danger mx-2 ">{{ $value }}</span>
+                                                        @endif
+                                                           
                                                         @endif
                                                     @endforeach
                                                     </div>
