@@ -94,7 +94,7 @@ class ChatRepository
             ->where('chat_id', null)
             ->orderBy('created_at', 'ASC')
             ->get();
-       // dump( $messages);
+        // dump( $messages);
         return $messages;
     }
 
@@ -213,7 +213,7 @@ class ChatRepository
         $myGroupChats = UsersChat::where('user_id', Auth::id())
             //->where('chat_id', Auth::id())
             ->pluck('chat_id')
-            
+
             ->toArray();
 
         $groups = ChatTitle::whereIn('id', $myGroupChats)->get();
@@ -247,44 +247,53 @@ class ChatRepository
 
     public static function unreadGroupMessages()
     {
-        $chatGroups = UsersChat::where('user_id', Auth::id())->pluck('chat_id')->toArray();
-        $groups =  UsersChat::where('user_id', Auth::id())->whereIn('chat_id', $chatGroups)->get();
-     
+        $chatGroups = UsersChat::where('user_id', Auth::id())
+            ->pluck('chat_id')
+            ->toArray();
+        $groups = UsersChat::where('user_id', Auth::id())
+            ->whereIn('chat_id', $chatGroups)
+            ->get();
+
         $groupMessageCount = [];
         foreach ($groups as $chat) {
-            $groupMessageCount[$chat->chat_id] = $chat->group_chat_message_count;
-
-       }
+            $groupMessageCount[$chat->chat_id] =
+                $chat->group_chat_message_count;
+        }
         //dump( $groupMessageCount);
         return $groupMessageCount;
     }
 
     private static function setGroupUnreadMessages($chat_id): void
     {
-       $users = UsersChat::where('chat_id',$chat_id)
-                             ->where('user_id', '!=', Auth::id())
-                            ->get();
+        $users = UsersChat::where('chat_id', $chat_id)
+            ->where('user_id', '!=', Auth::id())
+            ->get();
 
-                        foreach($users as $user)
-                        {
-                            $user->group_chat_message_count++;
-                            $user->save();
-                       
-                        }                              
+        foreach ($users as $user) {
+            $user->group_chat_message_count++;
+            $user->save();
+        }
     }
 
     private static function readGroupMessages($chat_id)
     {
-        $users = UsersChat::where('chat_id',$chat_id)
-        ->where('user_id', Auth::id())
-       ->get();
-       foreach($users as $user)
-       {
-        $user->group_chat_message_count = 0;
-           $user->save();
-      
-       } 
-      
-
+        $users = UsersChat::where('chat_id', $chat_id)
+            ->where('user_id', Auth::id())
+            ->get();
+        foreach ($users as $user) {
+            $user->group_chat_message_count = 0;
+            $user->save();
+        }
     }
+
+    public static function isAdmin($groupID)
+    {
+        $user = UsersChat::where('chat_id', $groupID)
+        ->whereRaw('user_id = creator_id')->first();
+        if( $user->user_id == Auth::id())
+        {
+           return true;
+        }
+    
+}
 }

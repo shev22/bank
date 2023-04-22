@@ -14,7 +14,7 @@ class Chat extends Component
     public $groupName;
     public $activeUserId;
     public $activeGroupId;
-    //public $messages = [];
+    public $isAdmin = false;
     public $activeUser = [];
     public $activeGroup = [];
     public $groupMembers = [];
@@ -75,8 +75,8 @@ class Chat extends Component
 
     public function selectUser($id)
     {
-
-        // dump($id);
+      
+        $this->activeGroupId = null;
         $activeUser = ChatRepository::selectUser($id);
        // $this->messages = $this->getMessage($id);
         $this->activeUserId = $id;
@@ -121,10 +121,16 @@ class Chat extends Component
     {
         $this->activeGroupId = $id;
         $activeGroup = ChatRepository::selectGroup($id);
+       
         $this->activeUser = [];
+        $this->activeUserId = null;
         $this->activeGroup = $activeGroup;
         $this->getGroupMembers($id);
        // $this->messages = $this->getGroupMessages($id);
+       if( ChatRepository::isAdmin($id))
+       {
+        $this->isAdmin = TRUE;
+       }
     }
 
     public function getGroupMembers($id)
@@ -142,9 +148,11 @@ class Chat extends Component
     {
       return ChatRepository::unreadGroupMessages();
     }
+
+   
     public function render()
     {
-      
+     
         $searchUsers = [];
         $users = $this->getUsers();
         $groups = $this->getGroupChats();

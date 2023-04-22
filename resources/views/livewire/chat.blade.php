@@ -37,7 +37,7 @@
                         <div class="card mb-sm-3 mb-md-0 contacts_card">
                             <h6 class="text-secondary mx-3  fw-bold mx-auto mb-0 mt-3"> {{ date('l, M-d  H:m:s') }}</h6>
                             <div class="card-header">
-                            
+                   
                               
                                 <span id="create_chat_button"><i class="fas fa-ellipsis-v"></i></span>
 
@@ -96,9 +96,9 @@
                                 <ui class="contacts">
                                     @foreach ($groups as $item)
                                         <a wire:click="selectGroup({{ $item->id }})">
-                                            <li class="active p-0">
+                                            <li class="{{ $item->id == $activeGroupId ? 'active_chat' : '' }} p-0">
 
-                                                <div class="d-flex bd-highlight mx-3 p-0">
+                                                <div class="d-flex bd-highlight mx-3 p-2 mb-0 mt-0">
 
                                                     <div class="img_cont_msg">
                                                         <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
@@ -126,7 +126,7 @@
 
                                     @foreach ($users as $item)
                                         <a wire:click="selectUser({{ $item->user_id }})">
-                                            <li class="active">
+                                            <li class="{{ $item->user_id == $activeUserId ? 'active_chat' : '' }}">
 
                                                 <div class="d-flex bd-highlight">
                                                     <div class="img_cont">
@@ -201,18 +201,26 @@
                                             <li><i class="fas fa-users"></i> Group members</li>
                                             @foreach ($groupMembers as $item)
                                                 <li>
-                                                    @if ($item->creator_id == Auth::id() ||  $item->user_id !== $item->creator_id )
+                                                    {{-- @if ($item->creator_id == Auth::id() ||  $item->user_id !== $item->creator_id ) --}}
+                                                    @if ($isAdmin)
                                                         <span class="text-danger text-sm"><i
                                                                 class="fas fa-trash"></i></span>
-                                                    @elseif ($item->user_id == Auth::id() )
+                                                                @endif            
+                                                    @if ($item->user_id == Auth::id() && $item->user_id !== $item->creator_id )
+                                             
                                                         <span class="text-danger text-sm"><i
                                                                 class="fas fa-trash"></i></span>
+                                                  
                                                     @endif
 
+                                                    {{ $item->user->name }} 
 
-                                                    {{ $item->user->name }} <span
-                                                        class="mx-4 text-sm text-success fst-italic fw-bold">
-                                                        {{ $item->creator_id == $item->user_id ? ' Admin' : '' }}</span>
+                                                    <span class="mx-4 text-sm text-success fst-italic fw-bold">
+                                                        {{ $item->creator_id == $item->user_id ? ' Admin' : '' }}
+                                                    </span>
+
+                                             
+
 
 
                                                 </li>
@@ -273,7 +281,9 @@
 
                                                     <span class="fst-italic mx-1">
                                                         {{ $groupMessage->user->name }}
+                                                        
                                                     </span>
+                                            
                                                     {{ Carbon\Carbon::parse($groupMessage->updated_at)->diffForHumans() }}
 
                                                 </span>
